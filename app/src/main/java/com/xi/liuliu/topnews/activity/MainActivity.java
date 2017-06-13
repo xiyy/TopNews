@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.ChannelFragmentPagerAdapter;
+import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.fragment.ChannelFragment;
 
 import java.util.ArrayList;
@@ -35,18 +36,12 @@ public class MainActivity extends AppCompatActivity {
     private void fillDatas() {
         mFragmentsList = new ArrayList<>();
         mChannelsList = new ArrayList<>();
-        mChannelsList.add("头条");
-        mChannelsList.add("社会");
-        mChannelsList.add("国内");
-        mChannelsList.add("娱乐");
-        mChannelsList.add("体育");
-        mChannelsList.add("军事");
-        mChannelsList.add("科技");
-        mChannelsList.add("财经");
-        mChannelsList.add("时尚");
+        for (int i = 0; i < 9; i++) {
+            mChannelsList.add(Constants.CHANNELS[i]);
+        }
         for (int i = 0; i < mChannelsList.size(); i++) {
             ChannelFragment channelFragment = new ChannelFragment();
-            channelFragment.setChannelTitle(mChannelsList.get(i));
+            channelFragment.setIndex(i);
             mFragmentsList.add(channelFragment);
         }
     }
