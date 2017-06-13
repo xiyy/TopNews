@@ -1,8 +1,10 @@
-package com.xi.liuliu.topnews;
+package com.xi.liuliu.topnews.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.xi.liuliu.topnews.fragment.ChannelFragment;
 
 import java.util.List;
 
