@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TopNews</string>
+    <string name="home_index">首页</string>
+    <string name="mine_index">我的</string>
+</resources>
