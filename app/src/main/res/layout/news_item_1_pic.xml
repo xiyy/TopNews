@@ -7,12 +7,14 @@
         android:id="@+id/news_item_1_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:alpha="0.15"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:background="@color/grey13"></View>
 
     <RelativeLayout
+        android:id="@+id/news_item_1_pic_llt"
         android:layout_width="200dp"
-        android:layout_height="90dp"
+        android:layout_height="80dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/news_item_1_line"
         android:layout_marginBottom="8dp"
@@ -23,36 +25,41 @@
             android:id="@+id/news_item_1_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="河北省省面积最大的县城和最小的县城," />
+            android:text="河北省省面积最大的县城和最小的县城,"
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/news_src"
+            android:id="@+id/news_item_1_src"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="3dp"
-            android:text="环球网" />
+            android:text="环球网"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/news_item_1_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/news_src"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/news_src"
-            android:text="2017.06.13 16:00" />
+            android:layout_alignTop="@+id/news_item_1_src"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@+id/news_item_1_src"
+            android:text="2017.06.13 16:00"
+            android:textSize="10sp" />
 
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/news_item_1_ImageView"
-        android:layout_width="140dp"
-        android:layout_height="90dp"
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:layout_alignBottom="@+id/news_item_1_pic_llt"
         android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/news_item_1_pic_llt"
         android:layout_below="@+id/news_item_1_line"
-        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#ff0000" />
+        android:layout_toRightOf="@+id/news_item_1_pic_llt" />
 
 </RelativeLayout>
