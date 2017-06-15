@@ -1,7 +1,9 @@
 package com.xi.liuliu.topnews.item;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.activity.NewsDetailActivity;
 import com.xi.liuliu.topnews.bean.NewsWith1Pic;
 
 /**
@@ -30,8 +33,9 @@ public class NewsItemWith1Pic {
         return holder;
     }
 
-    public static void onBind(Context context, RecyclerView.ViewHolder viewHolder, int position, NewsWith1Pic news) {
+    public static void onBind(final Context context, RecyclerView.ViewHolder viewHolder, int position, NewsWith1Pic news) {
         final NewsItemWith1PicViewHolder holder = (NewsItemWith1PicViewHolder) viewHolder;
+        final String newsUrl = news.getmNewUrl();
         holder.title.setText(news.getmTitle());
         holder.newSrc.setText(news.getmNewsSrc());
         holder.time.setText(news.getmTime());
@@ -41,6 +45,14 @@ public class NewsItemWith1Pic {
                 holder.icon.setImageDrawable(resource);
             }
         });
+        holder.newsItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NewsDetailActivity.class);
+                intent.putExtra("news_url",newsUrl);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     private static class NewsItemWith1PicViewHolder extends RecyclerView.ViewHolder {
@@ -48,8 +60,10 @@ public class NewsItemWith1Pic {
         TextView newSrc;
         TextView time;
         ImageView icon;
+        View newsItemView;
         public NewsItemWith1PicViewHolder(View itemView) {
             super(itemView);
+            newsItemView = itemView;
         }
     }
 }

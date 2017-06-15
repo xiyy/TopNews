@@ -1,6 +1,7 @@
 package com.xi.liuliu.topnews.item;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.activity.NewsDetailActivity;
 import com.xi.liuliu.topnews.bean.NewsWith1Pic;
 import com.xi.liuliu.topnews.bean.NewsWith3Pic;
 
@@ -35,6 +37,7 @@ public class NewsItemWith3Pic {
 
     public static void onBind(Context context, RecyclerView.ViewHolder viewHolder, int position, NewsWith3Pic news) {
         final NewsItemWith3PicViewHolder holder = (NewsItemWith3PicViewHolder) viewHolder;
+        final String newsUrl = news.getmNewUrl();
         holder.title.setText(news.getmTitle());
         holder.newSrc.setText(news.getmNewsSrc());
         holder.time.setText(news.getmTime());
@@ -56,6 +59,14 @@ public class NewsItemWith3Pic {
                 holder.icon3.setImageDrawable(resource);
             }
         });
+        holder.newsItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NewsDetailActivity.class);
+                intent.putExtra("news_url",newsUrl);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     private static class NewsItemWith3PicViewHolder extends RecyclerView.ViewHolder {
@@ -65,9 +76,10 @@ public class NewsItemWith3Pic {
         ImageView icon1;
         ImageView icon2;
         ImageView icon3;
-
+        View newsItemView;
         public NewsItemWith3PicViewHolder(View itemView) {
             super(itemView);
+            newsItemView = itemView;
         }
     }
 }
