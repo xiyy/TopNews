@@ -15,8 +15,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.NewsDetailActivity;
-import com.xi.liuliu.topnews.bean.NewsWith1Pic;
-import com.xi.liuliu.topnews.bean.NewsWith3Pic;
+import com.xi.liuliu.topnews.bean.NewsItem;
 
 /**
  * Created by liuliu on 2017/6/14.
@@ -35,25 +34,25 @@ public class NewsItemWith3Pic {
         return holder;
     }
 
-    public static void onBind(Context context, RecyclerView.ViewHolder viewHolder, int position, NewsWith3Pic news) {
+    public static void onBind(Context context, RecyclerView.ViewHolder viewHolder, int position, NewsItem newsItem) {
         final NewsItemWith3PicViewHolder holder = (NewsItemWith3PicViewHolder) viewHolder;
-        final String newsUrl = news.getmNewUrl();
-        holder.title.setText(news.getmTitle());
-        holder.newSrc.setText(news.getmNewsSrc());
-        holder.time.setText(news.getmTime());
-        Glide.with(context).load(news.getmIcon1Url()).into(new SimpleTarget<Drawable>() {
+        final String newsUrl = newsItem.getUrl();
+        holder.title.setText(newsItem.getTitle());
+        holder.newSrc.setText(newsItem.getAuthorName());
+        holder.time.setText(newsItem.getDate());
+        Glide.with(context).load(newsItem.getThumbnailPic()).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                 holder.icon1.setImageDrawable(resource);
             }
         });
-        Glide.with(context).load(news.getmIcon2Url()).into(new SimpleTarget<Drawable>() {
+        Glide.with(context).load(newsItem.getThumbnailPic02()).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                 holder.icon2.setImageDrawable(resource);
             }
         });
-        Glide.with(context).load(news.getmIcon3Url()).into(new SimpleTarget<Drawable>() {
+        Glide.with(context).load(newsItem.getThumbnailPic03()).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                 holder.icon3.setImageDrawable(resource);

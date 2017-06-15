@@ -4,8 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.xi.liuliu.topnews.bean.NewsWith1Pic;
-import com.xi.liuliu.topnews.bean.NewsWith3Pic;
+import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.item.NewsItemWith1Pic;
 import com.xi.liuliu.topnews.item.NewsItemWith3Pic;
 
@@ -41,9 +40,9 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final int viewType = getItemViewType(position);
         if (viewType == PIC1_NEWS_TAG) {
-            NewsItemWith1Pic.onBind(mContext, holder, position, (NewsWith1Pic) mNewsList.get(0).get(position));
+            NewsItemWith1Pic.onBind(mContext, holder, position, (NewsItem) mNewsList.get(0).get(position));
         } else {
-            NewsItemWith3Pic.onBind(mContext, holder, position, (NewsWith3Pic) mNewsList.get(1).get(position - mNewsList.get(0).size()));
+            NewsItemWith3Pic.onBind(mContext, holder, position, (NewsItem) mNewsList.get(1).get(position - mNewsList.get(0).size()));
         }
     }
 

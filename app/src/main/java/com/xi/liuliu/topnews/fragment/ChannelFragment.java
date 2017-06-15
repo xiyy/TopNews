@@ -16,7 +16,7 @@ import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.NewsItemAdapter;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.http.HttpUtil;
-import com.xi.liuliu.topnews.utils.JsonUtil;
+import com.xi.liuliu.topnews.utils.GsonUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -82,7 +82,7 @@ public class ChannelFragment extends Fragment implements Callback {
     @Override
     public void onResponse(Call call, Response response) throws IOException {
         String reponseBody = response.body().string();
-        mNewsList = new JsonUtil().getNewSList(reponseBody);
+        mNewsList = new GsonUtil().getNewsList(reponseBody);
         mHandler.sendEmptyMessage(MESSAGE_SET_ADAPTER);
         Log.i(TAG, "index:" + mIndex + "data:" + reponseBody);
     }
