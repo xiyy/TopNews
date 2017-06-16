@@ -7,18 +7,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.NewsItemAdapter;
+import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.http.HttpUtil;
 import com.xi.liuliu.topnews.utils.GsonUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -32,12 +34,17 @@ import okhttp3.Response;
 public class ChannelFragment extends Fragment implements Callback {
     private static final String TAG = "ChannelFragment";
     private static final int MESSAGE_SET_ADAPTER = 1001;
+    private static final int MESSAGE_REFRESH_NEWS = 1002;
     private int mIndex;
     private View mFragmentView;
     private RecyclerView mRecyclerView;
     private NewsItemAdapter mNewsItemAdapter;
     private Handler mHandler;
-    private List<List> mNewsList;
+    //所有刷新获取的数据
+    private List<List<NewsItem>> mAllNewsList;
+    private int mLastVisibleItemPosition;
+    private LinearLayoutManager mLinearLayoutManager;
+    private RelativeLayout mLoadingRlt;
 
     public void setIndex(int index) {
         mIndex = index;
@@ -53,17 +60,31 @@ public class ChannelFragment extends Fragment implements Callback {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.channel_fragment_layout, container, false);
         mRecyclerView = (RecyclerView) mFragmentView.findViewById(R.id.channel_fragment_layout_RecyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mLoadingRlt = (RelativeLayout) mFragmentView.findViewById(R.id.channel_fragment_layout_rlt_footer);
+        mLinearLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                        && mLastVisibleItemPosition + 1 == mNewsItemAdapter.getItemCount()) {
+                    mLoadingRlt.setVisibility(View.VISIBLE);
+                    mHandler.sendEmptyMessage(MESSAGE_REFRESH_NEWS);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                mLastVisibleItemPosition = mLinearLayoutManager.findLastVisibleItemPosition();
+            }
+        });
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if (msg.what == MESSAGE_SET_ADAPTER) {
-                    mNewsItemAdapter = new NewsItemAdapter(getContext(), mNewsList);
-                    mRecyclerView.setAdapter(mNewsItemAdapter);
-                }
+                handleResult(msg);
             }
         };
-
+        mAllNewsList = new ArrayList<>();
         return mFragmentView;
     }
 
@@ -73,6 +94,11 @@ public class ChannelFragment extends Fragment implements Callback {
         new HttpUtil().setCallback(this).requestNews(Constants.CHANNELS_PARAM[mIndex]);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mAllNewsList = null;
+    }
 
     @Override
     public void onFailure(Call call, IOException e) {
@@ -82,8 +108,42 @@ public class ChannelFragment extends Fragment implements Callback {
     @Override
     public void onResponse(Call call, Response response) throws IOException {
         String reponseBody = response.body().string();
-        mNewsList = new GsonUtil().getNewsList(reponseBody);
+        List<NewsItem> list = GsonUtil.getNewsList(reponseBody);
+        mAllNewsList.add(list);
         mHandler.sendEmptyMessage(MESSAGE_SET_ADAPTER);
-        Log.i(TAG, "index:" + mIndex + "data:" + reponseBody);
+    }
+
+    public void handleResult(Message msg) {
+        if (msg != null) {
+            switch (msg.what) {
+                case MESSAGE_SET_ADAPTER:
+                    mNewsItemAdapter = new NewsItemAdapter(getContext(), mAllNewsList);
+                    mRecyclerView.setAdapter(mNewsItemAdapter);
+                    break;
+                case MESSAGE_REFRESH_NEWS:
+                    new HttpUtil().setCallback(new okhttp3.Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            String reponseBody = response.body().string();
+                            List<NewsItem> list = GsonUtil.getNewsList(reponseBody);
+                            mAllNewsList.add(list);
+                            mHandler.sendEmptyMessage(MESSAGE_SET_ADAPTER);
+                            mLoadingRlt.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mLoadingRlt.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    }).requestNews(Constants.CHANNELS_PARAM[mIndex]);
+                    break;
+                default:
+            }
+        }
     }
 }
