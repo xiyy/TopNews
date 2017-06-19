@@ -3,4 +3,9 @@
     <string name="home_index">首页</string>
     <string name="mine_index">我的</string>
     <string name="loading">努力加载中...</string>
+    <string name="mine_favorite">收藏</string>
+    <string name="mine_history">历史</string>
+    <string name="mine_night_mode">夜间</string>
+    <string name="mine_user_feed_back">用户反馈</string>
+    <string name="mine_app_settings">系统设置</string>
 </resources>

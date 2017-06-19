@@ -1,44 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.xi.liuliu.topnews.activity.MainActivity">
 
-    <TextView
+    <FrameLayout
+        android:id="@+id/flt_fragment"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@android:color/holo_red_light"
-        android:gravity="center_vertical"
-        android:paddingLeft="5dp"
-        android:text="@string/app_name"
-        android:textColor="@android:color/white" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/main_activity_TabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        app:tabBackground="@color/grey32"
-        app:tabGravity="center"
-        app:tabIndicatorColor="@android:color/holo_red_light"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@android:color/holo_red_light" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/main_activity_ViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@android:color/white" />
+    </FrameLayout>
 
     <RelativeLayout
+        android:id="@+id/rtl_footer"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_weight="0"
         android:background="@color/grey32">
 
         <TextView
+            android:id="@+id/home_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -50,6 +34,7 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/mine_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -60,5 +45,6 @@
             android:text="@string/mine_index"
             android:textColor="@android:color/darker_gray"
             android:textSize="12sp" />
+
     </RelativeLayout>
 </LinearLayout>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.xi.liuliu.topnews.activity.MineActivity">
+
+    <RelativeLayout
+        android:id="@+id/user_info_rtl"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@color/grey_dark">
+
+        <ImageView
+            android:id="@+id/head_portrait"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/default_head_portrait" />
+
+        <TextView
+            android:id="@+id/user_nick_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/head_portrait"
+            android:text="手机用户123456" />
+
+        <Button
+            android:id="@+id/setting_arrow_user_info"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@mipmap/setting_arrow" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mine_rtl_favo_histor_night"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_info_rtl"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/mine_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:drawablePadding="3dp"
+            android:drawableTop="@mipmap/mine_favorite"
+            android:text="@string/mine_favorite" />
+
+        <TextView
+            android:id="@+id/mine_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawablePadding="3dp"
+            android:drawableTop="@mipmap/mine_history"
+            android:text="@string/mine_history" />
+
+        <TextView
+            android:id="@+id/mine_night_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:drawablePadding="3dp"
+            android:drawableTop="@mipmap/mine_night_mode"
+            android:text="@string/mine_night_mode" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/mine_divide_line"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/mine_rtl_favo_histor_night"
+        android:background="@color/grey7">
+
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/mine_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_divide_line">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/mine_user_feed_back" />
+
+        <Button
+            android:id="@+id/mine_feed_back_button"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@mipmap/mine_arrow_right" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@+id/mine_feedback"
+        android:background="@color/grey7">
+
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/mine_app_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_feedback">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/mine_app_settings" />
+
+        <Button
+            android:id="@+id/mine_app_settings_button"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@mipmap/mine_arrow_right" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@+id/mine_app_settings"
+        android:background="@color/grey7"></View>
+
+
+</RelativeLayout>

@@ -6,4 +6,9 @@
     <color name="grey13">#E3E3E3</color>
     <color name="grey7">#F5F5F5</color>
     <color name="grey32">#F7F7F7</color>
+    <color name="grey_dark">#808080</color>
+    <color name="red">#ff0000</color>
+    <color name="darker_gray">#aaa</color>
+    <color name="red_light">#ffff4444</color>
+
 </resources>
