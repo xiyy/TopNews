@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.xi.liuliu.topnews.activity.MineActivity">
+    android:layout_height="match_parent">
 
     <RelativeLayout
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:id="@+id/user_info_rtl"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:background="@color/grey_dark">
+        android:layout_height="wrap_content"
+        android:background="@color/grey32">
 
         <ImageView
             android:id="@+id/head_portrait"
@@ -32,12 +32,12 @@
 
         <Button
             android:id="@+id/setting_arrow_user_info"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/setting_arrow" />
+            android:background="@mipmap/setting_arrow_right" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -103,12 +103,12 @@
 
         <Button
             android:id="@+id/mine_feed_back_button"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/mine_arrow_right" />
+            android:background="@mipmap/setting_arrow_right" />
 
 
     </RelativeLayout>
@@ -137,12 +137,12 @@
 
         <Button
             android:id="@+id/mine_app_settings_button"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/mine_arrow_right" />
+            android:background="@mipmap/setting_arrow_right" />
 
 
     </RelativeLayout>
