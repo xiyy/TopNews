@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.NewsItemAdapter;
 import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.dialog.LoadingDialog;
 import com.xi.liuliu.topnews.http.HttpUtil;
 import com.xi.liuliu.topnews.utils.GsonUtil;
 
@@ -45,6 +47,8 @@ public class ChannelFragment extends Fragment implements Callback {
     private int mLastVisibleItemPosition;
     private LinearLayoutManager mLinearLayoutManager;
     private RelativeLayout mLoadingRlt;
+    private LoadingDialog mLoadingDialog;
+    private boolean hasFillData;
 
     public void setIndex(int index) {
         mIndex = index;
@@ -85,6 +89,9 @@ public class ChannelFragment extends Fragment implements Callback {
             }
         };
         mAllNewsList = new ArrayList<>();
+        if (mLoadingDialog == null) {
+            mLoadingDialog = new LoadingDialog(getContext());
+        }
         return mFragmentView;
     }
 
@@ -92,17 +99,24 @@ public class ChannelFragment extends Fragment implements Callback {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         new HttpUtil().setCallback(this).requestNews(Constants.CHANNELS_PARAM[mIndex]);
+        if (getUserVisibleHint() && !hasFillData && mLoadingDialog != null) {
+            mLoadingDialog.show();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mAllNewsList = null;
+        hasFillData = false;
     }
 
     @Override
     public void onFailure(Call call, IOException e) {
-
+        if (mLoadingDialog != null) {
+            mLoadingDialog.dissmiss();
+        }
+        Toast.makeText(getContext(), R.string.toast_load_news_failure, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -111,6 +125,10 @@ public class ChannelFragment extends Fragment implements Callback {
         List<NewsItem> list = GsonUtil.getNewsList(reponseBody);
         mAllNewsList.add(list);
         mHandler.sendEmptyMessage(MESSAGE_SET_ADAPTER);
+        hasFillData = true;
+        if (mLoadingDialog != null && getUserVisibleHint()) {
+            mLoadingDialog.dissmiss();
+        }
     }
 
     public void handleResult(Message msg) {
