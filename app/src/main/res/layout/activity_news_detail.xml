@@ -25,10 +25,14 @@
             android:layout_marginRight="15dp"
             android:background="@mipmap/more_icon_titlebar" />
 
-        <View
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"></View>
+            android:layout_height="3px"
+            android:layout_alignParentBottom="true"
+            android:max="100" />
 
     </RelativeLayout>
 
