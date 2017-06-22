@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="196dp"
+    android:background="#b2b2b2"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#F8F8F8"
+        android:gravity="center"
+        android:text="@string/share"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#DADADA" />
+
+    <LinearLayout
+        android:id="@+id/share_layout"
+        android:layout_width="match_parent"
+        android:layout_height="106dp"
+        android:layout_gravity="bottom"
+        android:background="#F0F0F0"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/share_circle_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/share_circle"
+            android:gravity="center_horizontal"
+            android:text="@string/share_circle"
+            android:textColor="#4E4E4E"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/share_weixin_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/share_wechat"
+            android:gravity="center_horizontal"
+            android:text="@string/share_weixin"
+            android:textColor="#4E4E4E"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/share_weibo_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/share_weibo"
+            android:gravity="center_horizontal"
+            android:text="@string/share_weibo"
+            android:textColor="#4E4E4E"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/share_qq_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/share_qq"
+            android:gravity="center_horizontal"
+            android:text="@string/share_qq"
+            android:textColor="#4E4E4E"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/share_qzone_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/share_qzone"
+            android:gravity="center_horizontal"
+            android:text="@string/share_qzone"
+            android:textColor="#4E4E4E"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#DADADA" />
+
+    <TextView
+        android:id="@+id/share_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#F8F8F8"
+        android:gravity="center"
+        android:text="@string/share_cancle"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

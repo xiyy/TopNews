@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="25dp"
             android:drawablePadding="-3dp"
-            android:drawableTop="@mipmap/home_index_icon"
+            android:drawableTop="@drawable/home_index_icon"
             android:text="@string/home_index"
             android:textColor="@android:color/darker_gray"
             android:textSize="12sp" />
@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="25dp"
             android:drawablePadding="-3dp"
-            android:drawableTop="@mipmap/mine_index_icon"
+            android:drawableTop="@drawable/mine_index_icon"
             android:text="@string/mine_index"
             android:textColor="@android:color/darker_gray"
             android:textSize="12sp" />

@@ -22,7 +22,7 @@ public class LoadingDialog {
     }
 
     private void init() {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.loading_layout, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_loading, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.loading_layout_image_view);
         AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getBackground();
         animationDrawable.start();

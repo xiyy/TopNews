@@ -19,7 +19,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@mipmap/default_head_portrait" />
+            android:background="@drawable/default_head_portrait" />
 
         <TextView
             android:id="@+id/user_nick_name"
@@ -37,7 +37,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/setting_arrow_right" />
+            android:background="@drawable/setting_arrow_right" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:drawablePadding="3dp"
-            android:drawableTop="@mipmap/mine_favorite"
+            android:drawableTop="@drawable/mine_favorite"
             android:text="@string/mine_favorite" />
 
         <TextView
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:drawablePadding="3dp"
-            android:drawableTop="@mipmap/mine_history"
+            android:drawableTop="@drawable/mine_history"
             android:text="@string/mine_history" />
 
         <TextView
@@ -73,7 +73,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="30dp"
             android:drawablePadding="3dp"
-            android:drawableTop="@mipmap/mine_night_mode"
+            android:drawableTop="@drawable/mine_night_mode"
             android:text="@string/mine_night_mode" />
 
     </RelativeLayout>
@@ -108,7 +108,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/setting_arrow_right" />
+            android:background="@drawable/setting_arrow_right" />
 
 
     </RelativeLayout>
@@ -142,7 +142,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/setting_arrow_right" />
+            android:background="@drawable/setting_arrow_right" />
 
 
     </RelativeLayout>

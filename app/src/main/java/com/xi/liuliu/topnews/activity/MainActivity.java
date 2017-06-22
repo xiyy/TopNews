@@ -103,22 +103,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //设置图片
         if (textView.getId() == R.id.home_textView) {
             if (isSelected) {
-                Drawable country = getResources().getDrawable(R.mipmap.home_index_selected_icon);
+                Drawable country = getResources().getDrawable(R.drawable.home_index_selected_icon);
                 country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
                 mHomeTextView.setCompoundDrawables(null, country, null, null);
             } else {
-                Drawable country = getResources().getDrawable(R.mipmap.home_index_icon);
+                Drawable country = getResources().getDrawable(R.drawable.home_index_icon);
                 country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
                 mHomeTextView.setCompoundDrawables(null, country, null, null);
             }
         }
         if (textView.getId() == R.id.mine_textView) {
             if (isSelected) {
-                Drawable country = getResources().getDrawable(R.mipmap.mine_index_selected_icon);
+                Drawable country = getResources().getDrawable(R.drawable.mine_index_selected_icon);
                 country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
                 mMineTextView.setCompoundDrawables(null, country, null, null);
             } else {
-                Drawable country = getResources().getDrawable(R.mipmap.mine_index_icon);
+                Drawable country = getResources().getDrawable(R.drawable.mine_index_icon);
                 country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
                 mMineTextView.setCompoundDrawables(null, country, null, null);
             }

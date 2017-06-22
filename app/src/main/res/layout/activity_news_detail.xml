@@ -14,7 +14,7 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:background="@mipmap/left_back_icon_titlebar" />
+            android:background="@drawable/left_back_icon_titlebar" />
 
         <ImageView
             android:id="@+id/news_detail_more_icon"
@@ -23,7 +23,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@mipmap/more_icon_titlebar" />
+            android:background="@drawable/more_icon_titlebar" />
 
 
         <ProgressBar
@@ -55,7 +55,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="18dp"
             android:layout_toLeftOf="@+id/share_icon_news_detail"
-            android:background="@mipmap/favorite_icon" />
+            android:background="@drawable/favorite_icon" />
 
         <ImageView
             android:id="@+id/share_icon_news_detail"
@@ -64,6 +64,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@mipmap/share_icon" />
+            android:background="@drawable/share_icon" />
     </RelativeLayout>
 </LinearLayout>

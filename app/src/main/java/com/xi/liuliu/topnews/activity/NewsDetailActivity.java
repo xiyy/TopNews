@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.dialog.ShareDialog;
 
 /**
  * Created by liuliu on 2017/6/15.
@@ -39,6 +40,8 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         mMyFavourite = (ImageView) findViewById(R.id.favorite_icon_news_detail);
         mShare = (ImageView) findViewById(R.id.share_icon_news_detail);
         mLeftGoBack.setOnClickListener(this);
+        mShare.setOnClickListener(this);
+        mMore.setOnClickListener(this);
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -59,6 +62,12 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.share_icon_news_detail:
+                new ShareDialog(this).show();
+                break;
+            case R.id.news_detail_more_icon:
+                new ShareDialog(this).show();
+                break;
             case R.id.left_back_icon:
                 finish();
                 break;
