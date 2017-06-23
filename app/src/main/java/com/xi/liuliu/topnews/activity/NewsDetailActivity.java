@@ -54,7 +54,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         if (mDBDao == null) {
             mDBDao = new DBDao(this);
         }
-        isFavouriteNews = mDBDao.isExist(new FavouriteNews(mNewsItem));
+        isFavouriteNews = mDBDao.isFavouriteExist(new FavouriteNews(mNewsItem));
         if (isFavouriteNews) {
             mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_selected));
         }
@@ -109,7 +109,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(this, R.string.favourite_cancle, Toast.LENGTH_SHORT).show();
             }
         } else {
-            boolean insertFavourite = mDBDao.insert(favouriteNews);
+            boolean insertFavourite = mDBDao.insertFavourite(favouriteNews);
             if (insertFavourite) {
                 isFavouriteNews = true;
                 mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_selected));

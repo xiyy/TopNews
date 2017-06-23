@@ -22,6 +22,7 @@ public class FavorHistoryActivity extends AppCompatActivity implements View.OnCl
     private ViewPager mViewPager;
     private Button mGoBack;
     private ArrayList<NewsItem> mFavouriteList;
+    private ArrayList<NewsItem> mReadHistoryList;
     private DBDao mDBDao;
     private FavorHistFragmentPagerAdpter mFavorHistFragmentPagerAdpter;
     private List<FavorHistFragment> mFavorHistFragmentList;
@@ -33,6 +34,7 @@ public class FavorHistoryActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_favor_history);
         mDBDao = new DBDao(this);
         mFavouriteList = mDBDao.getAllFavourite();
+        mReadHistoryList = mDBDao.getAllReadNews();
         fillData();
         init();
     }
@@ -44,6 +46,7 @@ public class FavorHistoryActivity extends AppCompatActivity implements View.OnCl
         mViewPager = (ViewPager) findViewById(R.id.viewPager_activity_favor_history);
         mFavorHistFragmentPagerAdpter = new FavorHistFragmentPagerAdpter(getSupportFragmentManager(), mFavorHistFragmentList, mTabs);
         mViewPager.setAdapter(mFavorHistFragmentPagerAdpter);//给ViewPager设置适配器
+        mViewPager.setCurrentItem(getIntent().getIntExtra("viewPager_current_item",0));//当前显示的页卡
         mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
         mTabLayout.setTabsFromPagerAdapter(mFavorHistFragmentPagerAdpter);//给Tabs设置适配器
     }
@@ -53,7 +56,7 @@ public class FavorHistoryActivity extends AppCompatActivity implements View.OnCl
         FavorHistFragment favorFragment = new FavorHistFragment();
         favorFragment.setData(mFavouriteList);
         FavorHistFragment histFragment = new FavorHistFragment();
-        histFragment.setData(mFavouriteList);//换成历史列表
+        histFragment.setData(mReadHistoryList);
         mFavorHistFragmentList.add(favorFragment);
         mFavorHistFragmentList.add(histFragment);
         mTabs = new ArrayList<>(2);

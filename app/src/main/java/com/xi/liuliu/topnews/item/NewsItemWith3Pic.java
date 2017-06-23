@@ -17,6 +17,8 @@ import com.bumptech.glide.request.transition.Transition;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.NewsDetailActivity;
 import com.xi.liuliu.topnews.bean.NewsItem;
+import com.xi.liuliu.topnews.bean.ReadNews;
+import com.xi.liuliu.topnews.utils.DBDao;
 
 /**
  * Created by liuliu on 2017/6/14.
@@ -62,6 +64,7 @@ public class NewsItemWith3Pic {
         holder.newsItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new DBDao(v.getContext()).insertHistory(new ReadNews(item));
                 Intent intent = new Intent(v.getContext(), NewsDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("newsItem",item);

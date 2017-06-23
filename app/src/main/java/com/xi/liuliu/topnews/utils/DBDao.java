@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.xi.liuliu.topnews.bean.FavouriteNews;
 import com.xi.liuliu.topnews.bean.NewsItem;
+import com.xi.liuliu.topnews.bean.ReadNews;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class DBDao {
         mDBOpenHelper = new DBOpenHelper(context);
     }
 
-    public boolean insert(FavouriteNews favouriteNews) {
+    public boolean insertFavourite(FavouriteNews favouriteNews) {
         SQLiteDatabase database = mDBOpenHelper.getWritableDatabase();
         if (database.isOpen()) {
             database.execSQL(
@@ -35,7 +36,7 @@ public class DBDao {
         return false;
     }
 
-    public boolean deleteAll() {
+    public boolean deleteAllFavourite() {
         SQLiteDatabase database = mDBOpenHelper.getWritableDatabase();
         if (database.isOpen()) {
             database.execSQL("delete from myFavourite");
@@ -55,7 +56,7 @@ public class DBDao {
         return false;
     }
 
-    public boolean isExist(FavouriteNews favouriteNews) {
+    public boolean isFavouriteExist(FavouriteNews favouriteNews) {
         SQLiteDatabase database = mDBOpenHelper.getReadableDatabase();
         if (database.isOpen()) {
             Cursor cursor = database.rawQuery("select * from myFavourite where url=?", new String[]{favouriteNews.getUrl()});
@@ -88,4 +89,41 @@ public class DBDao {
         }
         return newsList;
     }
+
+    public boolean insertHistory(ReadNews readNews) {
+        SQLiteDatabase database = mDBOpenHelper.getWritableDatabase();
+        if (database.isOpen()) {
+            database.execSQL(
+                    "insert into myReadHistory(title,icon1,icon2,icon3,src,url,readTime) values (?,?,?,?,?,?,?)",
+                    new Object[]{readNews.getTitle(), readNews.getIcon1(), readNews.getICon2(), readNews.getIcon3(), readNews.getSrc(), readNews.getUrl(), readNews.getReadTime()});
+            database.close();
+            return true;
+
+        }
+        return false;
+    }
+
+    public ArrayList<NewsItem> getAllReadNews() {
+        ArrayList<NewsItem> newsList = new ArrayList<>();
+        SQLiteDatabase database = mDBOpenHelper.getReadableDatabase();
+        if (database.isOpen()) {
+            Cursor cursor = database.rawQuery("select * from myReadHistory", null);
+            while (cursor.moveToNext()) {
+                NewsItem newsItem = new NewsItem();
+                newsItem.setTitle(cursor.getString(1));
+                newsItem.setThumbnailPic(cursor.getString(2));
+                newsItem.setThumbnailPic02(cursor.getString(3));
+                newsItem.setThumbnailPic03(cursor.getString(4));
+                newsItem.setAuthorName(cursor.getString(5));
+                newsItem.setUrl(cursor.getString(6));
+                //收藏的时间
+                newsItem.setDate(cursor.getString(7));
+                newsList.add(newsItem);
+            }
+            cursor.close();
+            database.close();
+        }
+        return newsList;
+    }
+
 }

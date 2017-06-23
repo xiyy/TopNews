@@ -17,12 +17,15 @@ import com.xi.liuliu.topnews.activity.FavorHistoryActivity;
 
 public class MineFragment extends Fragment implements View.OnClickListener {
     private TextView mMyFavourite;
+    private TextView mReadHistory;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine_layout, container, false);
         mMyFavourite = (TextView) view.findViewById(R.id.mine_favorite);
         mMyFavourite.setOnClickListener(this);
+        mReadHistory = (TextView) view.findViewById(R.id.mine_history);
+        mReadHistory.setOnClickListener(this);
         return view;
     }
 
@@ -30,8 +33,14 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_favorite:
-                Intent intent = new Intent(getActivity(), FavorHistoryActivity.class);
-                startActivity(intent);
+                Intent favoriteIntent = new Intent(getActivity(), FavorHistoryActivity.class);
+                favoriteIntent.putExtra("viewPager_current_item", 0);
+                startActivity(favoriteIntent);
+                break;
+            case R.id.mine_history:
+                Intent historyIntent = new Intent(getActivity(), FavorHistoryActivity.class);
+                historyIntent.putExtra("viewPager_current_item", 1);
+                startActivity(historyIntent);
                 break;
         }
     }
