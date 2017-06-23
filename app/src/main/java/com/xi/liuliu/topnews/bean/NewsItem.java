@@ -108,6 +108,7 @@ public class NewsItem implements Parcelable {
         out.writeString(title);
         out.writeString(date);
         out.writeString(category);
+        out.writeString(authorName);
         out.writeString(url);
         out.writeString(thumbnailPic);
         out.writeString(thumbnailPic02);
@@ -131,6 +132,7 @@ public class NewsItem implements Parcelable {
         title = in.readString();
         date = in.readString();
         category = in.readString();
+        authorName = in.readString();
         url = in.readString();
         thumbnailPic = in.readString();
         thumbnailPic02 = in.readString();

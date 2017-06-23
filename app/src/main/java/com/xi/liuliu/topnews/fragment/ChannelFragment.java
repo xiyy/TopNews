@@ -62,7 +62,7 @@ public class ChannelFragment extends Fragment implements Callback {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mFragmentView = inflater.inflate(R.layout.channel_fragment_layout, container, false);
+        mFragmentView = inflater.inflate(R.layout.fragment_channel_layout, container, false);
         mRecyclerView = (RecyclerView) mFragmentView.findViewById(R.id.channel_fragment_layout_RecyclerView);
         mLoadingRlt = (RelativeLayout) mFragmentView.findViewById(R.id.channel_fragment_layout_rlt_footer);
         mLinearLayoutManager = new LinearLayoutManager(getContext());

@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.NewsDetailActivity" />
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.FavorHistoryActivity"></activity>
     </application>
 
 </manifest>

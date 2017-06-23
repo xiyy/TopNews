@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.xi.liuliu.topnews.activity.FavorHistoryActivity">
+
+    <RelativeLayout
+        android:id="@+id/rtl_favourite_history"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <Button
+            android:id="@+id/go_back_favor_history"
+            android:layout_width="25dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/left_back_icon_titlebar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/favourite_history" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divide_line_favourite_history"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/rtl_favourite_history"
+        android:background="@color/grey13"></View>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout_activity_favor_history"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/divide_line_favourite_history"
+        app:tabGravity="center"
+        app:tabIndicatorColor="@android:color/holo_red_light"
+        app:tabSelectedTextColor="@android:color/holo_red_light" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager_activity_favor_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayout_activity_favor_history"
+        android:background="@android:color/white" />
+
+</RelativeLayout>

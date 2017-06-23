@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.xi.liuliu.topnews.bean.FavouriteNews;
+import com.xi.liuliu.topnews.bean.NewsItem;
+
+import java.util.ArrayList;
 
 /**
  * Created by liuliu on 2017/6/23.
@@ -61,5 +64,28 @@ public class DBDao {
             }
         }
         return false;
+    }
+
+    public ArrayList<NewsItem> getAllFavourite() {
+        ArrayList<NewsItem> newsList = new ArrayList<>();
+        SQLiteDatabase database = mDBOpenHelper.getReadableDatabase();
+        if (database.isOpen()) {
+            Cursor cursor = database.rawQuery("select * from myFavourite", null);
+            while (cursor.moveToNext()) {
+                NewsItem newsItem = new NewsItem();
+                newsItem.setTitle(cursor.getString(1));
+                newsItem.setThumbnailPic(cursor.getString(2));
+                newsItem.setThumbnailPic02(cursor.getString(3));
+                newsItem.setThumbnailPic03(cursor.getString(4));
+                newsItem.setAuthorName(cursor.getString(5));
+                newsItem.setUrl(cursor.getString(6));
+                //收藏的时间
+                newsItem.setDate(String.valueOf(cursor.getInt(7)));
+                newsList.add(newsItem);
+            }
+            cursor.close();
+            database.close();
+        }
+        return newsList;
     }
 }

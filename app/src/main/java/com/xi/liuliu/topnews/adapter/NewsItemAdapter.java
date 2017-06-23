@@ -27,6 +27,11 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
         mAllNewsList = convertToNewsLit(allNewsList);
     }
 
+    public NewsItemAdapter(List<NewsItem> newsItemList, Context context) {
+        mContext = context;
+        mAllNewsList = newsItemList;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == PIC1_NEWS_TAG) {
