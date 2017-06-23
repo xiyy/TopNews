@@ -8,9 +8,13 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.bean.FavouriteNews;
+import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.dialog.ShareDialog;
+import com.xi.liuliu.topnews.utils.DBDao;
 
 /**
  * Created by liuliu on 2017/6/15.
@@ -24,6 +28,9 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     private ImageView mMyFavourite;
     private ImageView mShare;
     private ProgressBar mProgressBar;
+    private NewsItem mNewsItem;
+    private DBDao mDBDao;
+    private boolean isFavouriteNews;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,15 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         mLeftGoBack.setOnClickListener(this);
         mShare.setOnClickListener(this);
         mMore.setOnClickListener(this);
+        mMyFavourite.setOnClickListener(this);
+        mNewsItem = (NewsItem) getIntent().getExtras().getParcelable("newsItem");
+        if (mDBDao == null) {
+            mDBDao = new DBDao(this);
+        }
+        isFavouriteNews = mDBDao.isExist(new FavouriteNews(mNewsItem));
+        if (isFavouriteNews) {
+            mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_selected));
+        }
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -56,7 +72,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                 super.onProgressChanged(view, newProgress);
             }
         });
-        loadNews(mWebView, getIntent().getStringExtra("news_url"));
+        loadNews(mWebView, mNewsItem.getUrl());
     }
 
     @Override
@@ -68,6 +84,9 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
             case R.id.news_detail_more_icon:
                 new ShareDialog(this).show();
                 break;
+            case R.id.favorite_icon_news_detail:
+                myFavourite();
+                break;
             case R.id.left_back_icon:
                 finish();
                 break;
@@ -78,5 +97,25 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         if (webView != null && !TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
         }
+    }
+
+    private void myFavourite() {
+        FavouriteNews favouriteNews = new FavouriteNews(mNewsItem);
+        if (isFavouriteNews) {
+            boolean isDeleted = mDBDao.deleteFavourite(favouriteNews);
+            if (isDeleted) {
+                isFavouriteNews = false;
+                mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon));
+                Toast.makeText(this, R.string.favourite_cancle, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            boolean insertFavourite = mDBDao.insert(favouriteNews);
+            if (insertFavourite) {
+                isFavouriteNews = true;
+                mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_selected));
+                Toast.makeText(this, R.string.favourite_success, Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 }

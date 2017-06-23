@@ -1,12 +1,15 @@
 package com.xi.liuliu.topnews.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by liuliu on 2017/6/15.
  */
 
-public class NewsItem {
+public class NewsItem implements Parcelable {
     private String uniquekey;
     private String title;
     private String date;
@@ -94,4 +97,43 @@ public class NewsItem {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(uniquekey);
+        out.writeString(title);
+        out.writeString(date);
+        out.writeString(category);
+        out.writeString(url);
+        out.writeString(thumbnailPic);
+        out.writeString(thumbnailPic02);
+        out.writeString(thumbnailPic03);
+    }
+
+    public static final Parcelable.Creator<NewsItem> CREATOR = new Parcelable.Creator<NewsItem>() {
+        @Override
+        public NewsItem createFromParcel(Parcel source) {
+            return new NewsItem(source);
+        }
+
+        @Override
+        public NewsItem[] newArray(int size) {
+            return new NewsItem[size];
+        }
+    };
+
+    private NewsItem(Parcel in) {
+        uniquekey = in.readString();
+        title = in.readString();
+        date = in.readString();
+        category = in.readString();
+        url = in.readString();
+        thumbnailPic = in.readString();
+        thumbnailPic02 = in.readString();
+        thumbnailPic03 = in.readString();
+    }
 }

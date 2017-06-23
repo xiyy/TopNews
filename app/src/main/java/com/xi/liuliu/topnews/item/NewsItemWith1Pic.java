@@ -3,6 +3,7 @@ package com.xi.liuliu.topnews.item;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ public class NewsItemWith1Pic {
 
     public static void onBind(final Context context, RecyclerView.ViewHolder viewHolder, int position, NewsItem newsItem) {
         final NewsItemWith1PicViewHolder holder = (NewsItemWith1PicViewHolder) viewHolder;
-        final String newsUrl = newsItem.getUrl();
+        final NewsItem item = newsItem;
         holder.title.setText(newsItem.getTitle());
         holder.newSrc.setText(newsItem.getAuthorName());
         holder.time.setText(newsItem.getDate());
@@ -48,7 +49,9 @@ public class NewsItemWith1Pic {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), NewsDetailActivity.class);
-                intent.putExtra("news_url",newsUrl);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("newsItem",item);
+                intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }
         });

@@ -18,4 +18,7 @@
     <string name="share_qq">QQ</string>
     <string name="share_qzone">QQ空间</string>
     <string name="share_cancle">取消</string>
+    <string name="favourite_success">收藏成功</string>
+    <string name="favourite_cancle">取消收藏</string>
+
 </resources>
