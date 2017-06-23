@@ -80,7 +80,7 @@ public class DBDao {
                 newsItem.setAuthorName(cursor.getString(5));
                 newsItem.setUrl(cursor.getString(6));
                 //收藏的时间
-                newsItem.setDate(String.valueOf(cursor.getInt(7)));
+                newsItem.setDate(cursor.getString(7));
                 newsList.add(newsItem);
             }
             cursor.close();

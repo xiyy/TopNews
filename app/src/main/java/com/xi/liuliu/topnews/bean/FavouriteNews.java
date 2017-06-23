@@ -1,12 +1,13 @@
 package com.xi.liuliu.topnews.bean;
 
+import com.xi.liuliu.topnews.utils.DateUtil;
+
 /**
  * Created by liuliu on 2017/6/23.
  */
 
 public class FavouriteNews {
     private NewsItem newsItem;
-    private int mFavouriteTime;
 
     public FavouriteNews(NewsItem newsItem) {
         this.newsItem = newsItem;
@@ -36,11 +37,9 @@ public class FavouriteNews {
         return newsItem.getUrl();
     }
 
-    public int getFavouriteTime() {
-        return (int) (System.currentTimeMillis() / 1000);
+    public String getFavouriteTime() {
+        String stamp = Long.toString(System.currentTimeMillis());
+        return DateUtil.stampToDate(stamp);
     }
 
-    public void setFavouriteTime() {
-        mFavouriteTime = (int) (System.currentTimeMillis() / 1000);
-    }
 }
