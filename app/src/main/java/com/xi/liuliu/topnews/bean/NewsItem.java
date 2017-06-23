@@ -138,4 +138,7 @@ public class NewsItem implements Parcelable {
         thumbnailPic02 = in.readString();
         thumbnailPic03 = in.readString();
     }
+    public NewsItem() {
+
+    }
 }

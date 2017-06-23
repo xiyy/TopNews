@@ -20,5 +20,6 @@
     <string name="share_cancle">取消</string>
     <string name="favourite_success">收藏成功</string>
     <string name="favourite_cancle">取消收藏</string>
+    <string name="favourite_history">收藏/历史</string>
 
 </resources>
