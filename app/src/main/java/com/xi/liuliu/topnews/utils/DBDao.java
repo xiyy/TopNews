@@ -72,20 +72,23 @@ public class DBDao {
         SQLiteDatabase database = mDBOpenHelper.getReadableDatabase();
         if (database.isOpen()) {
             Cursor cursor = database.rawQuery("select * from myFavourite", null);
-            while (cursor.moveToNext()) {
-                NewsItem newsItem = new NewsItem();
-                newsItem.setTitle(cursor.getString(1));
-                newsItem.setThumbnailPic(cursor.getString(2));
-                newsItem.setThumbnailPic02(cursor.getString(3));
-                newsItem.setThumbnailPic03(cursor.getString(4));
-                newsItem.setAuthorName(cursor.getString(5));
-                newsItem.setUrl(cursor.getString(6));
-                //收藏的时间
-                newsItem.setDate(cursor.getString(7));
-                newsList.add(newsItem);
+            if (cursor != null && cursor.getCount() >= 1) {
+                for (int i = cursor.getCount() - 1; i >= 0; i--) {
+                    cursor.moveToPosition(i);
+                    NewsItem newsItem = new NewsItem();
+                    newsItem.setTitle(cursor.getString(1));
+                    newsItem.setThumbnailPic(cursor.getString(2));
+                    newsItem.setThumbnailPic02(cursor.getString(3));
+                    newsItem.setThumbnailPic03(cursor.getString(4));
+                    newsItem.setAuthorName(cursor.getString(5));
+                    newsItem.setUrl(cursor.getString(6));
+                    //收藏的时间
+                    newsItem.setDate(cursor.getString(7));
+                    newsList.add(newsItem);
+                }
+                cursor.close();
+                database.close();
             }
-            cursor.close();
-            database.close();
         }
         return newsList;
     }
@@ -108,20 +111,23 @@ public class DBDao {
         SQLiteDatabase database = mDBOpenHelper.getReadableDatabase();
         if (database.isOpen()) {
             Cursor cursor = database.rawQuery("select * from myReadHistory", null);
-            while (cursor.moveToNext()) {
-                NewsItem newsItem = new NewsItem();
-                newsItem.setTitle(cursor.getString(1));
-                newsItem.setThumbnailPic(cursor.getString(2));
-                newsItem.setThumbnailPic02(cursor.getString(3));
-                newsItem.setThumbnailPic03(cursor.getString(4));
-                newsItem.setAuthorName(cursor.getString(5));
-                newsItem.setUrl(cursor.getString(6));
-                //收藏的时间
-                newsItem.setDate(cursor.getString(7));
-                newsList.add(newsItem);
+            if (cursor != null && cursor.getCount() >= 1) {
+                for (int i = cursor.getCount() - 1; i >= 0; i--) {
+                    cursor.moveToPosition(i);
+                    NewsItem newsItem = new NewsItem();
+                    newsItem.setTitle(cursor.getString(1));
+                    newsItem.setThumbnailPic(cursor.getString(2));
+                    newsItem.setThumbnailPic02(cursor.getString(3));
+                    newsItem.setThumbnailPic03(cursor.getString(4));
+                    newsItem.setAuthorName(cursor.getString(5));
+                    newsItem.setUrl(cursor.getString(6));
+                    //收藏的时间
+                    newsItem.setDate(cursor.getString(7));
+                    newsList.add(newsItem);
+                }
+                cursor.close();
+                database.close();
             }
-            cursor.close();
-            database.close();
         }
         return newsList;
     }
