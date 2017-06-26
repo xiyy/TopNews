@@ -28,5 +28,7 @@
     <string name="feedback_contact">QQ、邮箱或手机等联系方式</string>
     <string name="feedback_contact_hint">您的联系方式有助于我们沟通和解决问题，仅工作人员可见</string>
     <string name="feedback_upload_pic">上传图片</string>
-
+    <string name="feedback_toast_say_something">说点什么吧</string>
+    <string name="feedback_toast_toast_sending">发送中...</string>
+    <string name="feedback_toast_sending_success">反馈成功</string>
 </resources>
