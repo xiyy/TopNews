@@ -1,16 +1,19 @@
 package com.xi.liuliu.topnews.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -79,7 +82,22 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     mFeedbackGetPicDialog = new FeedbackGetPicDialog(this, this, R.layout.dialog_feedback_get_pic_delete);
                 }
-                mFeedbackGetPicDialog.show();
+                //isSoftInputShow有问题，总是返回TRUE
+                if (isSoftInputShow()) {
+                    //隐藏软键盘
+                    InputMethodManager imm = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    //软键盘消失后，再show，软件盘消失需要时间
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mFeedbackGetPicDialog.show();
+                        }
+                    }, 150);
+                } else {
+                    mFeedbackGetPicDialog.show();
+                }
                 break;
         }
     }
@@ -160,5 +178,15 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
             mFeedbackPic.setImageDrawable(getResources().getDrawable(R.drawable.feedback_camera_icon));
             hasPicSelected = false;
         }
+    }
+
+    /**
+     * 软键盘是否弹出
+     *
+     * @return
+     */
+    private boolean isSoftInputShow() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        return imm.isActive();
     }
 }
