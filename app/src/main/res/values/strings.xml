@@ -22,5 +22,11 @@
     <string name="favourite_cancle">取消收藏</string>
     <string name="favourite_history">收藏/历史</string>
     <string name="network_not_available">网络不可用，请联网！</string>
+    <string name="feedback_title">意见反馈</string>
+    <string name="feedback_send">发送</string>
+    <string name="feedback_hint_content">如需传图，请点击右边</string>
+    <string name="feedback_contact">QQ、邮箱或手机等联系方式</string>
+    <string name="feedback_contact_hint">您的联系方式有助于我们沟通和解决问题，仅工作人员可见</string>
+    <string name="feedback_upload_pic">上传图片</string>
 
 </resources>

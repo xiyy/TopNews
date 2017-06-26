@@ -23,6 +23,7 @@
         <activity android:name=".activity.NewsDetailActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.FavorHistoryActivity"></activity>
+        <activity android:name=".activity.FeedbackActivity"></activity>
     </application>
 
 </manifest>
