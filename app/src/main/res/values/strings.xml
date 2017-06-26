@@ -21,5 +21,6 @@
     <string name="favourite_success">收藏成功</string>
     <string name="favourite_cancle">取消收藏</string>
     <string name="favourite_history">收藏/历史</string>
+    <string name="network_not_available">网络不可用，请联网！</string>
 
 </resources>

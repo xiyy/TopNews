@@ -20,6 +20,7 @@ import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoadingDialog;
 import com.xi.liuliu.topnews.http.HttpUtil;
 import com.xi.liuliu.topnews.utils.GsonUtil;
+import com.xi.liuliu.topnews.utils.NetWorkUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -98,9 +99,13 @@ public class ChannelFragment extends Fragment implements Callback {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        new HttpUtil().setCallback(this).requestNews(Constants.CHANNELS_PARAM[mIndex]);
-        if (getUserVisibleHint() && !hasFillData && mLoadingDialog != null) {
-            mLoadingDialog.show();
+        if (NetWorkUtil.isNetWorkAvailable(getContext())) {
+            new HttpUtil().setCallback(this).requestNews(Constants.CHANNELS_PARAM[mIndex]);
+            if (getUserVisibleHint() && !hasFillData && mLoadingDialog != null) {
+                mLoadingDialog.show();
+            }
+        } else {
+            Toast.makeText(getContext(), R.string.network_not_available, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -113,10 +118,15 @@ public class ChannelFragment extends Fragment implements Callback {
 
     @Override
     public void onFailure(Call call, IOException e) {
-        if (mLoadingDialog != null) {
-            mLoadingDialog.dissmiss();
-        }
-        Toast.makeText(getContext(), R.string.toast_load_news_failure, Toast.LENGTH_SHORT).show();
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mLoadingDialog != null) {
+                    mLoadingDialog.dissmiss();
+                }
+                Toast.makeText(getContext(), R.string.toast_load_news_failure, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -142,7 +152,13 @@ public class ChannelFragment extends Fragment implements Callback {
                     new HttpUtil().setCallback(new okhttp3.Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
-
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mLoadingRlt.setVisibility(View.GONE);
+                                    Toast.makeText(getContext(), R.string.toast_load_news_failure, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
 
                         @Override
