@@ -22,11 +22,15 @@ import com.avos.avoscloud.feedback.Comment;
 import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.avos.avoscloud.feedback.FeedbackThread;
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.dialog.FeedbackGetPicDialog;
 import com.xi.liuliu.topnews.dialog.SendingDialog;
+import com.xi.liuliu.topnews.event.FeedbackPicDeleteEvent;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
 
 import java.io.File;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by liuliu on 2017/6/26.
@@ -38,9 +42,10 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private Button mGoBack;
     private TextView mSend;
     private ImageView mFeedbackPic;
-    private static final int GET_IMAGE = 1001;
     private String mImagePath;
     private SendingDialog mSendingDialog;
+    private FeedbackGetPicDialog mFeedbackGetPicDialog;
+    private boolean hasPicSelected;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,9 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         mSend.setOnClickListener(this);
         mFeedbackPic = (ImageView) findViewById(R.id.activity_feedback_pic);
         mFeedbackPic.setOnClickListener(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -66,31 +74,36 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                 sendFeedback();
                 break;
             case R.id.activity_feedback_pic:
-                getPic();
+                if (!hasPicSelected) {
+                    mFeedbackGetPicDialog = new FeedbackGetPicDialog(this, this, R.layout.dialog_feedback_get_pic);
+                } else {
+                    mFeedbackGetPicDialog = new FeedbackGetPicDialog(this, this, R.layout.dialog_feedback_get_pic_delete);
+                }
+                mFeedbackGetPicDialog.show();
                 break;
         }
     }
 
-    private void getPic() {
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, GET_IMAGE);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GET_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == 1001 && resultCode == Activity.RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
             String[] filePathColumns = {MediaStore.Images.Media.DATA};
             Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
             c.moveToFirst();
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
             mImagePath = c.getString(columnIndex);
+            //压缩原始图片，预防oom
             Bitmap bm = BitmapUtil.BytesToBitmap(BitmapUtil.decodeBitmap(mImagePath));
             mFeedbackPic.setImageBitmap(bm);
             mFeedbackPic.setScaleType(ImageView.ScaleType.FIT_XY);
             c.close();
+            hasPicSelected = true;
+            if (mFeedbackGetPicDialog != null) {
+                mFeedbackGetPicDialog.dissmiss();
+            }
         }
     }
 
@@ -132,5 +145,20 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    public void onEventMainThread(FeedbackPicDeleteEvent event) {
+        if (event != null) {
+            mFeedbackPic.setImageDrawable(getResources().getDrawable(R.drawable.feedback_camera_icon));
+            hasPicSelected = false;
+        }
     }
 }
