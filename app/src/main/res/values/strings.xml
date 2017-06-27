@@ -3,6 +3,7 @@
     <string name="app_chinese_name">头条新闻</string>
     <string name="home_index">首页</string>
     <string name="mine_index">我的</string>
+    <string name="mine_index_not_login">未登录</string>
     <string name="loading">努力加载中...</string>
     <string name="mine_favorite">收藏</string>
     <string name="mine_history">历史</string>
@@ -34,4 +35,13 @@
     <string name="feedback_dialog_get_pic_from_album">手机相册</string>
     <string name="feedback_dialog_get_pic_cancle">取消</string>
     <string name="feedback_dialog_get_pic_delete">删除图片</string>
+    <string name="login_more_ways">更多登录方式</string>
+    <string name="login_phone_number">手机号</string>
+    <string name="login_send_identifying_code">发送验证码</string>
+    <string name="login_input_identifying_code">请输入验证码</string>
+    <string name="login_input_auto_login">未注册手机验证后自动登录</string>
+    <string name="login_entry_topnews">进入TopNews</string>
+    <string name="login_with_count_password">账号密码登录</string>
+    <string name="login_with_not_password">免密码登录</string>
+    <string name="login_find_my_password">找回密码</string>
 </resources>
