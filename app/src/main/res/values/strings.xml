@@ -43,5 +43,7 @@
     <string name="login_entry_topnews">进入TopNews</string>
     <string name="login_with_count_password">账号密码登录</string>
     <string name="login_with_not_password">免密码登录</string>
-    <string name="login_find_my_password">找回密码</string>
+    <string name="login_find_my_password">|  找回密码</string>
+    <string name="login_dialog_with_identify_code_title">登录后，精彩永不丢失</string>
+    <string name="logint_dialog_password">密码</string>
 </resources>

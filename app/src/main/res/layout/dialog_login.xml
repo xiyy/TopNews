@@ -14,12 +14,21 @@
         android:layout_marginTop="15dp"
         android:background="@drawable/dialog_login_close_button" />
 
+    <TextView
+        android:id="@+id/dialog_login_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="@string/login_dialog_with_identify_code_title"
+        android:textSize="17sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/shape_login_dialog_line_bg">
 
         <EditText
@@ -36,6 +45,7 @@
 
 
         <TextView
+            android:visibility="visible"
             android:id="@+id/dialog_login_send_identify_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,8 +67,10 @@
         android:background="@drawable/shape_login_dialog_line_bg">
 
         <EditText
-            android:layout_width="match_parent"
+            android:id="@+id/dialog_login_input"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@null"
             android:hint="@string/login_input_identifying_code"
             android:paddingBottom="5dp"
@@ -66,9 +78,23 @@
             android:paddingTop="5dp"
             android:textSize="15sp" />
 
+        <TextView
+            android:id="@+id/dialog_login_find_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:text="@string/login_find_my_password"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+
     </LinearLayout>
 
     <TextView
+        android:id="@+id/dialog_login_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
@@ -91,6 +117,7 @@
         android:textSize="15sp" />
 
     <TextView
+        android:id="@+id/dialog_login_way"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
