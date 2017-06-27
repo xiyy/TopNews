@@ -14,13 +14,13 @@
         android:gravity="center_horizontal">
 
         <RelativeLayout
+            android:id="@+id/header_fragment_mine_login_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:background="@drawable/shape_header_fragment_mine_login_bg">
 
             <TextView
-                android:id="@+id/header_fragment_mine_login_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -28,13 +28,13 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/header_fragment_mine_login_weixin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:background="@drawable/shape_header_fragment_mine_login_bg">
 
             <TextView
-                android:id="@+id/header_fragment_mine_login_weixin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -42,13 +42,13 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/header_fragment_mine_login_qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:background="@drawable/shape_header_fragment_mine_login_bg">
 
             <TextView
-                android:id="@+id/header_fragment_mine_login_qq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -57,13 +57,13 @@
 
 
         <RelativeLayout
+            android:id="@+id/header_fragment_mine_login_weibo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:background="@drawable/shape_header_fragment_mine_login_bg">
 
             <TextView
-                android:id="@+id/header_fragment_mine_login_weibo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

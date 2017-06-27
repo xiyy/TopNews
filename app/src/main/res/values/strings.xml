@@ -37,7 +37,7 @@
     <string name="feedback_dialog_get_pic_delete">删除图片</string>
     <string name="login_more_ways">更多登录方式</string>
     <string name="login_phone_number">手机号</string>
-    <string name="login_send_identifying_code">发送验证码</string>
+    <string name="login_send_identifying_code">|  发送验证码</string>
     <string name="login_input_identifying_code">请输入验证码</string>
     <string name="login_input_auto_login">未注册手机验证后自动登录</string>
     <string name="login_entry_topnews">进入TopNews</string>
