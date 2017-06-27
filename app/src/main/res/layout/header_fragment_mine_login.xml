@@ -1,38 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/user_info_rtl"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
     android:background="@color/grey32"
-    android:paddingBottom="15dp"
-    android:paddingTop="15dp">
+    android:orientation="vertical">
 
-
-    <ImageView
-        android:id="@+id/head_portrait"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/default_head_portrait" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center_horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_header_fragment_mine_login_bg">
+
+            <TextView
+                android:id="@+id/header_fragment_mine_login_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/mine_index_login_phone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_header_fragment_mine_login_bg">
+
+            <TextView
+                android:id="@+id/header_fragment_mine_login_weixin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/share_wechat" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_header_fragment_mine_login_bg">
+
+            <TextView
+                android:id="@+id/header_fragment_mine_login_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/share_qq" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_header_fragment_mine_login_bg">
+
+            <TextView
+                android:id="@+id/header_fragment_mine_login_weibo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/share_weibo" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/user_nick_name"
+        android:id="@+id/header_fragment_mine_login_more_ways"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/head_portrait"
-        android:text="手机用户123456" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:drawablePadding="10dp"
+        android:drawableRight="@drawable/mine_login_right_arrow"
+        android:gravity="center"
+        android:text="@string/login_more_ways"
+        android:textSize="12sp" />
+</LinearLayout>
 
-    <Button
-        android:id="@+id/setting_arrow_user_info"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/setting_arrow_right" />
-</RelativeLayout>
