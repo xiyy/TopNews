@@ -14,15 +14,15 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/left_back_icon_titlebar" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp"
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp"
             android:text="@string/settings_title"
             android:textSize="16sp" />
     </RelativeLayout>

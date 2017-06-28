@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,7 +88,7 @@ public class LoginDialog implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.dialog_login_close:
                 dismiss();
@@ -124,7 +123,6 @@ public class LoginDialog implements View.OnClickListener {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    Log.i(TAG,response.body().string());
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {

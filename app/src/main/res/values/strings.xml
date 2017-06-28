@@ -53,4 +53,7 @@
     <string name="settings_log_out">退出登录</string>
     <string name="settings_rights_reserved">All Rights Reserved By Xiaobei</string>
     <string name="settings_toast_log_out_success">退出成功</string>
+    <string name="settings_log_out_confirm_dialog_title">退出确认</string>
+    <string name="settings_log_out_confirm_dialog_cancle">取消</string>
+    <string name="settings_log_out_confirm_dialog_quit">确认退出</string>
 </resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="180dp"
+        android:layout_height="120dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_log_out_dialog_bg">
+
+        <TextView
+            android:id="@+id/dialog_log_out_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="25dp"
+            android:paddingTop="25dp"
+            android:text="@string/settings_log_out_confirm_dialog_title"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/dialog_log_out_line_above"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@+id/dialog_log_out_title"
+            android:background="@color/darker_gray">
+
+        </View>
+
+        <TextView
+            android:id="@+id/dialog_log_out_cancle"
+            android:layout_width="89.5dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="@string/settings_log_out_confirm_dialog_cancle" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignTop="@+id/dialog_log_out_line_above"
+            android:layout_marginLeft="89.5dp"
+            android:background="@color/darker_gray"></View>
+
+        <TextView
+            android:id="@+id/dialog_log_out_quit"
+            android:layout_width="89.5dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="@string/settings_log_out_confirm_dialog_quit" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
