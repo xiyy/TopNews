@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.HomeFragmentVisibleEvent;
+import com.xi.liuliu.topnews.event.LoginResultEvent;
 import com.xi.liuliu.topnews.event.MineFragmentVisibleEvent;
 import com.xi.liuliu.topnews.fragment.HomeFragment;
 import com.xi.liuliu.topnews.fragment.MineFragment;
@@ -118,8 +119,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void setMineIcon(boolean isSelected) {
-        if (isLoggedIn) {
+    private void setMineIcon(boolean isSelected, boolean loggedIn) {
+        if (loggedIn) {
             mMineTextView.setText(R.string.mine_index);
             if (isSelected) {
                 mMineTextView.setTextColor(getResources().getColor(R.color.red_light));
@@ -161,11 +162,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onEventMainThread(MineFragmentVisibleEvent event) {
         if (event != null) {
             if (event.getFragmentVisibility()) {
-                setMineIcon(true);
+                setMineIcon(true, isLoggedIn);
             } else {
-                setMineIcon(false);
+                setMineIcon(false, isLoggedIn);
             }
         }
     }
 
+    public void onEventMainThread(LoginResultEvent event) {
+        isLoggedIn = event.getLoginResult();
+        if (event != null) {
+            if (event.getLoginResult()) {
+                setMineIcon(true, true);
+            }
+        }
+    }
 }

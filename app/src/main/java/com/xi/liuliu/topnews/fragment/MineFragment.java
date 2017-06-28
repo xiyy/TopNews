@@ -13,7 +13,12 @@ import android.widget.TextView;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.FavorHistoryActivity;
 import com.xi.liuliu.topnews.activity.FeedbackActivity;
+import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoginDialog;
+import com.xi.liuliu.topnews.event.LoginResultEvent;
+import com.xi.liuliu.topnews.utils.SharedPrefUtil;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by liuliu on 2017/6/19.
@@ -23,12 +28,14 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private TextView mMyFavourite;
     private TextView mReadHistory;
     private RelativeLayout mFeedback;
-    private LinearLayout mLoginLl;
+    private LinearLayout mHeaderLogin;
     private RelativeLayout mPhoneLogin;
     private RelativeLayout mWeixinLogin;
     private RelativeLayout mQQLogin;
     private RelativeLayout mWeiboLogin;
     private TextView mMoreLoginWays;
+    private RelativeLayout mHeaderUserinfo;
+    private TextView mHeaderUserInfoPhone;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,17 +46,28 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         mReadHistory.setOnClickListener(this);
         mFeedback = (RelativeLayout) view.findViewById(R.id.mine_feedback);
         mFeedback.setOnClickListener(this);
-        mLoginLl = (LinearLayout) view.findViewById(R.id.header_rtl);
-        mPhoneLogin = (RelativeLayout) mLoginLl.findViewById(R.id.header_fragment_mine_login_phone);
+        mHeaderLogin = (LinearLayout) view.findViewById(R.id.header_login_rtl);
+        mPhoneLogin = (RelativeLayout) mHeaderLogin.findViewById(R.id.header_fragment_mine_login_phone);
         mPhoneLogin.setOnClickListener(this);
-        mWeixinLogin = (RelativeLayout) mLoginLl.findViewById(R.id.header_fragment_mine_login_weixin);
+        mWeixinLogin = (RelativeLayout) mHeaderLogin.findViewById(R.id.header_fragment_mine_login_weixin);
         mWeixinLogin.setOnClickListener(this);
-        mQQLogin = (RelativeLayout) mLoginLl.findViewById(R.id.header_fragment_mine_login_qq);
+        mQQLogin = (RelativeLayout) mHeaderLogin.findViewById(R.id.header_fragment_mine_login_qq);
         mQQLogin.setOnClickListener(this);
-        mWeiboLogin = (RelativeLayout) mLoginLl.findViewById(R.id.header_fragment_mine_login_weibo);
+        mWeiboLogin = (RelativeLayout) mHeaderLogin.findViewById(R.id.header_fragment_mine_login_weibo);
         mWeiboLogin.setOnClickListener(this);
-        mMoreLoginWays = (TextView) mLoginLl.findViewById(R.id.header_fragment_mine_login_more_ways);
+        mMoreLoginWays = (TextView) mHeaderLogin.findViewById(R.id.header_fragment_mine_login_more_ways);
         mMoreLoginWays.setOnClickListener(this);
+        mHeaderUserinfo = (RelativeLayout) view.findViewById(R.id.header_user_into_rtl);
+        mHeaderUserInfoPhone = (TextView) mHeaderUserinfo.findViewById(R.id.user_nick_name);
+        if (SharedPrefUtil.getInstance(getActivity()).getBoolean(Constants.LOGIN_SP_KEY)) {
+            String phoneNumber = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
+            mHeaderLogin.setVisibility(View.GONE);
+            mHeaderUserinfo.setVisibility(View.VISIBLE);
+            mHeaderUserInfoPhone.setText("手机用户 " + phoneNumber);
+        }
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         return view;
     }
 
@@ -77,6 +95,28 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 new LoginDialog(v.getContext()).show();
                 break;
 
+        }
+    }
+
+    public void onEventMainThread(LoginResultEvent event) {
+        if (event != null) {
+            if (event.getLoginResult()) {
+                String phoneNumber = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
+                mHeaderLogin.setVisibility(View.GONE);
+                mHeaderUserinfo.setVisibility(View.VISIBLE);
+                mHeaderUserInfoPhone.setText("手机用户 " + phoneNumber);
+            } else {
+                mHeaderLogin.setVisibility(View.VISIBLE);
+                mHeaderUserinfo.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
         }
     }
 }

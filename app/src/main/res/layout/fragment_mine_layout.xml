@@ -4,15 +4,20 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/header_rtl"
+        android:id="@+id/header_login_rtl"
         layout="@layout/header_fragment_mine_login"
         android:visibility="visible"></include>
+
+    <include
+        android:id="@+id/header_user_into_rtl"
+        layout="@layout/header_fragment_mine_user_info"
+        android:visibility="gone"></include>
 
     <RelativeLayout
         android:id="@+id/mine_rtl_favo_histor_night"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header_rtl"
+        android:layout_marginTop="130dp"
         android:paddingBottom="5dp"
         android:paddingTop="5dp">
 

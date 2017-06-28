@@ -46,4 +46,7 @@
     <string name="login_find_my_password">|  找回密码</string>
     <string name="login_dialog_with_identify_code_title">登录后，精彩永不丢失</string>
     <string name="logint_dialog_password">密码</string>
+    <string name="login_dialog_toast_phone_number_illegal">手机号码错误</string>
+    <string name="login_dialog_toast_has_send_sms_code">已发送验证码</string>
+    <string name="login_dialog_toast_sms_code_error">验证码错误</string>
 </resources>
