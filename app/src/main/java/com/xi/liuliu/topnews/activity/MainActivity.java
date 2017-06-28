@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.HomeFragmentVisibleEvent;
 import com.xi.liuliu.topnews.event.MineFragmentVisibleEvent;
 import com.xi.liuliu.topnews.fragment.HomeFragment;
 import com.xi.liuliu.topnews.fragment.MineFragment;
+import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
 import de.greenrobot.event.EventBus;
 
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mHomeTextView;
     private HomeFragment mHomeFragment;
     private MineFragment mMineFragment;
+    private boolean isLoggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,34 +94,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mHomeTextView = (TextView) findViewById(R.id.home_textView);
         mHomeTextView.setOnClickListener(this);
         mMineTextView.setOnClickListener(this);
+        isLoggedIn = SharedPrefUtil.getInstance(this).getBoolean(Constants.LOGIN_SP_KEY);
+        if (isLoggedIn) {
+            Drawable country = getResources().getDrawable(R.drawable.mine_index_icon);
+            country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
+            mMineTextView.setCompoundDrawables(null, country, null, null);
+            mMineTextView.setText(R.string.mine_index);
+        }
+
     }
 
-    private void setIconState(TextView textView, boolean isSelected) {
-        //设置字体
+    private void setHomeIcon(boolean isSelected) {
         if (isSelected) {
-            textView.setTextColor(getResources().getColor(R.color.red_light));
+            mHomeTextView.setTextColor(getResources().getColor(R.color.red_light));
+            Drawable country = getResources().getDrawable(R.drawable.home_index_selected_icon);
+            country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
+            mHomeTextView.setCompoundDrawables(null, country, null, null);
         } else {
-            textView.setTextColor(getResources().getColor(R.color.darker_gray));
+            mHomeTextView.setTextColor(getResources().getColor(R.color.darker_gray));
+            Drawable country = getResources().getDrawable(R.drawable.home_index_icon);
+            country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
+            mHomeTextView.setCompoundDrawables(null, country, null, null);
         }
-        //设置图片
-        if (textView.getId() == R.id.home_textView) {
+    }
+
+    private void setMineIcon(boolean isSelected) {
+        if (isLoggedIn) {
+            mMineTextView.setText(R.string.mine_index);
             if (isSelected) {
-                Drawable country = getResources().getDrawable(R.drawable.home_index_selected_icon);
-                country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
-                mHomeTextView.setCompoundDrawables(null, country, null, null);
-            } else {
-                Drawable country = getResources().getDrawable(R.drawable.home_index_icon);
-                country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
-                mHomeTextView.setCompoundDrawables(null, country, null, null);
-            }
-        }
-        if (textView.getId() == R.id.mine_textView) {
-            if (isSelected) {
+                mMineTextView.setTextColor(getResources().getColor(R.color.red_light));
                 Drawable country = getResources().getDrawable(R.drawable.mine_index_selected_icon);
                 country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
                 mMineTextView.setCompoundDrawables(null, country, null, null);
             } else {
+                mMineTextView.setTextColor(getResources().getColor(R.color.darker_gray));
                 Drawable country = getResources().getDrawable(R.drawable.mine_index_icon);
+                country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
+                mMineTextView.setCompoundDrawables(null, country, null, null);
+            }
+        } else {
+            mMineTextView.setText(R.string.mine_index_not_login);
+            if (isSelected) {
+                mMineTextView.setTextColor(getResources().getColor(R.color.red_light));
+                Drawable country = getResources().getDrawable(R.drawable.mine_index_not_login_selected_icon);
+                country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
+                mMineTextView.setCompoundDrawables(null, country, null, null);
+            } else {
+                mMineTextView.setTextColor(getResources().getColor(R.color.darker_gray));
+                Drawable country = getResources().getDrawable(R.drawable.mine_index_not_login_icon);
                 country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
                 mMineTextView.setCompoundDrawables(null, country, null, null);
             }
@@ -128,9 +151,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onEventMainThread(HomeFragmentVisibleEvent event) {
         if (event != null) {
             if (event.getFragmentVisibility()) {
-                setIconState(mHomeTextView, true);
+                setHomeIcon(true);
             } else {
-                setIconState(mHomeTextView, false);
+                setHomeIcon(false);
             }
         }
     }
@@ -138,9 +161,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onEventMainThread(MineFragmentVisibleEvent event) {
         if (event != null) {
             if (event.getFragmentVisibility()) {
-                setIconState(mMineTextView, true);
+                setMineIcon(true);
             } else {
-                setIconState(mMineTextView, false);
+                setMineIcon(false);
             }
         }
     }

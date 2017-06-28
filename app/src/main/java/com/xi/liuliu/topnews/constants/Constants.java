@@ -10,5 +10,6 @@ public interface Constants {
     String HOST = "http://v.juhe.cn/toutiao/index";
     String MY_APP_KEY = "6a0f8f312dfdc046f4132d0a6761ecc8";
     String[] FAVOURITE_HISTORY = new String[]{"我的收藏", "阅读历史"};
+    String LOGIN_SP_KEY = "isUserLoggedIn";
 
 }

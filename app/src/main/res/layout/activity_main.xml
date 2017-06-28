@@ -41,8 +41,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="25dp"
             android:drawablePadding="-3dp"
-            android:drawableTop="@drawable/mine_index_icon"
-            android:text="@string/mine_index"
+            android:drawableTop="@drawable/mine_index_not_login_icon"
+            android:text="@string/mine_index_not_login"
             android:textColor="@android:color/darker_gray"
             android:textSize="12sp" />
 
