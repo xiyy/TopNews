@@ -49,4 +49,8 @@
     <string name="login_dialog_toast_phone_number_illegal">手机号码错误</string>
     <string name="login_dialog_toast_has_send_sms_code">已发送验证码</string>
     <string name="login_dialog_toast_sms_code_error">验证码错误</string>
+    <string name="settings_title">设置</string>
+    <string name="settings_log_out">退出登录</string>
+    <string name="settings_rights_reserved">All Rights Reserved By Xiaobei</string>
+    <string name="settings_toast_log_out_success">退出成功</string>
 </resources>

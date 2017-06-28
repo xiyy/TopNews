@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.FavorHistoryActivity;
 import com.xi.liuliu.topnews.activity.FeedbackActivity;
+import com.xi.liuliu.topnews.activity.SettingsActivity;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoginDialog;
 import com.xi.liuliu.topnews.event.LoginResultEvent;
@@ -36,6 +37,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private TextView mMoreLoginWays;
     private RelativeLayout mHeaderUserinfo;
     private TextView mHeaderUserInfoPhone;
+    private RelativeLayout mSettingsRlt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         mMoreLoginWays.setOnClickListener(this);
         mHeaderUserinfo = (RelativeLayout) view.findViewById(R.id.header_user_into_rtl);
         mHeaderUserInfoPhone = (TextView) mHeaderUserinfo.findViewById(R.id.user_nick_name);
+        mSettingsRlt = (RelativeLayout) view.findViewById(R.id.mine_app_settings);
+        mSettingsRlt.setOnClickListener(this);
         if (SharedPrefUtil.getInstance(getActivity()).getBoolean(Constants.LOGIN_SP_KEY)) {
             String phoneNumber = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
             mHeaderLogin.setVisibility(View.GONE);
@@ -94,6 +98,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.header_fragment_mine_login_more_ways:
                 new LoginDialog(v.getContext()).show();
                 break;
+            case R.id.mine_app_settings:
+                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(settingsIntent);
 
         }
     }

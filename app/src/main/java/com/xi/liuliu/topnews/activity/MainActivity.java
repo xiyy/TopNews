@@ -174,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (event != null) {
             if (event.getLoginResult()) {
                 setMineIcon(true, true);
+            } else {
+                setMineIcon(true, false);
             }
         }
     }

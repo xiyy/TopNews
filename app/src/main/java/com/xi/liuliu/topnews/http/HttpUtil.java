@@ -43,7 +43,7 @@ public class HttpUtil {
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("mobilePhoneNumber", phoneNumber);
-                jsonObject.put("ttl", 120);
+                jsonObject.put("ttl", 4320);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -24,13 +24,12 @@
         </activity>
         <activity android:name=".activity.NewsDetailActivity" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.FavorHistoryActivity"></activity>
-        <activity android:name=".activity.FeedbackActivity"></activity>
+        <activity android:name=".activity.FavorHistoryActivity" />
+        <activity android:name=".activity.FeedbackActivity" />
         <!-- 反馈组件（需要加入以下声明）START -->
-        <activity
-            android:name="com.avos.avoscloud.feedback.ThreadActivity" >
-        </activity>
+        <activity android:name="com.avos.avoscloud.feedback.ThreadActivity"></activity>
         <!-- 反馈组件 END -->
+        <activity android:name=".activity.SettingsActivity"></activity>
     </application>
 
 </manifest>
