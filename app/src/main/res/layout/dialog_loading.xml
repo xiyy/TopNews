@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/loading_spinner" />
 
     <TextView
@@ -22,9 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/loading_layout_image_view"
         android:layout_centerHorizontal="true"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="20dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="@string/loading_dialog_message"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="12sp" />
 </RelativeLayout>
