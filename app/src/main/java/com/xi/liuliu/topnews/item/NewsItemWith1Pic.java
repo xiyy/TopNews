@@ -2,7 +2,6 @@ package com.xi.liuliu.topnews.item;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.NewsDetailActivity;
 import com.xi.liuliu.topnews.bean.NewsItem;
@@ -41,19 +40,16 @@ public class NewsItemWith1Pic {
         holder.title.setText(newsItem.getTitle());
         holder.newSrc.setText(newsItem.getAuthorName());
         holder.time.setText(newsItem.getDate());
-        Glide.with(context).load(newsItem.getThumbnailPic()).into(new SimpleTarget<Drawable>() {
-            @Override
-            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                holder.icon.setImageDrawable(resource);
-            }
-        });
+        RequestOptions options = new RequestOptions();
+        options.skipMemoryCache(false).dontAnimate().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL);
+        Glide.with(context).load(newsItem.getThumbnailPic()).apply(options).into(holder.icon);
         holder.newsItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new DBDao(v.getContext()).insertHistory(new ReadNews(item));
                 Intent intent = new Intent(v.getContext(), NewsDetailActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("newsItem",item);
+                bundle.putParcelable("newsItem", item);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }
