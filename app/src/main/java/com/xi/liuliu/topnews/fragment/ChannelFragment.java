@@ -146,6 +146,8 @@ public class ChannelFragment extends Fragment implements Callback {
             switch (msg.what) {
                 case MESSAGE_SET_ADAPTER:
                     mNewsItemAdapter = new NewsItemAdapter(getContext(), mAllNewsList);
+                    //刷新之后，跳转到上次浏览的末尾；第一次加载数据时，mLastVisibleItemPosition为0
+                    mLinearLayoutManager.scrollToPosition(mLastVisibleItemPosition);
                     mRecyclerView.setAdapter(mNewsItemAdapter);
                     break;
                 case MESSAGE_REFRESH_NEWS:
