@@ -52,7 +52,7 @@
 
     <ImageView
         android:id="@+id/news_item_1_ImageView"
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="80dp"
         android:layout_alignBottom="@+id/news_item_1_pic_llt"
         android:layout_alignParentRight="true"
