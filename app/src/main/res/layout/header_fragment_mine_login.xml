@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:background="@color/grey32"
+    android:background="@color/grey_dark"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal">
 
         <RelativeLayout
@@ -80,10 +80,16 @@
         android:layout_gravity="center"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
+        android:background="@drawable/shape_mine_login_more_ways_bg"
         android:drawablePadding="10dp"
-        android:drawableRight="@drawable/mine_login_right_arrow"
+        android:drawableRight="@drawable/mine_login_right_arrow_white"
         android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
         android:text="@string/login_more_ways"
-        android:textSize="12sp" />
+        android:textColor="@color/white"
+        android:textSize="13sp" />
 </LinearLayout>
 

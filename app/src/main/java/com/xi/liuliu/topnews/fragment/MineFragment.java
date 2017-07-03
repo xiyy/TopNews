@@ -101,6 +101,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_app_settings:
                 Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(settingsIntent);
+                break;
 
         }
     }

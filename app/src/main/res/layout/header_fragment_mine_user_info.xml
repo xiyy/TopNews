@@ -3,7 +3,7 @@
     android:id="@+id/user_info_rtl"
     android:layout_width="match_parent"
     android:layout_height="130dp"
-    android:background="@color/grey32"
+    android:background="@color/grey_dark"
     android:paddingBottom="15dp"
     android:paddingTop="15dp">
 
