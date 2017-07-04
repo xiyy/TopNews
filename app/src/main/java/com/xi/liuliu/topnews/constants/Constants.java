@@ -16,5 +16,6 @@ public interface Constants {
     String VERIFY_SMS_CODE = "https://api.leancloud.cn/1.1/verifySmsCode";
     String LEAN_CLOUND_APP_KEY = "LSe5Tdf9RP0kHbBsp0FYWrwL";
     String LEAN_CLOUND_APP_ID = "J9jGoaYEbyYl1iB4Nu3W0swr-gzGzoHsz";
+    String WEI_XIN_APP_ID = "wx757db96f61a9ba7b";
 
 }

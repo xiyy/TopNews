@@ -2,6 +2,7 @@ package com.xi.liuliu.topnews.item;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,10 +14,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.NewsDetailActivity;
 import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.bean.ReadNews;
+import com.xi.liuliu.topnews.utils.BitmapUtil;
 import com.xi.liuliu.topnews.utils.DBDao;
 
 /**
@@ -36,25 +40,30 @@ public class NewsItemWith3Pic {
         return holder;
     }
 
-    public static void onBind(Context context, RecyclerView.ViewHolder viewHolder, int position, NewsItem newsItem) {
+    public static void onBind(Context context, RecyclerView.ViewHolder viewHolder, int position, final NewsItem newsItem) {
         final NewsItemWith3PicViewHolder holder = (NewsItemWith3PicViewHolder) viewHolder;
-        final NewsItem item = newsItem;
         holder.title.setText(newsItem.getTitle());
         holder.newSrc.setText(newsItem.getAuthorName());
         holder.time.setText(newsItem.getDate());
+        final Intent intent = new Intent(context, NewsDetailActivity.class);
+        final Bundle bundle = new Bundle();
+        bundle.putParcelable("newsItem", newsItem);
         RequestOptions options = new RequestOptions();
         options.skipMemoryCache(false).dontAnimate().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(context).load(newsItem.getThumbnailPic()).apply(options).into(holder.icon1);
+        Glide.with(context).load(newsItem.getThumbnailPic()).apply(options).into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                holder.icon1.setImageDrawable(resource);
+                bundle.putParcelable("shareThum", BitmapUtil.drawableToBitmap(resource));
+                intent.putExtras(bundle);
+            }
+        });
         Glide.with(context).load(newsItem.getThumbnailPic02()).apply(options).into(holder.icon2);
         Glide.with(context).load(newsItem.getThumbnailPic03()).apply(options).into(holder.icon3);
         holder.newsItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DBDao(v.getContext()).insertHistory(new ReadNews(item));
-                Intent intent = new Intent(v.getContext(), NewsDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("newsItem", item);
-                intent.putExtras(bundle);
+                new DBDao(v.getContext()).insertHistory(new ReadNews(newsItem));
                 v.getContext().startActivity(intent);
             }
         });

@@ -56,4 +56,5 @@
     <string name="settings_log_out_confirm_dialog_title">退出确认</string>
     <string name="settings_log_out_confirm_dialog_cancle">取消</string>
     <string name="settings_log_out_confirm_dialog_quit">确认退出</string>
+    <string name="share_dialog_weixin_not_installed">没有安装微信</string>
 </resources>

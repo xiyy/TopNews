@@ -2,6 +2,8 @@ package com.xi.liuliu.topnews.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -108,5 +110,28 @@ public class BitmapUtil {
     public static Bitmap BytesToBitmap(byte[] bytes) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         return bitmap;
+    }
+
+    public static byte[] bmpToByteArray(Bitmap bmp, boolean needRecycle) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
+        if (needRecycle) {
+            bmp.recycle();
+        }
+
+        byte[] result = output.toByteArray();
+        try {
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        BitmapDrawable bd = (BitmapDrawable) drawable;
+        Bitmap bm = bd.getBitmap();
+        return bm;
     }
 }

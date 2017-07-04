@@ -1,5 +1,6 @@
 package com.xi.liuliu.topnews.activity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -31,6 +32,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     private NewsItem mNewsItem;
     private DBDao mDBDao;
     private boolean isFavouriteNews;
+    private Bitmap mShareThumb;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         mMore.setOnClickListener(this);
         mMyFavourite.setOnClickListener(this);
         mNewsItem = (NewsItem) getIntent().getExtras().getParcelable("newsItem");
+        mShareThumb = (Bitmap) getIntent().getExtras().getParcelable("shareThum");
         if (mDBDao == null) {
             mDBDao = new DBDao(this);
         }
@@ -79,10 +82,10 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.share_icon_news_detail:
-                new ShareDialog(this).show();
+                new ShareDialog(this, mNewsItem, mShareThumb).show();
                 break;
             case R.id.news_detail_more_icon:
-                new ShareDialog(this).show();
+                new ShareDialog(this, mNewsItem, mShareThumb).show();
                 break;
             case R.id.favorite_icon_news_detail:
                 myFavourite();
