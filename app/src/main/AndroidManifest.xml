@@ -27,9 +27,10 @@
         <activity android:name=".activity.FavorHistoryActivity" />
         <activity android:name=".activity.FeedbackActivity" />
         <!-- 反馈组件（需要加入以下声明）START -->
-        <activity android:name="com.avos.avoscloud.feedback.ThreadActivity"></activity>
+        <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
         <!-- 反馈组件 END -->
-        <activity android:name=".activity.SettingsActivity"></activity>
+        <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.BrokeNewsActivity"></activity>
     </application>
 
 </manifest>

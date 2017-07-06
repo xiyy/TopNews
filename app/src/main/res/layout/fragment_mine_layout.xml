@@ -61,10 +61,45 @@
     </View>
 
     <RelativeLayout
-        android:id="@+id/mine_feedback"
+        android:id="@+id/mine_broke_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mine_divide_line">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/mine_broke_news" />
+
+        <Button
+            android:id="@+id/mine_broke_news_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/setting_arrow_right" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/mine_divide_line_broke_news"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@+id/mine_broke_news"
+        android:background="@color/grey7">
+
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/mine_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_divide_line_broke_news">
 
         <TextView
             android:layout_width="wrap_content"

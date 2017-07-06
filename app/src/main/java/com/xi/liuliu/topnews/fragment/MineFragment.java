@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.activity.BrokeNewsActivity;
 import com.xi.liuliu.topnews.activity.FavorHistoryActivity;
 import com.xi.liuliu.topnews.activity.FeedbackActivity;
 import com.xi.liuliu.topnews.activity.SettingsActivity;
@@ -38,6 +39,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout mHeaderUserinfo;
     private TextView mHeaderUserInfoPhone;
     private RelativeLayout mSettingsRlt;
+    private RelativeLayout mBrokeNewsRlt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +65,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         mHeaderUserInfoPhone = (TextView) mHeaderUserinfo.findViewById(R.id.user_nick_name);
         mSettingsRlt = (RelativeLayout) view.findViewById(R.id.mine_app_settings);
         mSettingsRlt.setOnClickListener(this);
+        mBrokeNewsRlt = (RelativeLayout) view.findViewById(R.id.mine_broke_news);
+        mBrokeNewsRlt.setOnClickListener(this);
         if (SharedPrefUtil.getInstance(getActivity()).getBoolean(Constants.LOGIN_SP_KEY)) {
             String phoneNumber = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
             mHeaderLogin.setVisibility(View.GONE);
@@ -101,6 +105,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_app_settings:
                 Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(settingsIntent);
+                break;
+            case R.id.mine_broke_news:
+                Intent brokeNewsIntent = new Intent(getActivity(), BrokeNewsActivity.class);
+                startActivity(brokeNewsIntent);
                 break;
 
         }
