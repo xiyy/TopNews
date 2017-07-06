@@ -30,7 +30,8 @@
         <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
         <!-- 反馈组件 END -->
         <activity android:name=".activity.SettingsActivity" />
-        <activity android:name=".activity.BrokeNewsActivity"></activity>
+        <activity android:name=".activity.BrokeNewsActivity" />
+        <activity android:name=".activity.UserAgreementActivity"></activity>
     </application>
 
 </manifest>

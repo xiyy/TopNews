@@ -1,5 +1,6 @@
 package com.xi.liuliu.topnews.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -50,6 +51,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void showUserAgreement() {
-
+        Intent userAgreeIntent = new Intent(this, UserAgreementActivity.class);
+        startActivity(userAgreeIntent);
     }
 }
