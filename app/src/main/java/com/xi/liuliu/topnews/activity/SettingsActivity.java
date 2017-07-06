@@ -14,6 +14,7 @@ import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView mGoBack;
     private TextView mLogout;
+    private TextView mUserAgreement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         mGoBack.setOnClickListener(this);
         mLogout = (TextView) findViewById(R.id.settings_log_out);
         mLogout.setOnClickListener(this);
+        mUserAgreement = (TextView) findViewById(R.id.user_agreement_activity_settings);
+        mUserAgreement.setOnClickListener(this);
         boolean isLoggedIn = SharedPrefUtil.getInstance(this).getBoolean(Constants.LOGIN_SP_KEY);
         if (isLoggedIn) {
             mLogout.setVisibility(View.VISIBLE);
@@ -40,6 +43,13 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             case R.id.settings_log_out:
                 new LogoutDialog(this).show();
                 break;
+            case R.id.user_agreement_activity_settings:
+                showUserAgreement();
+                break;
         }
+    }
+
+    private void showUserAgreement() {
+
     }
 }
