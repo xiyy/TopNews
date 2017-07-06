@@ -5,4 +5,8 @@
     android:layout_height="match_parent"
     tools:context="com.xi.liuliu.topnews.activity.BrokeNewsActivity">
 
+    <WebView
+        android:id="@+id/web_view_activity_broke_news"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
 </RelativeLayout>
