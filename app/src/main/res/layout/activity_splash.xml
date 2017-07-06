@@ -27,5 +27,15 @@
         android:textColor="@color/red_light"
         android:typeface="monospace" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/settings_rights_reserved"
+        android:textColor="@color/grey_dark"
+        android:textSize="10sp" />
+
 
 </RelativeLayout>
