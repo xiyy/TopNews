@@ -60,4 +60,5 @@
     <string name="settings_user_agreement">TopNews用户协议</string>
     <string name="share_dialog_weixin_not_installed">没有安装微信</string>
     <string name="user_agreement_title">TopNews用户协议</string>
+    <string name="live_index">直播</string>
 </resources>

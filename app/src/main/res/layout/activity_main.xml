@@ -34,6 +34,17 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/live_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawablePadding="-3dp"
+            android:drawableTop="@drawable/live_index_un_selected_icon"
+            android:text="@string/live_index"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp" />
+
+        <TextView
             android:id="@+id/mine_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
