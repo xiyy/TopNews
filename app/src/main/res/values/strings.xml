@@ -61,4 +61,9 @@
     <string name="share_dialog_weixin_not_installed">没有安装微信</string>
     <string name="user_agreement_title">TopNews用户协议</string>
     <string name="live_index">直播</string>
+    <string name="live_list_cctv_channel">央视频道</string>
+    <string name="live_list_wei_shi_channel">卫视频道</string>
+    <string name="live_list_di_fang_channel">地方频道</string>
+    <string name="live_list_ti_yu_channel">体育频道</string>
+    <string name="live_list_ying_shi_channel">影视频道</string>
 </resources>

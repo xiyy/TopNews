@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xi.liuliu.topnews">
+    package="com.xi.liuliu.topnews"
+    android:installLocation="preferExternal">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -31,7 +32,8 @@
         <!-- 反馈组件 END -->
         <activity android:name=".activity.SettingsActivity" />
         <activity android:name=".activity.BrokeNewsActivity" />
-        <activity android:name=".activity.UserAgreementActivity"></activity>
+        <activity android:name=".activity.UserAgreementActivity" />
+        <activity android:name=".activity.LiveListActivity"></activity>
     </application>
 
 </manifest>

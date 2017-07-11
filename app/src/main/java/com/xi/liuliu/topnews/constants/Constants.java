@@ -55,4 +55,15 @@ public interface Constants {
     String FENG_HUANG_ZI_XUN = "http://223.110.245.139:80/PLTV/3/224/3221226980/index.m3u8";
     String HU_NAN_GUO_JI = "http://phoneliveal.mgtv.com/nn_live/nn_x64/aWQ9SE5HSk1QUDM2MCZjZG5leF9pZD1hbF9waG9uZV9saXZlMyZuZnQ9dHMz/HNGJMPP360.m3u8";
     String HU_NAN_DIAN_SHI_JU = "http://phoneliveal.mgtv.com/nn_live/nn_x64/aWQ9SE5EU0pNUFAzNjAmY2RuZXhfaWQ9YWxfcGhvbmVfbGl2ZTMmbmZ0PXRz/HNDSJMPP360.m3u8";
+    //体育
+    String CCTV5_SPORT = CCTV5;
+    String CCTV5_P_SPORT = CCTV5P;
+    String BEI_JING_TI_YU_SPORT = BEI_JING_TI_YU;
+    //影视
+    String CCTV6_MOIVE = CCTV6;
+    String CCTV8_MOIVE = CCTV8;
+    String CHC_MOIVE = CHC;
+    String HU_NAN_DIAN_SHI_JU_MOIVE = HU_NAN_DIAN_SHI_JU;
+
+
 }

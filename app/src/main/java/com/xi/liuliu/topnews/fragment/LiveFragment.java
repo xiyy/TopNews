@@ -3,16 +3,19 @@ package com.xi.liuliu.topnews.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.activity.LiveListActivity;
 import com.xi.liuliu.topnews.constants.Constants;
 
 /**
@@ -23,10 +26,20 @@ public class LiveFragment extends Fragment {
     private GridView mGridView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_live, container, false);
         mGridView = (GridView) view.findViewById(R.id.grid_view_fragment_live);
         mGridView.setAdapter(new ChannelAdapter(getActivity(), Constants.LIVE_CHANNEL, Constants.LIVE_CHANNEL_ICON_ID));
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("live_channel_title_id", position);
+                Intent intent = new Intent(getActivity(), LiveListActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
