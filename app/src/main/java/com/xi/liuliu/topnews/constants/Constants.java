@@ -22,10 +22,37 @@ public interface Constants {
     String WEI_XIN_APP_SECRET = "d8873042d045bbc07a93c4cef31b97ef";
     String[] LIVE_CHANNEL = {"央视", "卫视", "地方", "体育", "影视"};
     int[] LIVE_CHANNEL_ICON_ID = {R.drawable.live_cctv_logo, R.drawable.live_wei_shi_logo, R.drawable.live_di_fang_logo, R.drawable.live_sports_logo, R.drawable.live_moive_logo};
-    //卫视
-    String DONG_FANG_URL = "http://live.hcs.cmvideo.cn:8088/wd_r4/dfl/dongfangwshd/1200/01.m3u8?msisdn=30e333c98378aa36874e6a4ce6b14f39&mdspid=&spid=699001&netType=4&sid=5500058351&pid=2028595851&timestamp=20170710111311&Channel_ID=0116_24000003-99000-200300120100004&ProgramID=619811679&ParentNodeID=-99&preview=1&playseek=000000-000600&client_ip=114.215.153.24&assertID=5500058351&imei=d54237205e18af0858ba1c94f5480f09fe37fa67686d87a5ced6e58d2f2f72ce&chargePhone=&SecurityKey=20170710111311&mtv_session=daa93ec6fee7507a814056e30d87dd28&HlsSubType=1&HlsProfileId=1&encrypt=caaad0010a34aa368b9b133cb7e31a6b&time=1499657013110";
-    String HU_NAN_URL = "http://live.hcs.cmvideo.cn:8088/wd-hunanhd-1200/01.m3u8?msisdn=3081643684a3c6084eef42bb9eb7a754&mdspid=&spid=699017&netType=4&sid=2201064496&pid=2028595851&timestamp=20170710121254&Channel_ID=0116_24000003-99000-200300120100004&ProgramID=609153594&ParentNodeID=-99&preview=1&playseek=000000-000600&client_ip=114.215.153.24&assertID=2201064496&imei=d54237205e18af0858ba1c94f5480f09fe37fa67686d87a5ced6e58d2f2f72ce&chargePhone=&SecurityKey=20170710121254&mtv_session=38a81ea4c17ab3be73c2444fc9f00d78&HlsSubType=1&HlsProfileId=1&encrypt=97c5207079b0024c1bc944d3c1d2c0c5&time=1499660169193";
     //央视
-    String CCTV5 = "http://live.hcs.cmvideo.cn:8088/wd_r2/cctv/cctv5hd/1200/index.m3u8?msisdn=30a3565fb49c1bb914f1ef8d3dba9681&mdspid=&spid=699004&netType=4&sid=2201062977&pid=2028595851&timestamp=20170710124042&Channel_ID=0116_24000003-99000-200300120100004&ProgramID=608788135&ParentNodeID=-99&preview=1&playseek=000000-000600&client_ip=114.215.153.24&assertID=2201062977&imei=d54237205e18af0858ba1c94f5480f09fe37fa67686d87a5ced6e58d2f2f72ce&chargePhone=&SecurityKey=20170710124042&encrypt=947bd6451f6d37bccff4e5362aa1fdae";
+    String CCTV1 = "http://58.200.131.2/hls/cctv1hd.m3u8";
+    String CCTV3 = "http://58.200.131.2/hls/cctv3hd.m3u8";
+    String CCTV5 = "http://58.200.131.2/hls/cctv5hd.m3u8";
+    String CCTV5P = "http://58.200.131.2/hls/cctv5phd.m3u8";
+    String CCTV6 = "http://58.200.131.2/hls/cctv6hd.m3u8";
+    String CHC = "http://58.200.131.2/hls/chchd.m3u8";
+    String CCTV8 = "http://58.200.131.2/hls/cctv8hd.m3u8";
+    //卫视
+    String AN_HUI = "http://58.200.131.2/hls/ahhd.m3u8";
+    String BEI_JING = "http://58.200.131.2/hls/btv1hd.m3u8";
+    String DONG_FANG = "http://58.200.131.2/hls/dfhd.m3u8";
+    String GUANG_DONG = "http://58.200.131.2/hls/gdhd.m3u8";
+    String HEI_LONG_JIANG = "http://58.200.131.2/hls/hljhd.m3u8";
+    String HU_BEI = "http://58.200.131.2/hls/hbhd.m3u8";
+    String HU_NAN = "http://58.200.131.2/hls/hunanhd.m3u8";
+    String JIANG_SU = "http://58.200.131.2/hls/jshd.m3u8";
+    String LIAO_NING = "http://58.200.131.2/hls/lnhd.m3u8";
+    String SHAN_DONG = "http://58.200.131.2/hls/sdhd.m3u8";
+    String SHEN_ZHEN = "http://58.200.131.2/hls/szhd.m3u8";
+    String TIAN_JIN = "http://58.200.131.2/hls/tjhd.m3u8";
+    String ZHE_JIANG = "http://58.200.131.2/hls/zjhd.m3u8";
+    String CHONE_QING = "http://58.200.131.2/hls/cqhd.m3u8";
+    String XIANG_GANG = "http://fms.cntv.lxdns.com/live/flv/channel84.flv";
+    String AO_MEN = "http://live.mastvnet.com/iVx460D/live.m3u8";
+    //地方
+    String BEI_JING_JI_SHI = "http://58.200.131.2/hls/btv11hd.m3u8";
+    String BEI_JING_TI_YU = "http://58.200.131.2/hls/btv6hd.m3u8";
+    String BEI_JING_WEN_YI = "http://58.200.131.2/hls/btv2hd.m3u8";
+    String FENG_HUANG_ZHONG_WEN = "http://223.82.250.95:8080/ysten-businessmobile/live/fhchinese/dujuejiami.m3u8";
+    String FENG_HUANG_ZI_XUN = "http://223.110.245.139:80/PLTV/3/224/3221226980/index.m3u8";
+    String HU_NAN_GUO_JI = "http://phoneliveal.mgtv.com/nn_live/nn_x64/aWQ9SE5HSk1QUDM2MCZjZG5leF9pZD1hbF9waG9uZV9saXZlMyZuZnQ9dHMz/HNGJMPP360.m3u8";
+    String HU_NAN_DIAN_SHI_JU = "http://phoneliveal.mgtv.com/nn_live/nn_x64/aWQ9SE5EU0pNUFAzNjAmY2RuZXhfaWQ9YWxfcGhvbmVfbGl2ZTMmbmZ0PXRz/HNDSJMPP360.m3u8";
 }
-
