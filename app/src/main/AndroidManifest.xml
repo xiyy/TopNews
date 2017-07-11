@@ -3,6 +3,8 @@
     package="com.xi.liuliu.topnews"
     android:installLocation="preferExternal">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -33,7 +35,14 @@
         <activity android:name=".activity.SettingsActivity" />
         <activity android:name=".activity.BrokeNewsActivity" />
         <activity android:name=".activity.UserAgreementActivity" />
-        <activity android:name=".activity.LiveListActivity"></activity>
+        <activity android:name=".activity.LiveListActivity" />
+        <activity
+            android:name="io.vov.vitamio.activity.InitActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".activity.LiveActivity"></activity>
     </application>
 
 </manifest>
