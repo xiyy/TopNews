@@ -44,8 +44,8 @@ public class LoadingDialog {
         }
     }
 
-    public LoadingDialog setLoadingMessage(int messageId) {
-        mLoadingMessage.setText(messageId);
+    public LoadingDialog setLoadingMessage(String message) {
+        mLoadingMessage.setText(message);
         return this;
     }
 

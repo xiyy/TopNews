@@ -54,6 +54,11 @@ public class LiveActivity extends AppCompatActivity {
         if (!io.vov.vitamio.LibsChecker.checkVitamioLibs(this))
             return;
         setContentView(R.layout.activity_live);
+        if (mLoadingDialog == null) {
+            mLoadingDialog = new LoadingDialog(this).setCancelable(true).
+                    setLoadingMessage("已经缓冲0%");
+        }
+        mLoadingDialog.show();
         String liveUrl = getIntent().getStringExtra("live_url");
         mVideoView = (VideoView) findViewById(R.id.video_view_live_activity);
         mVideoView.setVideoPath(liveUrl);
@@ -78,13 +83,14 @@ public class LiveActivity extends AppCompatActivity {
                 return true;
             }
         });
+        mVideoView.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+            @Override
+            public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                mLoadingDialog.setLoadingMessage("已经缓冲" + percent + "%");
+            }
+        });
         mMediaController.show(5000);
         mVideoView.requestFocus();
-        if (mLoadingDialog == null) {
-            mLoadingDialog = new LoadingDialog(this).setCancelable(true).
-                    setLoadingMessage(R.string.live_activity_loading);
-        }
-        mLoadingDialog.show();
         registerBoradcastReceiver();
         if (mLiveTimer == null) {
             mLiveTimer = new LiveTimer();
