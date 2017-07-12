@@ -55,7 +55,7 @@ public class NewsItemWith3Pic {
             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                 holder.icon1.setImageDrawable(resource);
                 bundle.putParcelable("shareThum", BitmapUtil.drawableToBitmap(resource));
-                intent.putExtras(bundle);
+
             }
         });
         Glide.with(context).load(newsItem.getThumbnailPic02()).apply(options).into(holder.icon2);
@@ -64,6 +64,7 @@ public class NewsItemWith3Pic {
             @Override
             public void onClick(View v) {
                 new DBDao(v.getContext()).insertHistory(new ReadNews(newsItem));
+                intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }
         });

@@ -53,13 +53,13 @@ public class NewsItemWith1Pic {
             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                 holder.icon.setImageDrawable(resource);
                 bundle.putParcelable("shareThum", BitmapUtil.drawableToBitmap(resource));
-                intent.putExtras(bundle);
             }
         });
         holder.newsItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new DBDao(v.getContext()).insertHistory(new ReadNews(newsItem));
+                intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }
         });
