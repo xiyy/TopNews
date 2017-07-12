@@ -58,19 +58,29 @@ public class LiveActivity extends AppCompatActivity {
             mLoadingDialog = new LoadingDialog(this).setCancelable(true).
                     setLoadingMessage("已经缓冲0%");
         }
-        mLoadingDialog.show();
+        mLoadingDialog.show();//初始化时，就显示LoadingDialog
         String liveUrl = getIntent().getStringExtra("live_url");
         mVideoView = (VideoView) findViewById(R.id.video_view_live_activity);
         mVideoView.setVideoPath(liveUrl);
         mMediaController = new LiveMediaController(this, mVideoView, this);
         mVideoView.setMediaController(mMediaController);
-        mVideoView.setBufferSize(1024 * 1024);//1MB缓冲区
+        mVideoView.setBufferSize(500 * 1024);//0.5MB缓冲区
         mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
         mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
                 switch (what) {
                     case MediaPlayer.MEDIA_INFO_BUFFERING_START:
+                        if (mLoadingDialog == null) {
+                            //播放过程中，网络卡，缓冲时，显示LoadingDialog
+                            mLoadingDialog = new LoadingDialog(getApplicationContext()).setCancelable(true).
+                                    setLoadingMessage("已经缓冲0%");
+                            mLoadingDialog.show();
+                        } else {
+                            if (!mLoadingDialog.isShowing()) {
+                                mLoadingDialog.show();
+                            }
+                        }
                         mp.pause();
                         break;
                     case MediaPlayer.MEDIA_INFO_BUFFERING_END:
@@ -78,6 +88,7 @@ public class LiveActivity extends AppCompatActivity {
                         mp.start();
                         break;
                     case MediaPlayer.MEDIA_INFO_DOWNLOAD_RATE_CHANGED:
+                        Log.i(TAG, "当前网速：" + extra + "kb/s");
                         break;
                 }
                 return true;

@@ -53,4 +53,8 @@ public class LoadingDialog {
         mDialogView.setCancelable(cancel);
         return this;
     }
+
+    public boolean isShowing() {
+        return mDialogView.isShowing();
+    }
 }
