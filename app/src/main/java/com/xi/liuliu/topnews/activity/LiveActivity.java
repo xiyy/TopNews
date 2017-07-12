@@ -64,7 +64,7 @@ public class LiveActivity extends AppCompatActivity {
         mVideoView.setVideoPath(liveUrl);
         mMediaController = new LiveMediaController(this, mVideoView, this);
         mVideoView.setMediaController(mMediaController);
-        mVideoView.setBufferSize(5 * 1024 * 1024);
+        mVideoView.setBufferSize(1024 * 1024);//1MB缓冲区
         mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
         mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
