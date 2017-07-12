@@ -114,6 +114,9 @@ public class LiveActivity extends AppCompatActivity {
             mLiveTimer = null;
             Log.i(TAG, "mLiveTimer interrupt");
         }
+        if (mVideoView != null) {
+            mVideoView.stopPlayback();//停止播放，并释放资源
+        }
         try {
             unregisterReceiver(batteryBroadcastReceiver);
         } catch (IllegalArgumentException ex) {
