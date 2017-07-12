@@ -15,6 +15,7 @@ import android.view.WindowManager;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.controller.LiveMediaController;
+import com.xi.liuliu.topnews.dialog.LoadingDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,6 +29,7 @@ public class LiveActivity extends AppCompatActivity {
     private static final int MESSAGE_TIME = 10010;
     private static final int MESSAGE_BATTERY = 10011;
     private LiveTimer mLiveTimer;
+    private LoadingDialog mLoadingDialog;
     private static final String TAG = "LiveActivity";
     private Handler mHandler = new Handler() {
         @Override
@@ -64,11 +66,10 @@ public class LiveActivity extends AppCompatActivity {
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
                 switch (what) {
                     case MediaPlayer.MEDIA_INFO_BUFFERING_START:
-
                         mp.pause();
                         break;
                     case MediaPlayer.MEDIA_INFO_BUFFERING_END:
-
+                        mLoadingDialog.dissmiss();
                         mp.start();
                         break;
                     case MediaPlayer.MEDIA_INFO_DOWNLOAD_RATE_CHANGED:
@@ -79,6 +80,11 @@ public class LiveActivity extends AppCompatActivity {
         });
         mMediaController.show(5000);
         mVideoView.requestFocus();
+        if (mLoadingDialog == null) {
+            mLoadingDialog = new LoadingDialog(this).setCancelable(true).
+                    setLoadingMessage(R.string.live_activity_loading);
+        }
+        mLoadingDialog.show();
         registerBoradcastReceiver();
         if (mLiveTimer == null) {
             mLiveTimer = new LiveTimer();
