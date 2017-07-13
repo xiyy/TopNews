@@ -1,6 +1,7 @@
 package com.xi.liuliu.topnews.fragment;
 
 
+import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,12 @@ import android.widget.TextView;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.LiveListActivity;
 import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by liuliu on 2017/7/7.
@@ -24,9 +31,13 @@ import com.xi.liuliu.topnews.constants.Constants;
 
 public class LiveFragment extends Fragment {
     private GridView mGridView;
+    private List<ImageView> mChannelImageViews = new ArrayList<>(5);
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         View view = inflater.inflate(R.layout.fragment_live, container, false);
         mGridView = (GridView) view.findViewById(R.id.grid_view_fragment_live);
         mGridView.setAdapter(new ChannelAdapter(getActivity(), Constants.LIVE_CHANNEL, Constants.LIVE_CHANNEL_ICON_ID));
@@ -43,7 +54,16 @@ public class LiveFragment extends Fragment {
         return view;
     }
 
-    static class ChannelAdapter extends BaseAdapter {
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        mChannelImageViews = null;
+    }
+
+    class ChannelAdapter extends BaseAdapter {
         private Context context;
         private String[] channels;
         private int[] channelsIconId;
@@ -71,17 +91,34 @@ public class LiveFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = null;
             if (convertView == null) {
-                view = LayoutInflater.from(context).inflate(R.layout.item_live_fragment, null);
-            } else {
-                view = convertView;
+                convertView = LayoutInflater.from(context).inflate(R.layout.item_live_fragment, null);
             }
-            ImageView channelIcon = (ImageView) view.findViewById(R.id.image_view_item_live_fragment);
-            TextView channel = (TextView) view.findViewById(R.id.text_view_item_live_fragment);
+            ImageView channelIcon = (ImageView) convertView.findViewById(R.id.image_view_item_live_fragment);
+            TextView channel = (TextView) convertView.findViewById(R.id.text_view_item_live_fragment);
             channelIcon.setImageResource(channelsIconId[position]);
             channel.setText(channels[position]);
-            return view;
+            mChannelImageViews.add(position, channelIcon);
+            rotateChannelImageView(channelIcon);
+            return convertView;
+        }
+
+
+    }
+
+    private void rotateChannelImageView(ImageView channelIcon) {
+        if (channelIcon != null) {
+            ObjectAnimator.ofFloat(channelIcon, "rotationY", 0.0f, 360.0f).setDuration(1000).start();
+        }
+    }
+
+    public void onEventMainThread(LiveFragmentVisibleEvent event) {
+        if (event != null) {
+            if (event.getFragmentVisibility() && mChannelImageViews != null) {
+                for (ImageView each : mChannelImageViews) {
+                    rotateChannelImageView(each);
+                }
+            }
         }
     }
 }
