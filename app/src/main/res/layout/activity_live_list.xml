@@ -37,5 +37,9 @@
     <ListView
         android:id="@+id/list_view_activity_live_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"
+        android:background="#fff4f7f9"
+        android:divider="#dddbdb"
+        android:dividerHeight="1px"
+        android:layoutAnimation="@anim/live_list_layout_animation"></ListView>
 </LinearLayout>
