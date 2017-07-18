@@ -58,7 +58,7 @@ public class ShareDialog implements View.OnClickListener {
         mShareQZone.setOnClickListener(this);
         mShareWeibo.setOnClickListener(this);
         mShareCancle.setOnClickListener(this);
-        mDialogView = new DialogView(mContext, view);
+        mDialogView = new DialogView(mContext, view,R.style.share_dialog_animation);
         mDialogView.setGravity(Gravity.BOTTOM);
         mDialogView.setFullWidth(true);
         mDialogView.setCanceledOnTouchOutside(true);
