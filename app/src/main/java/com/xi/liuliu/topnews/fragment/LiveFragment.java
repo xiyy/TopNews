@@ -49,6 +49,7 @@ public class LiveFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), LiveListActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
             }
         });
         return view;

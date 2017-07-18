@@ -86,15 +86,18 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 Intent favoriteIntent = new Intent(getActivity(), FavorHistoryActivity.class);
                 favoriteIntent.putExtra("viewPager_current_item", 0);
                 startActivity(favoriteIntent);
+                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
                 break;
             case R.id.mine_history:
                 Intent historyIntent = new Intent(getActivity(), FavorHistoryActivity.class);
                 historyIntent.putExtra("viewPager_current_item", 1);
                 startActivity(historyIntent);
+                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
                 break;
             case R.id.mine_feedback:
                 Intent feedbackIntent = new Intent(getActivity(), FeedbackActivity.class);
                 startActivity(feedbackIntent);
+                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
                 break;
             case R.id.header_fragment_mine_login_phone:
                 new LoginDialog(v.getContext()).show();
@@ -105,10 +108,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_app_settings:
                 Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(settingsIntent);
+                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
                 break;
             case R.id.mine_broke_news:
                 Intent brokeNewsIntent = new Intent(getActivity(), BrokeNewsActivity.class);
                 startActivity(brokeNewsIntent);
+                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
                 break;
 
         }

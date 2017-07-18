@@ -1,5 +1,6 @@
 package com.xi.liuliu.topnews.item;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -66,6 +67,7 @@ public class NewsItemWith3Pic {
                 new DBDao(v.getContext()).insertHistory(new ReadNews(newsItem));
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
+                ((Activity)v.getContext()).overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
             }
         });
     }
