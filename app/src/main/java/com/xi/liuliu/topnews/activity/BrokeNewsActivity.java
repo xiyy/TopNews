@@ -21,4 +21,10 @@ public class BrokeNewsActivity extends AppCompatActivity {
         mWebView.getSettings().setJavaScriptEnabled(true);
 
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.zoomout);
+    }
 }

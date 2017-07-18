@@ -121,4 +121,10 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         }
 
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.zoomout);
+    }
 }

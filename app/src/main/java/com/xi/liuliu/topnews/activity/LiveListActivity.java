@@ -84,4 +84,9 @@ public class LiveListActivity extends AppCompatActivity {
         mLiveList.setAdapter(new LiveListAdapter(channels, this));
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.zoomout);
+    }
 }

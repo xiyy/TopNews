@@ -51,4 +51,10 @@ public class UserAgreementActivity extends AppCompatActivity {
         mWebView.removeAllViews();
         mWebView.destroy();
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.zoomout);
+    }
 }

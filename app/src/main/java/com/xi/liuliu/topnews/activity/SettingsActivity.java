@@ -54,4 +54,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         Intent userAgreeIntent = new Intent(this, UserAgreementActivity.class);
         startActivity(userAgreeIntent);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.zoomout);
+    }
 }

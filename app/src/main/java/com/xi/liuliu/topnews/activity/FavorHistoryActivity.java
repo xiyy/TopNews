@@ -72,4 +72,10 @@ public class FavorHistoryActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.zoomout);
+    }
 }

@@ -189,4 +189,10 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         return imm.isActive();
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.zoomout);
+    }
 }
