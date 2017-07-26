@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,15 @@ import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.bean.ReadNews;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
 import com.xi.liuliu.topnews.utils.DBDao;
+import com.xi.liuliu.topnews.utils.DateUtil;
 
 /**
  * Created by liuliu on 2017/6/14.
  */
 
 public class NewsItemWith1Pic {
+    private static final String TAG = "NewsItemWith1Pic";
+
     public static RecyclerView.ViewHolder onCreate(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item_1_pic, parent, false);
         NewsItemWith1PicViewHolder holder = new NewsItemWith1PicViewHolder(view);
@@ -43,7 +47,8 @@ public class NewsItemWith1Pic {
         final NewsItemWith1PicViewHolder holder = (NewsItemWith1PicViewHolder) viewHolder;
         holder.title.setText(newsItem.getTitle());
         holder.newSrc.setText(newsItem.getAuthorName());
-        holder.time.setText(newsItem.getDate());
+        holder.time.setText(DateUtil.getNewsFormatTime(newsItem.getDate()));
+        Log.i(TAG, newsItem.getDate());
         final Intent intent = new Intent(context, NewsDetailActivity.class);
         final Bundle bundle = new Bundle();
         bundle.putParcelable("newsItem", newsItem);

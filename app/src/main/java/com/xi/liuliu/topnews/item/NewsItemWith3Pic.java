@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,15 @@ import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.bean.ReadNews;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
 import com.xi.liuliu.topnews.utils.DBDao;
+import com.xi.liuliu.topnews.utils.DateUtil;
 
 /**
  * Created by liuliu on 2017/6/14.
  */
 
 public class NewsItemWith3Pic {
+    private static final String TAG = "NewsItemWith3Pic";
+
     public static RecyclerView.ViewHolder onCreate(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item_3_pic, parent, false);
         NewsItemWith3PicViewHolder holder = new NewsItemWith3PicViewHolder(view);
@@ -45,9 +49,11 @@ public class NewsItemWith3Pic {
         final NewsItemWith3PicViewHolder holder = (NewsItemWith3PicViewHolder) viewHolder;
         holder.title.setText(newsItem.getTitle());
         holder.newSrc.setText(newsItem.getAuthorName());
-        holder.time.setText(newsItem.getDate());
+        holder.time.setText(DateUtil.getNewsFormatTime(newsItem.getDate()));
+        Log.i(TAG, newsItem.getDate());
         final Intent intent = new Intent(context, NewsDetailActivity.class);
         final Bundle bundle = new Bundle();
+        bundle.putParcelable("newsItem", newsItem);
         bundle.putParcelable("newsItem", newsItem);
         RequestOptions options = new RequestOptions();
         options.skipMemoryCache(false).dontAnimate().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL);
@@ -80,6 +86,7 @@ public class NewsItemWith3Pic {
         ImageView icon2;
         ImageView icon3;
         View newsItemView;
+
         public NewsItemWith3PicViewHolder(View itemView) {
             super(itemView);
             newsItemView = itemView;

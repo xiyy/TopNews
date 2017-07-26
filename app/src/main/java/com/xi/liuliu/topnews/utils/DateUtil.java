@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 
 /**
  * <h3>日期工具类</h3>
@@ -270,6 +271,7 @@ public final class DateUtil {
         return mCalendar.get(Calendar.MONTH) + 1;
     }
 
+
     /**
      * 获得当月几号
      *
@@ -280,6 +282,7 @@ public final class DateUtil {
         return mCalendar.get(Calendar.DAY_OF_MONTH);
     }
 
+
     /**
      * 获得今天的日期(格式：yyyy-MM-dd)
      *
@@ -288,6 +291,22 @@ public final class DateUtil {
     public static String getToday() {
         Calendar mCalendar = Calendar.getInstance();
         return getDateFormat(mCalendar.getTime());
+    }
+
+    /**
+     * 获得当天几点
+     */
+    public static int getCurrentHour() {
+        Calendar mCalendar = Calendar.getInstance();
+        return mCalendar.get(Calendar.HOUR_OF_DAY);
+    }
+
+    /**
+     * 获得当前几分
+     */
+    public static int getCurrentMinute() {
+        Calendar mCalendar = Calendar.getInstance();
+        return mCalendar.get(Calendar.MINUTE);
     }
 
     /**
@@ -434,5 +453,31 @@ public final class DateUtil {
         Date date = new Date(lt);
         res = simpleDateFormat.format(date);
         return res;
+    }
+
+    public static String getNewsFormatTime(String newsTime) {
+        if (!TextUtils.isEmpty(newsTime)) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            try {
+                Date current = df.parse(dateSimpleFormat(new Date(), df));
+                Date ago = df.parse(newsTime);
+                long diff = current.getTime() - ago.getTime();//两个日期的差值，微秒级别
+                long days = diff / (1000 * 60 * 60 * 24);
+                long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+                long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
+                if (days > 0) {
+                    return days + "天前";
+                } else {
+                    if (hours > 0) {
+                        return hours + "小时前";
+                    } else {
+                        return minutes + "分钟前";
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }
