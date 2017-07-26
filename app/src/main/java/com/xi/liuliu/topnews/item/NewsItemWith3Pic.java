@@ -56,7 +56,7 @@ public class NewsItemWith3Pic {
         bundle.putParcelable("newsItem", newsItem);
         bundle.putParcelable("newsItem", newsItem);
         RequestOptions options = new RequestOptions();
-        options.skipMemoryCache(false).dontAnimate().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL);
+        options.placeholder(R.drawable.shape_news_item_place_holder_bg).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL);
         Glide.with(context).load(newsItem.getThumbnailPic()).apply(options).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
