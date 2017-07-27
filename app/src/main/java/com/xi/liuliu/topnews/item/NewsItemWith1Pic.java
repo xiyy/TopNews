@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -54,7 +55,7 @@ public class NewsItemWith1Pic {
         bundle.putParcelable("newsItem", newsItem);
         RequestOptions options = new RequestOptions();
         options.placeholder(R.drawable.shape_news_item_place_holder_bg).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(context).load(newsItem.getThumbnailPic()).apply(options).into(new SimpleTarget<Drawable>() {
+        Glide.with(context).load(newsItem.getThumbnailPic()).apply(options).transition(DrawableTransitionOptions.withCrossFade()).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                 holder.icon.setImageDrawable(resource);
