@@ -6,24 +6,31 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="48dp">
 
         <ImageView
             android:id="@+id/left_back_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/left_back_icon_titlebar" />
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/news_detail_more_icon"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/left_back_icon_titlebar"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" />
 
         <ImageView
             android:id="@+id/news_detail_more_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/more_icon_titlebar" />
+            android:background="@drawable/more_icon_titlebar"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" />
 
 
         <ProgressBar
@@ -55,7 +62,9 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="18dp"
             android:layout_toLeftOf="@+id/share_icon_news_detail"
-            android:background="@drawable/favorite_icon" />
+            android:background="@drawable/favorite_icon"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" />
 
         <ImageView
             android:id="@+id/share_icon_news_detail"
@@ -64,6 +73,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/share_icon" />
+            android:background="@drawable/share_icon"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" />
     </RelativeLayout>
 </LinearLayout>
