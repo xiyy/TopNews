@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -98,6 +99,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
 
     private void loadNews(WebView webView, String url) {
         if (webView != null && !TextUtils.isEmpty(url)) {
+            Log.i(TAG, "URL:" + url);
             webView.loadUrl(url);
         }
     }
