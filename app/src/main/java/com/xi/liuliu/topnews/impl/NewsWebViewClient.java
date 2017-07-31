@@ -1,15 +1,12 @@
 package com.xi.liuliu.topnews.impl;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.xi.liuliu.topnews.R;
-import com.xi.liuliu.topnews.activity.PhotoBrowserActivity;
+import com.xi.liuliu.topnews.dialog.PhotoBrowserDialog;
 
 import io.vov.vitamio.utils.Log;
 
@@ -56,12 +53,7 @@ public class NewsWebViewClient extends WebViewClient {
                 if (!TextUtils.isEmpty(imageUrl)) {
                     if (imageUrl.equals(url)) {
                         view.goBack();
-                        Intent intent = new Intent();
-                        intent.putExtra("imagesUrl", mImagesUrl);
-                        intent.putExtra("curImageUrl", url);
-                        intent.setClass(mContext, PhotoBrowserActivity.class);
-                        mContext.startActivity(intent);
-                        ((Activity) mContext).overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+                        new PhotoBrowserDialog(mContext, imageUrl, mImagesUrl).show();
                     }
                 }
             }

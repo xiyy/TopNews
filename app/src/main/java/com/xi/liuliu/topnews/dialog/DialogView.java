@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
 import com.xi.liuliu.topnews.R;
@@ -233,5 +234,11 @@ public class DialogView {
 
     public void setView(View view) {
         this.view = view;
+    }
+
+    public void setWindowFullScreen() {
+        Window mWindow = dialog.getWindow();
+        mWindow.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 }

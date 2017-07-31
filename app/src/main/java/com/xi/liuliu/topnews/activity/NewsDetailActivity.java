@@ -15,9 +15,9 @@ import android.widget.Toast;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.bean.FavouriteNews;
 import com.xi.liuliu.topnews.bean.NewsItem;
-import com.xi.liuliu.topnews.impl.NewsWebViewClient;
 import com.xi.liuliu.topnews.dialog.ShareDialog;
 import com.xi.liuliu.topnews.event.NewsPhotoUrlsEvent;
+import com.xi.liuliu.topnews.impl.NewsWebViewClient;
 import com.xi.liuliu.topnews.utils.DBDao;
 import com.xi.liuliu.topnews.utils.HtmlUtil;
 

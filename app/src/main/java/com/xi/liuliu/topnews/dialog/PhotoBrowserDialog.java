@@ -1,13 +1,14 @@
-package com.xi.liuliu.topnews.activity;
+package com.xi.liuliu.topnews.dialog;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,30 +28,35 @@ import com.xi.liuliu.topnews.utils.FileUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by zhangxb171 on 2017/7/31.
+ */
 
-public class PhotoBrowserActivity extends Activity implements View.OnClickListener {
-    private static final String TAG = "PhotoBrowserActivity";
+public class PhotoBrowserDialog implements View.OnClickListener {
+    private static final String TAG = "PhotoBrowserDialog";
     private ViewPager mViewPager;
     private ImageView mCloseBtn;
     private ImageView mLoading;
     private TextView mCurrentPhoto;
     private TextView mSaveBtn;
-    private String curImageUrl;
-    private String[] mImageUrls = new String[]{};
+    private String mCurImageUrl;
+    private String[] mImageUrls;
     private List<PhotoView> mPhotoViewList;
     private int mCurrentPosition = -1;
+    private DialogView mDialogView;
+    private Context mContext;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_photo_browser);
+    public PhotoBrowserDialog(Context context, String currentUrl, String[] imageUrls) {
+        mContext = context;
+        mCurImageUrl = currentUrl;
+        mImageUrls = imageUrls;
         initData();
         initView();
     }
 
     private void initView() {
-        mViewPager = (ViewPager) findViewById(R.id.view_pager_news_photo_browser);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_photo_browser, null);
+        mViewPager = (ViewPager) view.findViewById(R.id.view_pager_news_photo_browser);
         mViewPager.setAdapter(new NewsPhotoPagerAdapter(mPhotoViewList));
         mViewPager.setCurrentItem(mCurrentPosition);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -70,29 +76,30 @@ public class PhotoBrowserActivity extends Activity implements View.OnClickListen
             }
         });
         mViewPager.setPageTransformer(true, new ZoomInTransform());
-        mCloseBtn = (ImageView) findViewById(R.id.news_photo_close_btn);
+        mCloseBtn = (ImageView) view.findViewById(R.id.news_photo_close_btn);
         mCloseBtn.setOnClickListener(this);
-        mLoading = (ImageView) findViewById(R.id.loading_news_photo);
-        mCurrentPhoto = (TextView) findViewById(R.id.current_positon_photo);
+        mLoading = (ImageView) view.findViewById(R.id.loading_news_photo);
+        mCurrentPhoto = (TextView) view.findViewById(R.id.current_positon_photo);
         mCurrentPhoto.setText(mCurrentPosition + 1 + "/" + mImageUrls.length);
-        mSaveBtn = (TextView) findViewById(R.id.save_phonto_btn);
+        mSaveBtn = (TextView) view.findViewById(R.id.save_phonto_btn);
         mSaveBtn.setOnClickListener(this);
+        mDialogView = new DialogView(mContext, view, R.anim.scale_photo_browser_anim);
+        mDialogView.setWindowFullScreen();
     }
 
+
     private void initData() {
-        curImageUrl = getIntent().getStringExtra("curImageUrl");
-        mImageUrls = getIntent().getStringArrayExtra("imagesUrl");
         mPhotoViewList = new ArrayList<>(mImageUrls.length);
         RequestOptions options = new RequestOptions();
         options.override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).fitCenter();
         for (int i = 0; i < mImageUrls.length; i++) {
             //确定当前图片的position
-            if (curImageUrl.equals(mImageUrls[i])) {
+            if (mCurImageUrl.equals(mImageUrls[i])) {
                 mCurrentPosition = i;
             }
-            final PhotoView photoView = new PhotoView(this);
+            final PhotoView photoView = new PhotoView(mContext);
             photoView.enable();
-            Glide.with(this).load(mImageUrls[i]).apply(options).transition(DrawableTransitionOptions.withCrossFade()).into(new SimpleTarget<Drawable>() {
+            Glide.with(mContext).load(mImageUrls[i]).apply(options).transition(DrawableTransitionOptions.withCrossFade()).into(new SimpleTarget<Drawable>() {
                 @Override
                 public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                     photoView.setImageDrawable(resource);
@@ -113,7 +120,7 @@ public class PhotoBrowserActivity extends Activity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.news_photo_close_btn:
-                finish();
+                dismiss();
                 break;
             case R.id.save_phonto_btn:
                 savePhoto();
@@ -124,42 +131,40 @@ public class PhotoBrowserActivity extends Activity implements View.OnClickListen
     private void savePhoto() {
         PhotoView currentPhotoView = mPhotoViewList.get(mViewPager.getCurrentItem());
         BitmapDrawable bitmapDrawable = (BitmapDrawable) currentPhotoView.getDrawable();
-        FileUtils.savePhoto(this, bitmapDrawable.getBitmap(), new FileUtils.SaveResultCallback() {
+        FileUtils.savePhoto(mContext, bitmapDrawable.getBitmap(), new FileUtils.SaveResultCallback() {
             @Override
             public void onSavedSuccess() {
-                runOnUiThread(new Runnable() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
                         //主线程更新UI
-                        Toast.makeText(PhotoBrowserActivity.this, R.string.news_detail_save_photo_toast_success, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.news_detail_save_photo_toast_success, Toast.LENGTH_SHORT).show();
                     }
                 });
-
             }
 
             @Override
             public void onSavedFailed() {
-                runOnUiThread(new Runnable() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
                         //主线程更新UI
-                        Toast.makeText(PhotoBrowserActivity.this, R.string.news_detail_save_photo_toast_failed, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.news_detail_save_photo_toast_failed, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(0, R.anim.zoomout);
+    public void show() {
+        if (mDialogView != null) {
+            mDialogView.showDialog();
+        }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void dismiss() {
+        if (mDialogView != null) {
+            mDialogView.dismissDialog();
+        }
     }
-
 }
-

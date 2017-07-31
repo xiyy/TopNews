@@ -47,7 +47,6 @@
             android:name=".activity.LiveActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
-        <activity android:name=".activity.PhotoBrowserActivity"></activity>
     </application>
 
 </manifest>
