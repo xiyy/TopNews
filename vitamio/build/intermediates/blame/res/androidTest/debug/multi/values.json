@@ -11,14 +11,7 @@
                     "endOffset": 105
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 55,
-                        "endColumn": 54,
-                        "endOffset": 105
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
@@ -30,14 +23,7 @@
                     "endOffset": 168
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 110,
-                        "endColumn": 62,
-                        "endOffset": 168
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
@@ -45,8 +31,8 @@
                     "startLine": 4,
                     "startColumn": 4,
                     "startOffset": 173,
-                    "endColumn": 47,
-                    "endOffset": 216
+                    "endColumn": 45,
+                    "endOffset": 214
                 },
                 "from": {
                     "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
@@ -54,8 +40,8 @@
                         "startLine": 4,
                         "startColumn": 4,
                         "startOffset": 173,
-                        "endColumn": 47,
-                        "endOffset": 216
+                        "endColumn": 45,
+                        "endOffset": 214
                     }
                 }
             },
@@ -63,293 +49,184 @@
                 "to": {
                     "startLine": 5,
                     "startColumn": 4,
-                    "startOffset": 221,
+                    "startOffset": 219,
                     "endColumn": 53,
-                    "endOffset": 270
+                    "endOffset": 268
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 4,
-                        "startOffset": 221,
-                        "endColumn": 53,
-                        "endOffset": 270
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 6,
                     "startColumn": 4,
-                    "startOffset": 275,
+                    "startOffset": 273,
                     "endLine": 8,
                     "endColumn": 13,
-                    "endOffset": 422
+                    "endOffset": 420
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 275,
-                        "endLine": 8,
-                        "endColumn": 13,
-                        "endOffset": 422
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 9,
                     "startColumn": 4,
-                    "startOffset": 427,
+                    "startOffset": 425,
                     "endColumn": 92,
-                    "endOffset": 515
+                    "endOffset": 513
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 9,
-                        "startColumn": 4,
-                        "startOffset": 427,
-                        "endColumn": 92,
-                        "endOffset": 515
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 10,
                     "startColumn": 4,
-                    "startOffset": 520,
+                    "startOffset": 518,
                     "endColumn": 67,
-                    "endOffset": 583
+                    "endOffset": 581
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 10,
-                        "startColumn": 4,
-                        "startOffset": 520,
-                        "endColumn": 67,
-                        "endOffset": 583
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 11,
                     "startColumn": 4,
-                    "startOffset": 588,
+                    "startOffset": 586,
                     "endColumn": 65,
-                    "endOffset": 649
+                    "endOffset": 647
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 4,
-                        "startOffset": 588,
-                        "endColumn": 65,
-                        "endOffset": 649
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 654,
+                    "startOffset": 652,
                     "endColumn": 100,
-                    "endOffset": 750
+                    "endOffset": 748
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 12,
-                        "startColumn": 4,
-                        "startOffset": 654,
-                        "endColumn": 100,
-                        "endOffset": 750
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 755,
+                    "startOffset": 753,
                     "endColumn": 70,
-                    "endOffset": 821
+                    "endOffset": 819
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 13,
-                        "startColumn": 4,
-                        "startOffset": 755,
-                        "endColumn": 70,
-                        "endOffset": 821
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 826,
+                    "startOffset": 824,
                     "endColumn": 112,
-                    "endOffset": 934
+                    "endOffset": 932
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 14,
-                        "startColumn": 4,
-                        "startOffset": 826,
-                        "endColumn": 112,
-                        "endOffset": 934
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 939,
+                    "startOffset": 937,
                     "endColumn": 86,
-                    "endOffset": 1021
+                    "endOffset": 1019
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 15,
-                        "startColumn": 4,
-                        "startOffset": 939,
-                        "endColumn": 86,
-                        "endOffset": 1021
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 16,
                     "startColumn": 4,
-                    "startOffset": 1026,
+                    "startOffset": 1024,
                     "endLine": 17,
                     "endColumn": 13,
-                    "endOffset": 1150
+                    "endOffset": 1148
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 16,
-                        "startColumn": 4,
-                        "startOffset": 1026,
-                        "endLine": 17,
-                        "endColumn": 13,
-                        "endOffset": 1150
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 18,
                     "startColumn": 4,
-                    "startOffset": 1155,
+                    "startOffset": 1153,
                     "endColumn": 84,
-                    "endOffset": 1235
+                    "endOffset": 1233
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 18,
-                        "startColumn": 4,
-                        "startOffset": 1155,
-                        "endColumn": 84,
-                        "endOffset": 1235
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 19,
                     "startColumn": 4,
-                    "startOffset": 1240,
+                    "startOffset": 1238,
                     "endColumn": 72,
-                    "endOffset": 1308
+                    "endOffset": 1306
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 19,
-                        "startColumn": 4,
-                        "startOffset": 1240,
-                        "endColumn": 72,
-                        "endOffset": 1308
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 20,
                     "startColumn": 4,
-                    "startOffset": 1313,
+                    "startOffset": 1311,
                     "endColumn": 67,
-                    "endOffset": 1376
+                    "endOffset": 1374
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 20,
-                        "startColumn": 4,
-                        "startOffset": 1313,
-                        "endColumn": 67,
-                        "endOffset": 1376
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 21,
                     "startColumn": 4,
-                    "startOffset": 1381,
+                    "startOffset": 1379,
                     "endLine": 30,
                     "endColumn": 12,
-                    "endOffset": 2023
+                    "endOffset": 2021
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 21,
-                        "startColumn": 4,
-                        "startOffset": 1381,
-                        "endLine": 30,
-                        "endColumn": 12,
-                        "endOffset": 2023
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 31,
                     "startColumn": 4,
-                    "startOffset": 2028,
+                    "startOffset": 2026,
                     "endLine": 35,
                     "endColumn": 12,
-                    "endOffset": 2233
+                    "endOffset": 2231
                 },
                 "from": {
-                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 31,
-                        "startColumn": 4,
-                        "startOffset": 2028,
-                        "endLine": 35,
-                        "endColumn": 12,
-                        "endOffset": 2233
-                    }
+                    "file": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml"
                 }
             }
         ]

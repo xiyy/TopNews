@@ -45,5 +45,6 @@ dependencies {
     compile 'cn.leancloud.android:qq-sdk:1.6.1-leancloud'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.bm.photoview:library:1.4.1'
     testCompile 'junit:junit:4.12'
 }

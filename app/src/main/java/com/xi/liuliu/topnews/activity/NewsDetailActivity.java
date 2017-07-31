@@ -15,8 +15,13 @@ import android.widget.Toast;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.bean.FavouriteNews;
 import com.xi.liuliu.topnews.bean.NewsItem;
+import com.xi.liuliu.topnews.bean.NewsWebViewClient;
 import com.xi.liuliu.topnews.dialog.ShareDialog;
+import com.xi.liuliu.topnews.event.NewsPhotoUrlsEvent;
 import com.xi.liuliu.topnews.utils.DBDao;
+import com.xi.liuliu.topnews.utils.HtmlUtil;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by liuliu on 2017/6/15.
@@ -34,16 +39,23 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     private DBDao mDBDao;
     private boolean isFavouriteNews;
     private Bitmap mShareThumb;
+    private NewsWebViewClient mWebViewClient;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
         initView();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     private void initView() {
         mWebView = (WebView) findViewById(R.id.web_view_news_detail);
+        mWebView.getSettings().setAppCacheEnabled(true);
+        mWebView.getSettings().setDatabaseEnabled(true);
+        mWebView.getSettings().setDomStorageEnabled(true);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mLeftGoBack = (ImageView) findViewById(R.id.left_back_icon);
         mMore = (ImageView) findViewById(R.id.news_detail_more_icon);
@@ -62,6 +74,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         if (isFavouriteNews) {
             mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_selected));
         }
+        HtmlUtil.getImagesUrlFromHtml(mNewsItem.getUrl());//获取HTML源代码
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -76,6 +89,8 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                 super.onProgressChanged(view, newProgress);
             }
         });
+        mWebViewClient = new NewsWebViewClient(this);
+        mWebView.setWebViewClient(mWebViewClient);
         loadNews(mWebView, mNewsItem.getUrl());
     }
 
@@ -127,6 +142,26 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0,R.anim.zoomout);
+        overridePendingTransition(0, R.anim.zoomout);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    /**
+     * HtmlUtil获取源代码后，通过mWebViewClient交给PhotoBrowserActivity
+     *
+     * @param event
+     */
+    public void onEventMainThread(NewsPhotoUrlsEvent event) {
+        if (event != null) {
+            String[] photoUrls = event.getHtmlCode();
+            mWebViewClient.setImagesUrl(photoUrls);
+        }
     }
 }
