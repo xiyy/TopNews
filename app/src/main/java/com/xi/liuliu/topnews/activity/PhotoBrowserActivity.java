@@ -14,10 +14,14 @@ import android.widget.Toast;
 
 import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.NewsPhotoPagerAdapter;
+import com.xi.liuliu.topnews.impl.ZoomInTransform;
 import com.xi.liuliu.topnews.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -65,6 +69,7 @@ public class PhotoBrowserActivity extends Activity implements View.OnClickListen
 
             }
         });
+        mViewPager.setPageTransformer(true, new ZoomInTransform());
         mCloseBtn = (ImageView) findViewById(R.id.news_photo_close_btn);
         mCloseBtn.setOnClickListener(this);
         mLoading = (ImageView) findViewById(R.id.loading_news_photo);
@@ -78,6 +83,8 @@ public class PhotoBrowserActivity extends Activity implements View.OnClickListen
         curImageUrl = getIntent().getStringExtra("curImageUrl");
         mImageUrls = getIntent().getStringArrayExtra("imagesUrl");
         mPhotoViewList = new ArrayList<>(mImageUrls.length);
+        RequestOptions options = new RequestOptions();
+        options.override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).fitCenter();
         for (int i = 0; i < mImageUrls.length; i++) {
             //确定当前图片的position
             if (curImageUrl.equals(mImageUrls[i])) {
@@ -85,7 +92,7 @@ public class PhotoBrowserActivity extends Activity implements View.OnClickListen
             }
             final PhotoView photoView = new PhotoView(this);
             photoView.enable();
-            Glide.with(this).load(mImageUrls[i]).into(new SimpleTarget<Drawable>() {
+            Glide.with(this).load(mImageUrls[i]).apply(options).transition(DrawableTransitionOptions.withCrossFade()).into(new SimpleTarget<Drawable>() {
                 @Override
                 public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                     photoView.setImageDrawable(resource);
@@ -144,8 +151,15 @@ public class PhotoBrowserActivity extends Activity implements View.OnClickListen
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.zoomout);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
     }
+
 }
 
