@@ -2,6 +2,7 @@ package com.xi.liuliu.topnews.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import de.greenrobot.event.EventBus;
 public class MineFragment extends Fragment implements View.OnClickListener {
     private TextView mMyFavourite;
     private TextView mReadHistory;
+    private TextView mReadMode;
     private RelativeLayout mFeedback;
     private LinearLayout mHeaderLogin;
     private RelativeLayout mPhoneLogin;
@@ -40,6 +42,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private TextView mHeaderUserInfoPhone;
     private RelativeLayout mSettingsRlt;
     private RelativeLayout mBrokeNewsRlt;
+    private boolean isDayReadMode = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +51,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         mMyFavourite.setOnClickListener(this);
         mReadHistory = (TextView) view.findViewById(R.id.mine_history);
         mReadHistory.setOnClickListener(this);
+        mReadMode = (TextView) view.findViewById(R.id.mine_night_mode);
+        mReadMode.setOnClickListener(this);
         mFeedback = (RelativeLayout) view.findViewById(R.id.mine_feedback);
         mFeedback.setOnClickListener(this);
         mHeaderLogin = (LinearLayout) view.findViewById(R.id.header_login_rtl);
@@ -86,18 +91,21 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 Intent favoriteIntent = new Intent(getActivity(), FavorHistoryActivity.class);
                 favoriteIntent.putExtra("viewPager_current_item", 0);
                 startActivity(favoriteIntent);
-                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
+                getActivity().overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
                 break;
             case R.id.mine_history:
                 Intent historyIntent = new Intent(getActivity(), FavorHistoryActivity.class);
                 historyIntent.putExtra("viewPager_current_item", 1);
                 startActivity(historyIntent);
-                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
+                getActivity().overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+                break;
+            case R.id.mine_night_mode:
+                changReadMode();
                 break;
             case R.id.mine_feedback:
                 Intent feedbackIntent = new Intent(getActivity(), FeedbackActivity.class);
                 startActivity(feedbackIntent);
-                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
+                getActivity().overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
                 break;
             case R.id.header_fragment_mine_login_phone:
                 new LoginDialog(v.getContext()).show();
@@ -108,14 +116,30 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_app_settings:
                 Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(settingsIntent);
-                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
+                getActivity().overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
                 break;
             case R.id.mine_broke_news:
                 Intent brokeNewsIntent = new Intent(getActivity(), BrokeNewsActivity.class);
                 startActivity(brokeNewsIntent);
-                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
+                getActivity().overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
                 break;
 
+        }
+    }
+
+    private void changReadMode() {
+        if (isDayReadMode) {
+            mReadMode.setText(R.string.mine_day_mode);
+            Drawable day = getResources().getDrawable(R.drawable.mine_day_mode);
+            day.setBounds(0, 0, day.getMinimumWidth(), day.getMinimumHeight());
+            mReadMode.setCompoundDrawables(null, day, null, null);
+            isDayReadMode = false;
+        } else {
+            mReadMode.setText(R.string.mine_night_mode);
+            Drawable night = getResources().getDrawable(R.drawable.mine_night_mode);
+            night.setBounds(0, 0, night.getMinimumWidth(), night.getMinimumHeight());
+            mReadMode.setCompoundDrawables(null, night, null, null);
+            isDayReadMode = true;
         }
     }
 
