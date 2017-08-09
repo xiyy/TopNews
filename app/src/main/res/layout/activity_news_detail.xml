@@ -10,8 +10,8 @@
 
         <ImageView
             android:id="@+id/left_back_icon"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/news_detail_more_icon"
@@ -23,8 +23,8 @@
 
         <ImageView
             android:id="@+id/news_detail_more_icon"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"

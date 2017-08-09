@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -121,19 +122,24 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
 
     private void myFavourite() {
         FavouriteNews favouriteNews = new FavouriteNews(mNewsItem);
+        Toast toast;
         if (isFavouriteNews) {
             boolean isDeleted = mDBDao.deleteFavourite(favouriteNews);
             if (isDeleted) {
                 isFavouriteNews = false;
                 mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon));
-                Toast.makeText(this, R.string.favourite_cancle, Toast.LENGTH_SHORT).show();
+                toast = Toast.makeText(getApplicationContext(), R.string.favourite_cancle, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }
         } else {
             boolean insertFavourite = mDBDao.insertFavourite(favouriteNews);
             if (insertFavourite) {
                 isFavouriteNews = true;
                 mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_selected));
-                Toast.makeText(this, R.string.favourite_success, Toast.LENGTH_SHORT).show();
+                toast = Toast.makeText(getApplicationContext(), R.string.favourite_success, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }
         }
 
