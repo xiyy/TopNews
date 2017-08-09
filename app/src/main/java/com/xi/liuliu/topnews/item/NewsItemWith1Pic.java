@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,7 +69,15 @@ public class NewsItemWith1Pic {
                 new DBDao(v.getContext()).insertHistory(new ReadNews(newsItem));
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
-                ((Activity)v.getContext()).overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
+                ((Activity) v.getContext()).overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+                //防止连续点击
+                holder.newsItemView.setEnabled(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        holder.newsItemView.setEnabled(true);
+                    }
+                }, 300);
             }
         });
     }
