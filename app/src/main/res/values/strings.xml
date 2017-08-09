@@ -70,4 +70,5 @@
     <string name="news_detail_save_photo">保存</string>
     <string name="news_detail_save_photo_toast_success">保存成功</string>
     <string name="news_detail_save_photo_toast_failed">保存失败</string>
+    <string name="main_activity_exit_toast">再按一次退出</string>
 </resources>

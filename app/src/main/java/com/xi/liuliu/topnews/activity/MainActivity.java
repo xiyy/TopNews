@@ -4,9 +4,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MineFragment mMineFragment;
     private LiveFragment mLiveFrament;
     private boolean isLoggedIn;
+    private Toast mExitToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mExitToast == null) {
+                mExitToast = Toast.makeText(getApplicationContext(), R.string.main_activity_exit_toast, Toast.LENGTH_SHORT);
+                mExitToast.getView().getBackground().setAlpha(200);//设置背景透明度
+                mExitToast.setGravity(Gravity.CENTER, 0, 0);
+                mExitToast.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mExitToast != null) {
+                            mExitToast.cancel();
+                        }
+                        mExitToast = null;
+                    }
+                }, 2000);
+                return true;
+            } else {
+                return super.onKeyDown(keyCode, event);
+            }
+        } else {
+            return super.onKeyDown(keyCode, event);
         }
     }
 
