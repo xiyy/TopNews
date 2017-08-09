@@ -34,20 +34,11 @@
             android:id="@+id/mine_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:drawablePadding="3dp"
-            android:drawableTop="@drawable/mine_history"
-            android:text="@string/mine_history" />
-
-        <TextView
-            android:id="@+id/mine_night_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="30dp"
             android:drawablePadding="3dp"
-            android:drawableTop="@drawable/mine_night_mode"
-            android:text="@string/mine_night_mode" />
+            android:drawableTop="@drawable/mine_history"
+            android:text="@string/mine_history" />
 
     </RelativeLayout>
 
