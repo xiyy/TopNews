@@ -22,4 +22,15 @@
         <item name="android:windowEnterAnimation">@anim/in_from_bottom</item>
         <item name="android:windowExitAnimation">@anim/out_to_bottom</item>
     </style>
+    <!-- 首页底部导航栏按钮 -->
+    <style name="main_tab_item">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/main_tab_item_color</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@null</item>
+    </style>
 </resources>

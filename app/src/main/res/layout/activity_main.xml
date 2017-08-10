@@ -14,48 +14,33 @@
 
     </FrameLayout>
 
-    <RelativeLayout
-        android:id="@+id/rtl_footer"
+    <RadioGroup
+        android:id="@+id/radio_group_main_activity"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
         android:layout_weight="0"
-        android:background="@color/grey32">
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/home_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="25dp"
-            android:drawablePadding="-3dp"
-            android:drawableTop="@drawable/home_index_icon"
-            android:text="@string/home_index"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="12sp" />
+        <RadioButton
+            android:id="@+id/radio_button_home_activity_main"
+            style="@style/main_tab_item"
+            android:checked="true"
+            android:drawableTop="@drawable/selector_main_tab_item_home"
+            android:text="@string/home_index" />
 
-        <TextView
-            android:id="@+id/live_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:drawablePadding="-3dp"
-            android:drawableTop="@drawable/live_index_un_selected_icon"
-            android:text="@string/live_index"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="12sp" />
+        <RadioButton
+            android:id="@+id/radio_button_live_activity_main"
+            style="@style/main_tab_item"
+            android:drawableTop="@drawable/selector_main_tab_item_live"
+            android:text="@string/live_index" />
 
-        <TextView
-            android:id="@+id/mine_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="25dp"
-            android:drawablePadding="-3dp"
-            android:drawableTop="@drawable/mine_index_not_login_icon"
-            android:text="@string/mine_index_not_login"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="12sp" />
+        <RadioButton
+            android:id="@+id/radio_button_mine_activity_main"
+            style="@style/main_tab_item"
+            android:drawableTop="@drawable/selector_main_tab_item_mine_not_login"
+            android:text="@string/mine_index_not_login" />
 
-    </RelativeLayout>
+    </RadioGroup>
 </LinearLayout>

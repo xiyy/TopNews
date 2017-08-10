@@ -49,7 +49,7 @@ public class LiveFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), LiveListActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
+                getActivity().overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
             }
         });
         return view;
@@ -115,7 +115,7 @@ public class LiveFragment extends Fragment {
 
     public void onEventMainThread(LiveFragmentVisibleEvent event) {
         if (event != null) {
-            if (event.getFragmentVisibility() && mChannelImageViews != null) {
+            if (event.isFragmentVisible() && mChannelImageViews != null) {
                 for (ImageView each : mChannelImageViews) {
                     rotateChannelImageView(each);
                 }

@@ -2,22 +2,21 @@ package com.xi.liuliu.topnews.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
-import com.xi.liuliu.topnews.event.HomeFragmentVisibleEvent;
 import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
 import com.xi.liuliu.topnews.event.LoginResultEvent;
-import com.xi.liuliu.topnews.event.MineFragmentVisibleEvent;
 import com.xi.liuliu.topnews.fragment.HomeFragment;
 import com.xi.liuliu.topnews.fragment.LiveFragment;
 import com.xi.liuliu.topnews.fragment.MineFragment;
@@ -25,13 +24,19 @@ import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView mMineTextView;
-    private TextView mHomeTextView;
-    private TextView mLiveTextView;
+public class MainActivity extends AppCompatActivity {
+    private static final int HOME_FRAGMENT = 0;
+    private static final int LIVE_FRAGMENT = 1;
+    private static final int MINE_FRAGMENT = 2;
     private HomeFragment mHomeFragment;
-    private MineFragment mMineFragment;
     private LiveFragment mLiveFrament;
+    private MineFragment mMineFragment;
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mFragmentTransaction;
+    private RadioGroup mRadioGroup;
+    private RadioButton mHomeRadioBtn;
+    private RadioButton mLiveRadioBtn;
+    private RadioButton mMineRadioBtn;
     private boolean isLoggedIn;
     private Toast mExitToast;
 
@@ -43,7 +48,114 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         setContentView(R.layout.activity_main);
         init();
-        setDefaultFragment();
+    }
+
+
+    private void init() {
+        mRadioGroup = (RadioGroup) findViewById(R.id.radio_group_main_activity);
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_button_home_activity_main:
+                        showFragment(HOME_FRAGMENT);
+                        break;
+                    case R.id.radio_button_live_activity_main:
+                        showFragment(LIVE_FRAGMENT);
+                        EventBus.getDefault().post(new LiveFragmentVisibleEvent(true));
+                        break;
+                    case R.id.radio_button_mine_activity_main:
+                        showFragment(MINE_FRAGMENT);
+                        break;
+                }
+            }
+        });
+        mHomeRadioBtn = (RadioButton) findViewById(R.id.radio_button_home_activity_main);
+        mLiveRadioBtn = (RadioButton) findViewById(R.id.radio_button_live_activity_main);
+        mMineRadioBtn = (RadioButton) findViewById(R.id.radio_button_mine_activity_main);
+        isLoggedIn = SharedPrefUtil.getInstance(this).getBoolean(Constants.LOGIN_SP_KEY);
+        if (isLoggedIn) {
+            setLogin();
+        }
+        showFragment(HOME_FRAGMENT);
+    }
+
+
+    private void showFragment(int which) {
+        mFragmentManager = getFragmentManager();
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        hideFragment(mFragmentTransaction);
+        switch (which) {
+            case HOME_FRAGMENT:
+                if (mHomeFragment == null) {
+                    mHomeFragment = new HomeFragment();
+                    mHomeFragment.setActivity(this);
+                    mFragmentTransaction.add(R.id.flt_fragment, mHomeFragment);
+                } else {
+                    mFragmentTransaction.show(mHomeFragment);
+                }
+                break;
+            case LIVE_FRAGMENT:
+                if (mLiveFrament == null) {
+                    mLiveFrament = new LiveFragment();
+                    mFragmentTransaction.add(R.id.flt_fragment, mLiveFrament);
+                } else {
+                    mFragmentTransaction.show(mLiveFrament);
+                }
+                break;
+            case MINE_FRAGMENT:
+                if (mMineFragment == null) {
+                    mMineFragment = new MineFragment();
+                    mFragmentTransaction.add(R.id.flt_fragment, mMineFragment);
+                } else {
+                    mFragmentTransaction.show(mMineFragment);
+                }
+                break;
+        }
+        mFragmentTransaction.commit();
+    }
+
+    private void hideFragment(FragmentTransaction fragmentTransaction) {
+        if (fragmentTransaction != null) {
+            if (mHomeFragment != null) {
+                fragmentTransaction.hide(mHomeFragment);
+            }
+            if (mLiveFrament != null) {
+                fragmentTransaction.hide(mLiveFrament);
+            }
+            if (mMineFragment != null) {
+                fragmentTransaction.hide(mMineFragment);
+            }
+        }
+    }
+
+    public void onEventMainThread(LoginResultEvent event) {
+        isLoggedIn = event.getLoginResult();
+        if (event != null) {
+            if (isLoggedIn) {
+                setLogin();
+            } else {
+                setLogout();
+            }
+        }
+    }
+
+    private void setLogin() {
+        Drawable loginDrawable = getResources().getDrawable(R.drawable.selector_main_tab_item_login);
+        loginDrawable.setBounds(0, 0, loginDrawable.getMinimumWidth(), loginDrawable.getMinimumHeight());
+        mMineRadioBtn.setCompoundDrawables(null, loginDrawable, null, null);
+        mMineRadioBtn.setText(R.string.mine_index);
+        ColorStateList color = getResources().getColorStateList(R.color.main_tab_item_color);
+        mMineRadioBtn.setTextColor(color);
+    }
+
+    private void setLogout() {
+        Drawable notLoginDrawable = getResources().getDrawable(R.drawable.selector_main_tab_item_mine_not_login);
+        notLoginDrawable.setBounds(0, 0, notLoginDrawable.getMinimumWidth(), notLoginDrawable.getMinimumHeight());
+        mMineRadioBtn.setCompoundDrawables(null, notLoginDrawable, null, null);
+        mMineRadioBtn.setText(R.string.mine_index_not_login);
+        ColorStateList color = getResources().getColorStateList(R.color.main_tab_item_color);
+        mMineRadioBtn.setTextColor(color);
     }
 
     @Override
@@ -77,177 +189,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             return super.onKeyDown(keyCode, event);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        switch (v.getId()) {
-            case R.id.home_textView:
-                if (mMineFragment != null) {
-                    transaction.hide(mMineFragment);
-                    EventBus.getDefault().post(new MineFragmentVisibleEvent(false));
-                }
-                if (mLiveFrament != null) {
-                    transaction.hide(mLiveFrament);
-                    EventBus.getDefault().post(new LiveFragmentVisibleEvent(false));
-                }
-                if (mHomeFragment != null) {
-                    transaction.show(mHomeFragment);
-                    EventBus.getDefault().post(new HomeFragmentVisibleEvent(true));
-                }
-                break;
-            case R.id.mine_textView:
-                if (mHomeFragment != null) {
-                    transaction.hide(mHomeFragment);
-                    EventBus.getDefault().post(new HomeFragmentVisibleEvent(false));
-                }
-                if (mLiveFrament != null) {
-                    transaction.hide(mLiveFrament);
-                    EventBus.getDefault().post(new LiveFragmentVisibleEvent(false));
-                }
-                if (mMineFragment == null) {
-                    mMineFragment = new MineFragment();
-                    transaction.add(R.id.flt_fragment, mMineFragment);
-                    EventBus.getDefault().post(new MineFragmentVisibleEvent(true));
-                } else {
-                    transaction.show(mMineFragment);
-                    EventBus.getDefault().post(new MineFragmentVisibleEvent(true));
-                }
-                break;
-            case R.id.live_textView:
-                if (mHomeFragment != null) {
-                    transaction.hide(mHomeFragment);
-                    EventBus.getDefault().post(new HomeFragmentVisibleEvent(false));
-                }
-                if (mMineFragment != null) {
-                    transaction.hide(mMineFragment);
-                    EventBus.getDefault().post(new MineFragmentVisibleEvent(false));
-                }
-                if (mLiveFrament == null) {
-                    mLiveFrament = new LiveFragment();
-                    transaction.add(R.id.flt_fragment, mLiveFrament);
-                    EventBus.getDefault().post(new LiveFragmentVisibleEvent(true));
-                } else {
-                    transaction.show(mLiveFrament);
-                    EventBus.getDefault().post(new LiveFragmentVisibleEvent(true));
-                }
-                break;
-            default:
-        }
-        transaction.commit();
-
-    }
-
-    private void setDefaultFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        mHomeFragment = new HomeFragment();
-        mHomeFragment.setActivity(this);
-        transaction.add(R.id.flt_fragment, mHomeFragment);
-        transaction.commit();
-        EventBus.getDefault().post(new HomeFragmentVisibleEvent(true));
-    }
-
-    private void init() {
-        mMineTextView = (TextView) findViewById(R.id.mine_textView);
-        mHomeTextView = (TextView) findViewById(R.id.home_textView);
-        mLiveTextView = (TextView) findViewById(R.id.live_textView);
-        mHomeTextView.setOnClickListener(this);
-        mMineTextView.setOnClickListener(this);
-        mLiveTextView.setOnClickListener(this);
-        isLoggedIn = SharedPrefUtil.getInstance(this).getBoolean(Constants.LOGIN_SP_KEY);
-        if (isLoggedIn) {
-            Drawable country = getResources().getDrawable(R.drawable.mine_index_icon);
-            country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
-            mMineTextView.setCompoundDrawables(null, country, null, null);
-            mMineTextView.setText(R.string.mine_index);
-        }
-
-    }
-
-    private void setHomeIcon(boolean isSelected) {
-        if (isSelected) {
-            mHomeTextView.setTextColor(getResources().getColor(R.color.red_light));
-            Drawable country = getResources().getDrawable(R.drawable.home_index_selected_icon);
-            country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
-            mHomeTextView.setCompoundDrawables(null, country, null, null);
-        } else {
-            mHomeTextView.setTextColor(getResources().getColor(R.color.darker_gray));
-            Drawable country = getResources().getDrawable(R.drawable.home_index_icon);
-            country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
-            mHomeTextView.setCompoundDrawables(null, country, null, null);
-        }
-    }
-
-    private void setMineIcon(boolean isSelected, boolean loggedIn) {
-        if (loggedIn) {
-            mMineTextView.setText(R.string.mine_index);
-            if (isSelected) {
-                mMineTextView.setTextColor(getResources().getColor(R.color.red_light));
-                Drawable country = getResources().getDrawable(R.drawable.mine_index_selected_icon);
-                country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
-                mMineTextView.setCompoundDrawables(null, country, null, null);
-            } else {
-                mMineTextView.setTextColor(getResources().getColor(R.color.darker_gray));
-                Drawable country = getResources().getDrawable(R.drawable.mine_index_icon);
-                country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
-                mMineTextView.setCompoundDrawables(null, country, null, null);
-            }
-        } else {
-            mMineTextView.setText(R.string.mine_index_not_login);
-            if (isSelected) {
-                mMineTextView.setTextColor(getResources().getColor(R.color.red_light));
-                Drawable country = getResources().getDrawable(R.drawable.mine_index_not_login_selected_icon);
-                country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
-                mMineTextView.setCompoundDrawables(null, country, null, null);
-            } else {
-                mMineTextView.setTextColor(getResources().getColor(R.color.darker_gray));
-                Drawable country = getResources().getDrawable(R.drawable.mine_index_not_login_icon);
-                country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
-                mMineTextView.setCompoundDrawables(null, country, null, null);
-            }
-        }
-    }
-
-    private void setLiveIcon(boolean isSelected) {
-        if (isSelected) {
-            mLiveTextView.setTextColor(getResources().getColor(R.color.red_light));
-            Drawable country = getResources().getDrawable(R.drawable.live_index_selected_icon);
-            country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
-            mLiveTextView.setCompoundDrawables(null, country, null, null);
-        } else {
-            mLiveTextView.setTextColor(getResources().getColor(R.color.darker_gray));
-            Drawable country = getResources().getDrawable(R.drawable.live_index_un_selected_icon);
-            country.setBounds(0, 0, country.getMinimumWidth(), country.getMinimumHeight());
-            mLiveTextView.setCompoundDrawables(null, country, null, null);
-        }
-    }
-
-    public void onEventMainThread(HomeFragmentVisibleEvent event) {
-        if (event != null) {
-            setHomeIcon(event.getFragmentVisibility());
-        }
-    }
-
-    public void onEventMainThread(MineFragmentVisibleEvent event) {
-        if (event != null) {
-            setMineIcon(event.getFragmentVisibility(), isLoggedIn);
-        }
-    }
-
-    public void onEventMainThread(LiveFragmentVisibleEvent event) {
-        if (event != null) {
-            setLiveIcon(event.getFragmentVisibility());
-        }
-    }
-
-    public void onEventMainThread(LoginResultEvent event) {
-        isLoggedIn = event.getLoginResult();
-        if (event != null) {
-            setMineIcon(true, event.getLoginResult());
         }
     }
 }

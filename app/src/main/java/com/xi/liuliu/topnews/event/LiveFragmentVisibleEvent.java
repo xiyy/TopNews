@@ -1,17 +1,17 @@
 package com.xi.liuliu.topnews.event;
 
 /**
- * Created by liuliu on 2017/6/19.
+ * Created by zhangxb171 on 2017/8/10.
  */
 
 public class LiveFragmentVisibleEvent {
-    private boolean isLiveFragmentVisible;
+    private boolean isVisible;
 
-    public LiveFragmentVisibleEvent(boolean isLiveFragmentVisible) {
-        this.isLiveFragmentVisible = isLiveFragmentVisible;
+    public LiveFragmentVisibleEvent(Boolean isVisible) {
+        this.isVisible = isVisible;
     }
 
-    public boolean getFragmentVisibility() {
-        return isLiveFragmentVisible;
+    public boolean isFragmentVisible() {
+        return isVisible;
     }
 }

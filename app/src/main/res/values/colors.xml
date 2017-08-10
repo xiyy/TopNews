@@ -15,4 +15,6 @@
     <color name="black">#000000</color>
     <color name="gray_light">#cccccc</color>
     <color name="gray_light_1">#F0F0F0</color>
+    <color name="main_tab_item_text_color_normal">#aaa</color>
+    <color name="main_tab_item_text_color_selected">#ffff4444</color>
 </resources>
