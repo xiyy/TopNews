@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -167,13 +168,10 @@ public class ShareDialog implements View.OnClickListener {
             tencent.shareToQQ((Activity) mContext, params, new IUiListener() {
                 @Override
                 public void onComplete(Object o) {
-                    shareSuccess();
-                    dismiss();
                 }
 
                 @Override
                 public void onError(UiError uiError) {
-                    shareFailed();
                     Log.i(TAG, "ShareToQQ:" + uiError.errorMessage + " " + uiError.errorCode);
                 }
 
@@ -182,9 +180,19 @@ public class ShareDialog implements View.OnClickListener {
 
                 }
             });
+            //3秒后dialog消失
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    dismiss();
+                }
+            }, 3000);
+
         } else {
             qqNotInstalled();
+            dismiss();
         }
+
     }
 
     private void shareToQZone() {
@@ -199,12 +207,11 @@ public class ShareDialog implements View.OnClickListener {
             tencent.shareToQzone((Activity) mContext, params, new IUiListener() {
                 @Override
                 public void onComplete(Object o) {
-                    shareSuccess();
+
                 }
 
                 @Override
                 public void onError(UiError uiError) {
-                    shareFailed();
                     Log.i(TAG, "shareToQZone:" + uiError.errorMessage + " " + uiError.errorCode);
                 }
 
@@ -213,21 +220,17 @@ public class ShareDialog implements View.OnClickListener {
 
                 }
             });
+            //3秒后dialog消失
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    dismiss();
+                }
+            }, 3000);
         } else {
             qqNotInstalled();
+            dismiss();
         }
-    }
-
-    private void shareSuccess() {
-        Toast toast = Toast.makeText(mContext.getApplicationContext(), R.string.share_dialog_toast_success, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-    }
-
-    private void shareFailed() {
-        Toast toast = Toast.makeText(mContext.getApplicationContext(), R.string.share_dialog_toast_failure, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
     }
 
     private void qqNotInstalled() {
