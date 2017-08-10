@@ -1,7 +1,11 @@
 package com.xi.liuliu.topnews.dialog;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -9,15 +13,23 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.connect.share.QQShare;
+import com.tencent.connect.share.QzoneShare;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by liuliu on 2017/6/22.
@@ -54,7 +66,6 @@ public class ShareDialog implements View.OnClickListener {
         mShareCircle.setOnClickListener(this);
         mShareWeixin.setOnClickListener(this);
         mShareQQ.setOnClickListener(this);
-        mShareQQ.setOnClickListener(this);
         mShareQZone.setOnClickListener(this);
         mShareWeibo.setOnClickListener(this);
         mShareCancle.setOnClickListener(this);
@@ -89,11 +100,11 @@ public class ShareDialog implements View.OnClickListener {
                 break;
 
             case R.id.share_qq_btn:
-
+                shareToQQ();
                 break;
 
             case R.id.share_qzone_btn:
-
+                shareToQZone();
 
                 break;
 
@@ -142,5 +153,100 @@ public class ShareDialog implements View.OnClickListener {
 
     private String buildTransaction(final String type) {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
+    private void shareToQQ() {
+        if (isQQClientInstalled()) {
+            Tencent tencent = Tencent.createInstance(Constants.QQ_APP_ID, mContext);
+            Bundle params = new Bundle();
+            params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+            params.putString(QQShare.SHARE_TO_QQ_TITLE, mNewsItem.getTitle());
+            params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, mNewsItem.getUrl());
+            params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, mNewsItem.getThumbnailPic());
+            params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "TopNews");
+            tencent.shareToQQ((Activity) mContext, params, new IUiListener() {
+                @Override
+                public void onComplete(Object o) {
+                    shareSuccess();
+                    dismiss();
+                }
+
+                @Override
+                public void onError(UiError uiError) {
+                    shareFailed();
+                    Log.i(TAG, "ShareToQQ:" + uiError.errorMessage + " " + uiError.errorCode);
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
+        } else {
+            qqNotInstalled();
+        }
+    }
+
+    private void shareToQZone() {
+        if (isQQClientInstalled()) {
+            Tencent tencent = Tencent.createInstance(Constants.QQ_APP_ID, mContext);
+            Bundle params = new Bundle();
+            params.putString(QzoneShare.SHARE_TO_QQ_TITLE, mNewsItem.getTitle());
+            params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, mNewsItem.getUrl());
+            ArrayList<String> arrayList = new ArrayList<>(1);
+            arrayList.add(mNewsItem.getThumbnailPic());
+            params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, arrayList);
+            tencent.shareToQzone((Activity) mContext, params, new IUiListener() {
+                @Override
+                public void onComplete(Object o) {
+                    shareSuccess();
+                }
+
+                @Override
+                public void onError(UiError uiError) {
+                    shareFailed();
+                    Log.i(TAG, "shareToQZone:" + uiError.errorMessage + " " + uiError.errorCode);
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
+        } else {
+            qqNotInstalled();
+        }
+    }
+
+    private void shareSuccess() {
+        Toast toast = Toast.makeText(mContext.getApplicationContext(), R.string.share_dialog_toast_success, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
+    private void shareFailed() {
+        Toast toast = Toast.makeText(mContext.getApplicationContext(), R.string.share_dialog_toast_failure, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
+    private void qqNotInstalled() {
+        Toast toast = Toast.makeText(mContext.getApplicationContext(), R.string.share_dialog_qq_not_installed, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
+    public boolean isQQClientInstalled() {
+        PackageManager packageManager = mContext.getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mobileqq")) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

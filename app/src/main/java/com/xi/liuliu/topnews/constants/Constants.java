@@ -19,6 +19,7 @@ public interface Constants {
     String LEAN_CLOUND_APP_KEY = "LSe5Tdf9RP0kHbBsp0FYWrwL";
     String LEAN_CLOUND_APP_ID = "J9jGoaYEbyYl1iB4Nu3W0swr-gzGzoHsz";
     String WEI_XIN_APP_ID = "wx757db96f61a9ba7b";
+    String QQ_APP_ID = "1104829929";
     String WEI_XIN_APP_SECRET = "d8873042d045bbc07a93c4cef31b97ef";
     String[] LIVE_CHANNEL = {"央视", "卫视", "地方", "体育", "影视"};
     int[] LIVE_CHANNEL_ICON_ID = {R.drawable.live_cctv_logo, R.drawable.live_wei_shi_logo, R.drawable.live_di_fang_logo, R.drawable.live_sports_logo, R.drawable.live_moive_logo};

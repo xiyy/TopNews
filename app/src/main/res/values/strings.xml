@@ -71,4 +71,7 @@
     <string name="news_detail_save_photo_toast_success">保存成功</string>
     <string name="news_detail_save_photo_toast_failed">保存失败</string>
     <string name="main_activity_exit_toast">再按一次退出</string>
+    <string name="share_dialog_toast_success">分享成功</string>
+    <string name="share_dialog_toast_failure">分享失败</string>
+    <string name="share_dialog_qq_not_installed">QQ未安装</string>
 </resources>
