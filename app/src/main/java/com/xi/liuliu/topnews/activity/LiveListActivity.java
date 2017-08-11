@@ -50,9 +50,11 @@ public class LiveListActivity extends AppCompatActivity {
         switch (channel) {
             case 0:
                 channelTitleId = R.string.live_list_cctv_channel;
-                channels = new String[]{"CCTV1", "CCTV3", "CCTV5-高清", "CCTV5-超清", "CCTV6", "CHC-高清", "CCTV8"};
-                mLiveUrls = new String[]{Constants.CCTV1, Constants.CCTV3, Constants.CCTV5, Constants.CCTV5P, Constants.CCTV6,
-                        Constants.CHC, Constants.CCTV8};
+                channels = new String[]{"CCTV1", "CCTV2", "CCTV3", "CCTV4", "CCTV5-高清", "CCTV5-超清", "CCTV6", "CCTV7", "CCTV8", "CCTV9", "CCTV10", "CCTV11",
+                        "CCTV12", "CCTV13", "CCTV14", "CCTV15", "CHC-高清"};
+                mLiveUrls = new String[]{Constants.CCTV1, Constants.CCTV2, Constants.CCTV3, Constants.CCTV4, Constants.CCTV5, Constants.CCTV5P, Constants.CCTV6,
+                        Constants.CCTV7, Constants.CCTV8, Constants.CCTV9, Constants.CCTV10, Constants.CCTV11, Constants.CCTV12, Constants.CCTV13, Constants.CCTV14,
+                        Constants.CCTV15, Constants.CHC};
                 break;
             case 1:
                 channelTitleId = R.string.live_list_wei_shi_channel;
@@ -87,6 +89,6 @@ public class LiveListActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0,R.anim.zoomout);
+        overridePendingTransition(0, R.anim.zoomout);
     }
 }
