@@ -67,9 +67,9 @@ public class LiveListActivity extends AppCompatActivity {
                 break;
             case 2:
                 channelTitleId = R.string.live_list_di_fang_channel;
-                channels = new String[]{"北京纪实", "北京体育", "北京文艺", "凤凰中文", "凤凰资讯", "湖南国际", "湖南电视剧"};
+                channels = new String[]{"北京纪实", "北京体育", "北京文艺", "凤凰资讯", "湖南国际", "湖南电视剧"};
                 mLiveUrls = new String[]{Constants.BEI_JING_JI_SHI, Constants.BEI_JING_TI_YU, Constants.BEI_JING_WEN_YI,
-                        Constants.FENG_HUANG_ZHONG_WEN, Constants.FENG_HUANG_ZI_XUN, Constants.HU_NAN_GUO_JI, Constants.HU_NAN_DIAN_SHI_JU,};
+                        Constants.FENG_HUANG_ZI_XUN, Constants.HU_NAN_GUO_JI, Constants.HU_NAN_DIAN_SHI_JU,};
                 break;
             case 3:
                 channelTitleId = R.string.live_list_ti_yu_channel;

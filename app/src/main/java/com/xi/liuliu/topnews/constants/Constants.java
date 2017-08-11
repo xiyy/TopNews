@@ -68,7 +68,6 @@ public interface Constants {
     String BEI_JING_JI_SHI = "http://ivi.bupt.edu.cn/hls/btv11hd.m3u8";
     String BEI_JING_TI_YU = "http://ivi.bupt.edu.cn/hls/btv6hd.m3u8";
     String BEI_JING_WEN_YI = "http://ivi.bupt.edu.cn/hls/btv2hd.m3u8";
-    String FENG_HUANG_ZHONG_WEN = "http://223.82.250.95:8080/ysten-businessmobile/live/fhchinese/dujuejiami.m3u8";
     String FENG_HUANG_ZI_XUN = "http://223.110.245.139:80/PLTV/3/224/3221226980/index.m3u8";
     String HU_NAN_GUO_JI = "http://phoneliveal.mgtv.com/nn_live/nn_x64/aWQ9SE5HSk1QUDM2MCZjZG5leF9pZD1hbF9waG9uZV9saXZlMyZuZnQ9dHMz/HNGJMPP360.m3u8";
     String HU_NAN_DIAN_SHI_JU = "http://phoneliveal.mgtv.com/nn_live/nn_x64/aWQ9SE5EU0pNUFAzNjAmY2RuZXhfaWQ9YWxfcGhvbmVfbGl2ZTMmbmZ0PXRz/HNDSJMPP360.m3u8";
@@ -81,6 +80,13 @@ public interface Constants {
     String CCTV8_MOIVE = CCTV8;
     String CHC_MOIVE = CHC;
     String HU_NAN_DIAN_SHI_JU_MOIVE = HU_NAN_DIAN_SHI_JU;
-
-
+    //境外
+    String USA_ABC_NEWS = "http://abclive.abcnews.com/i/abc_live4@136330/index_1200_av-b.m3u8";
+    String California_Music_Channel = "http://cmctv.ios.internapcdn.net/cmctv_vitalstream_com/live_1/CMCUSA/CCURstream0.m3u8";
+    String FOX_23_NEWS = "http://cmghlslive-i.akamaihd.net:80/hls/live/224709/KOKI/904k/prog.m3u8";
+    String FOX_25_NEWS = "http://cmghlslive-i.akamaihd.net:80/hls/live/224671/WFXT/904k/prog.m3u8";
+    String FOX_30_NEWS = "http://cmghlslive-i.akamaihd.net:80/hls/live/224710/WFOX/904k/prog.m3u8";
+    String Pac_12_Mountain = "http://xrxs.net/video/live-p12moun-2328.m3u8";
+    String Pac_12_Los_Angeles = "http://xrxs.net/video/live-p12losa-2328.m3u8";
+    String BBS_NEWS = "http://edge01p.friday.tw/live/fet001/chunklist_w1500640123099.m3u8";
 }
