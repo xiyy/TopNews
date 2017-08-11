@@ -14,6 +14,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.api.WebpageObject;
+import com.sina.weibo.sdk.api.WeiboMultiMessage;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WbAuthListener;
+import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.share.WbShareHandler;
+import com.sina.weibo.sdk.utils.Utility;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -110,7 +120,7 @@ public class ShareDialog implements View.OnClickListener {
                 break;
 
             case R.id.share_weibo_btn:
-
+                shareToWeibo();
 
                 break;
 
@@ -251,5 +261,38 @@ public class ShareDialog implements View.OnClickListener {
             }
         }
         return false;
+    }
+
+    private void shareToWeibo() {
+        WbSdk.install(mContext, new AuthInfo(mContext, Constants.WEI_BO_APP_KEY, Constants.REDIRECT_URL,
+                Constants.SCOPE));
+        SsoHandler ssoHandler = new SsoHandler((Activity) mContext);
+        ssoHandler.authorizeClientSso(new WbAuthListener() {
+
+            @Override
+            public void onSuccess(Oauth2AccessToken oauth2AccessToken) {
+                Log.i(TAG, "shareToWeibo:" + "授权成功");
+            }
+
+            @Override
+            public void cancel() {
+                Log.i(TAG, "shareToWeibo:" + "授权取消");
+            }
+
+            @Override
+            public void onFailure(WbConnectErrorMessage wbConnectErrorMessage) {
+                Log.i(TAG, "shareToWeibo:" + "授权失败");
+            }
+        });
+        WbShareHandler shareHandler = new WbShareHandler((Activity) mContext);
+        shareHandler.registerApp();
+        WeiboMultiMessage message = new WeiboMultiMessage();
+        WebpageObject mediaObject = new WebpageObject();
+        mediaObject.identify = Utility.generateGUID();
+        mediaObject.title = mNewsItem.getTitle();
+        mediaObject.actionUrl = mNewsItem.getUrl();
+        mediaObject.setThumbImage(mShareThum);
+        message.mediaObject = mediaObject;
+        shareHandler.shareMessage(message, false);
     }
 }

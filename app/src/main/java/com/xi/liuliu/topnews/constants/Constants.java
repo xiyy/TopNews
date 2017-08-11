@@ -20,6 +20,11 @@ public interface Constants {
     String LEAN_CLOUND_APP_ID = "J9jGoaYEbyYl1iB4Nu3W0swr-gzGzoHsz";
     String WEI_XIN_APP_ID = "wx757db96f61a9ba7b";
     String QQ_APP_ID = "1104829929";
+    String WEI_BO_APP_KEY = "3432080154";
+    String REDIRECT_URL = "https://api.weibo.com/oauth2/default.html";
+    String SCOPE = "email,direct_messages_read,direct_messages_write,"
+            + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+            + "follow_app_official_microblog," + "invitation_write";
     String WEI_XIN_APP_SECRET = "d8873042d045bbc07a93c4cef31b97ef";
     String[] LIVE_CHANNEL = {"央视", "卫视", "地方", "体育", "影视"};
     int[] LIVE_CHANNEL_ICON_ID = {R.drawable.live_cctv_logo, R.drawable.live_wei_shi_logo, R.drawable.live_di_fang_logo, R.drawable.live_sports_logo, R.drawable.live_moive_logo};
