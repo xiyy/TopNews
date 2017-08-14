@@ -78,8 +78,17 @@ public class LiveListActivity extends AppCompatActivity {
                 break;
             case 4:
                 channelTitleId = R.string.live_list_ying_shi_channel;
-                channels = new String[]{"CCTV6", "CCTV8", "CHC-高清", "湖南电视剧"};
-                mLiveUrls = new String[]{Constants.CCTV6_MOIVE, Constants.CCTV8_MOIVE, Constants.CHC_MOIVE, Constants.HU_NAN_DIAN_SHI_JU_MOIVE};
+                channels = new String[]{"CCTV6", "CCTV8", "CHC-高清", "湖南电视剧", "天映经典", "惊悚频道"};
+                mLiveUrls = new String[]{Constants.CCTV6_MOIVE, Constants.CCTV8_MOIVE, Constants.CHC_MOIVE,
+                        Constants.HU_NAN_DIAN_SHI_JU_MOIVE, Constants.TIAN_YING_JING_DIAN_MOIVE, Constants.JING_SONG_TV_MOIVE};
+                break;
+            case 5:
+                channelTitleId = R.string.live_list_overseas_channel;
+                channels = new String[]{"美国ABC新闻", "美国BBC新闻", "新唐人频道", "DIVA中文频道", "NHK World"
+                        , "MTV中国", "MTV高清", "天映经典", "惊悚频道", "翡翠频道", "加州音乐频道", "美国Fox新闻频道", "美国Pac-12频道"};
+                mLiveUrls = new String[]{Constants.USA_ABC_NEWS, Constants.BBC_NEWS, Constants.XIN_TANG_REN_TV, Constants.DIVA_ZHONG_WEN
+                        , Constants.NHK_WORLD_TV, Constants.MTV_CHINA, Constants.MTV_HD, Constants.TIAN_YING_JING_DIAN, Constants.JING_SONG_TV,
+                        Constants.FEI_CUI_TV, Constants.California_Music_Channel, Constants.FOX_25_NEWS, Constants.Pac_12_Los_Angeles};
                 break;
         }
         mChannelTitle.setText(channelTitleId);

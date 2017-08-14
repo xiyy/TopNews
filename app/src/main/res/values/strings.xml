@@ -67,6 +67,7 @@
     <string name="live_list_di_fang_channel">地方频道</string>
     <string name="live_list_ti_yu_channel">体育频道</string>
     <string name="live_list_ying_shi_channel">影视频道</string>
+    <string name="live_list_overseas_channel">海外频道</string>
     <string name="news_detail_save_photo">保存</string>
     <string name="news_detail_save_photo_toast_success">保存成功</string>
     <string name="news_detail_save_photo_toast_failed">保存失败</string>

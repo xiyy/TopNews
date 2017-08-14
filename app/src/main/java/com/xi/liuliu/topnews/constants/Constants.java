@@ -26,8 +26,8 @@ public interface Constants {
             + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
             + "follow_app_official_microblog," + "invitation_write";
     String WEI_XIN_APP_SECRET = "d8873042d045bbc07a93c4cef31b97ef";
-    String[] LIVE_CHANNEL = {"央视", "卫视", "地方", "体育", "影视"};
-    int[] LIVE_CHANNEL_ICON_ID = {R.drawable.live_cctv_logo, R.drawable.live_wei_shi_logo, R.drawable.live_di_fang_logo, R.drawable.live_sports_logo, R.drawable.live_moive_logo};
+    String[] LIVE_CHANNEL = {"央视", "卫视", "地方", "体育", "影视", "海外"};
+    int[] LIVE_CHANNEL_ICON_ID = {R.drawable.live_cctv_logo, R.drawable.live_wei_shi_logo, R.drawable.live_di_fang_logo, R.drawable.live_sports_logo, R.drawable.live_moive_logo, R.drawable.live_overseas_logo};
     //央视
     String CCTV1 = "http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8";
     String CCTV2 = "http://ivi.bupt.edu.cn/hls/cctv2.m3u8";
@@ -71,6 +71,23 @@ public interface Constants {
     String FENG_HUANG_ZI_XUN = "http://223.110.245.139:80/PLTV/3/224/3221226980/index.m3u8";
     String HU_NAN_GUO_JI = "http://phoneliveal.mgtv.com/nn_live/nn_x64/aWQ9SE5HSk1QUDM2MCZjZG5leF9pZD1hbF9waG9uZV9saXZlMyZuZnQ9dHMz/HNGJMPP360.m3u8";
     String HU_NAN_DIAN_SHI_JU = "http://phoneliveal.mgtv.com/nn_live/nn_x64/aWQ9SE5EU0pNUFAzNjAmY2RuZXhfaWQ9YWxfcGhvbmVfbGl2ZTMmbmZ0PXRz/HNDSJMPP360.m3u8";
+    //境外
+    String USA_ABC_NEWS = "http://abclive.abcnews.com/i/abc_live4@136330/index_1200_av-b.m3u8";
+    String BBC_NEWS = "http://edge01p.friday.tw/live/fet001/chunklist_w1500640123099.m3u8";
+    String XIN_TANG_REN_TV = "http://174.127.67.246/live400/playlist.m3u8";
+    String DIVA_ZHONG_WEN = "http://61.58.60.247:9000/live/178.m3u8";
+    String NHK_WORLD_TV = "http://nhkwtvglobal-i.akamaihd.net/hls/live/263941/nhkwtvglobal/index_1180.m3u8";
+    String MTV_CHINA = "http://27.254.63.162/stream/totnew.php?channel_id=deb56e700dbc4d9ea5af08e9d300a675";
+    String MTV_HD = "http://27.254.63.162/stream/totnew.php?channel_id=8d45473ff4ca44d79e1abc4516c2fee0";
+    String TIAN_YING_JING_DIAN = "http://27.254.63.162/stream/totnew.php?channel_id=1c2276a2f1884b269ce281c3334e8f85";
+    String JING_SONG_TV = "http://27.254.63.162/stream/totnew.php?channel_id=c316ed9333e54442b25077f0bb3cc269";
+    String FEI_CUI_TV = "http://pull3.a8.com/live/jade/playlist.m3u8";
+    String California_Music_Channel = "http://cmctv.ios.internapcdn.net/cmctv_vitalstream_com/live_1/CMCUSA/CCURstream0.m3u8";
+    String FOX_23_NEWS = "http://cmghlslive-i.akamaihd.net:80/hls/live/224709/KOKI/904k/prog.m3u8";
+    String FOX_25_NEWS = "http://cmghlslive-i.akamaihd.net:80/hls/live/224671/WFXT/904k/prog.m3u8";
+    String FOX_30_NEWS = "http://cmghlslive-i.akamaihd.net:80/hls/live/224710/WFOX/904k/prog.m3u8";
+    String Pac_12_Mountain = "http://xrxs.net/video/live-p12moun-2328.m3u8";
+    String Pac_12_Los_Angeles = "http://xrxs.net/video/live-p12losa-2328.m3u8";
     //体育
     String CCTV5_SPORT = CCTV5;
     String CCTV5_P_SPORT = CCTV5P;
@@ -80,13 +97,7 @@ public interface Constants {
     String CCTV8_MOIVE = CCTV8;
     String CHC_MOIVE = CHC;
     String HU_NAN_DIAN_SHI_JU_MOIVE = HU_NAN_DIAN_SHI_JU;
-    //境外
-    String USA_ABC_NEWS = "http://abclive.abcnews.com/i/abc_live4@136330/index_1200_av-b.m3u8";
-    String California_Music_Channel = "http://cmctv.ios.internapcdn.net/cmctv_vitalstream_com/live_1/CMCUSA/CCURstream0.m3u8";
-    String FOX_23_NEWS = "http://cmghlslive-i.akamaihd.net:80/hls/live/224709/KOKI/904k/prog.m3u8";
-    String FOX_25_NEWS = "http://cmghlslive-i.akamaihd.net:80/hls/live/224671/WFXT/904k/prog.m3u8";
-    String FOX_30_NEWS = "http://cmghlslive-i.akamaihd.net:80/hls/live/224710/WFOX/904k/prog.m3u8";
-    String Pac_12_Mountain = "http://xrxs.net/video/live-p12moun-2328.m3u8";
-    String Pac_12_Los_Angeles = "http://xrxs.net/video/live-p12losa-2328.m3u8";
-    String BBS_NEWS = "http://edge01p.friday.tw/live/fet001/chunklist_w1500640123099.m3u8";
+    String TIAN_YING_JING_DIAN_MOIVE = TIAN_YING_JING_DIAN;
+    String JING_SONG_TV_MOIVE = JING_SONG_TV;
+
 }
