@@ -1,5 +1,6 @@
 package com.xi.liuliu.topnews.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +14,22 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.api.WebpageObject;
+import com.sina.weibo.sdk.api.WeiboMultiMessage;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WbAuthListener;
+import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.share.WbShareCallback;
+import com.sina.weibo.sdk.share.WbShareHandler;
+import com.sina.weibo.sdk.utils.Utility;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.bean.FavouriteNews;
 import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.dialog.ShareDialog;
 import com.xi.liuliu.topnews.event.NewsPhotoUrlsEvent;
+import com.xi.liuliu.topnews.event.WeiboShareEvent;
 import com.xi.liuliu.topnews.impl.NewsWebViewClient;
 import com.xi.liuliu.topnews.utils.DBDao;
 import com.xi.liuliu.topnews.utils.HtmlUtil;
@@ -28,7 +40,7 @@ import de.greenrobot.event.EventBus;
  * Created by liuliu on 2017/6/15.
  */
 
-public class NewsDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class NewsDetailActivity extends AppCompatActivity implements View.OnClickListener, WbShareCallback {
     private static final String TAG = "NewsDetailActivity";
     private WebView mWebView;
     private ImageView mLeftGoBack;
@@ -41,6 +53,8 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     private boolean isFavouriteNews;
     private Bitmap mShareThumb;
     private NewsWebViewClient mWebViewClient;
+    private SsoHandler mSsoHandler;
+    private WbShareHandler mWbShareHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -146,6 +160,20 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mSsoHandler != null) {
+            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mWbShareHandler.doResultIntent(intent, this);
+    }
+
+    @Override
     public void finish() {
         super.finish();
         overridePendingTransition(0, R.anim.zoomout);
@@ -169,5 +197,64 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
             String[] photoUrls = event.getHtmlCode();
             mWebViewClient.setImagesUrl(photoUrls);
         }
+    }
+
+    public void onEventMainThread(WeiboShareEvent event) {
+        if (event != null) {
+            weiboShare();
+        }
+    }
+
+    private void weiboShare() {
+        if (!WbSdk.isWbInstall(this)) {
+            Toast.makeText(this, R.string.share_dialog_weibo_not_installed, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mSsoHandler = new SsoHandler(this);
+        mSsoHandler.authorize(new WbAuthListener() {
+            @Override
+            public void onSuccess(Oauth2AccessToken oauth2AccessToken) {
+                Log.i(TAG, "shareToWeibo:" + "授权成功");
+                sendWeiboMsg();
+            }
+
+            @Override
+            public void cancel() {
+                Log.i(TAG, "shareToWeibo:" + "授权取消");
+            }
+
+            @Override
+            public void onFailure(WbConnectErrorMessage wbConnectErrorMessage) {
+                Log.i(TAG, "shareToWeibo:" + "授权失败");
+            }
+        });
+    }
+
+    @Override
+    public void onWbShareSuccess() {
+        Toast.makeText(this, R.string.share_dialog_toast_success, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onWbShareCancel() {
+        Toast.makeText(this, R.string.share_dialog_toast_cancel, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onWbShareFail() {
+        Toast.makeText(this, R.string.share_dialog_toast_failure, Toast.LENGTH_SHORT).show();
+    }
+
+    private void sendWeiboMsg() {
+        mWbShareHandler = new WbShareHandler(this);
+        mWbShareHandler.registerApp();
+        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
+        WebpageObject mediaObject = new WebpageObject();
+        mediaObject.identify = Utility.generateGUID();
+        mediaObject.title = mNewsItem.getTitle();
+        mediaObject.setThumbImage(mShareThumb);
+        mediaObject.actionUrl = mNewsItem.getUrl();
+        weiboMessage.mediaObject = mediaObject;
+        mWbShareHandler.shareMessage(weiboMessage, false);
     }
 }

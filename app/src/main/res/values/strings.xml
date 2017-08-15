@@ -74,5 +74,8 @@
     <string name="main_activity_exit_toast">再按一次退出</string>
     <string name="share_dialog_toast_success">分享成功</string>
     <string name="share_dialog_toast_failure">分享失败</string>
+    <string name="share_dialog_toast_cancel">分享取消</string>
     <string name="share_dialog_qq_not_installed">QQ未安装</string>
+    <string name="share_dialog_weibo_not_installed">微博未安装</string>
+
 </resources>
