@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.api.WebpageObject;
@@ -33,6 +31,7 @@ import com.xi.liuliu.topnews.event.WeiboShareEvent;
 import com.xi.liuliu.topnews.impl.NewsWebViewClient;
 import com.xi.liuliu.topnews.utils.DBDao;
 import com.xi.liuliu.topnews.utils.HtmlUtil;
+import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import de.greenrobot.event.EventBus;
 
@@ -136,24 +135,19 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
 
     private void myFavourite() {
         FavouriteNews favouriteNews = new FavouriteNews(mNewsItem);
-        Toast toast;
         if (isFavouriteNews) {
             boolean isDeleted = mDBDao.deleteFavourite(favouriteNews);
             if (isDeleted) {
                 isFavouriteNews = false;
                 mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon));
-                toast = Toast.makeText(getApplicationContext(), R.string.favourite_cancle, Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+                ToastUtil.toastInCenter(this, R.string.favourite_cancle);
             }
         } else {
             boolean insertFavourite = mDBDao.insertFavourite(favouriteNews);
             if (insertFavourite) {
                 isFavouriteNews = true;
                 mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_selected));
-                toast = Toast.makeText(getApplicationContext(), R.string.favourite_success, Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+                ToastUtil.toastInCenter(this, R.string.favourite_success);
             }
         }
 
@@ -207,7 +201,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
 
     private void weiboShare() {
         if (!WbSdk.isWbInstall(this)) {
-            Toast.makeText(this, R.string.share_dialog_weibo_not_installed, Toast.LENGTH_SHORT).show();
+            ToastUtil.toastInCenter(this, R.string.share_dialog_weibo_not_installed);
             return;
         }
         mSsoHandler = new SsoHandler(this);
@@ -232,17 +226,17 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onWbShareSuccess() {
-        Toast.makeText(this, R.string.share_dialog_toast_success, Toast.LENGTH_SHORT).show();
+        ToastUtil.toastInCenter(this, R.string.share_dialog_toast_success);
     }
 
     @Override
     public void onWbShareCancel() {
-        Toast.makeText(this, R.string.share_dialog_toast_cancel, Toast.LENGTH_SHORT).show();
+        ToastUtil.toastInCenter(this, R.string.share_dialog_toast_cancel);
     }
 
     @Override
     public void onWbShareFail() {
-        Toast.makeText(this, R.string.share_dialog_toast_failure, Toast.LENGTH_SHORT).show();
+        ToastUtil.toastInCenter(this, R.string.share_dialog_toast_failure);
     }
 
     private void sendWeiboMsg() {
