@@ -18,7 +18,7 @@ import com.xi.liuliu.topnews.adapter.NewsItemAdapter;
 import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoadingDialog;
-import com.xi.liuliu.topnews.http.HttpUtil;
+import com.xi.liuliu.topnews.http.HttpClient;
 import com.xi.liuliu.topnews.utils.GsonUtil;
 import com.xi.liuliu.topnews.utils.NetWorkUtil;
 
@@ -100,7 +100,7 @@ public class ChannelFragment extends Fragment implements Callback {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (NetWorkUtil.isNetWorkAvailable(getContext())) {
-            new HttpUtil().setCallback(this).requestNews(Constants.CHANNELS_PARAM[mIndex]);
+            new HttpClient().setCallback(this).requestNews(Constants.CHANNELS_PARAM[mIndex]);
             if (getUserVisibleHint() && !hasFillData && mLoadingDialog != null) {
                 mLoadingDialog.show();
             }
@@ -151,7 +151,7 @@ public class ChannelFragment extends Fragment implements Callback {
                     mRecyclerView.setAdapter(mNewsItemAdapter);
                     break;
                 case MESSAGE_REFRESH_NEWS:
-                    new HttpUtil().setCallback(new okhttp3.Callback() {
+                    new HttpClient().setCallback(new okhttp3.Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
                             mHandler.post(new Runnable() {

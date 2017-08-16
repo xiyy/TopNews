@@ -21,6 +21,7 @@ import com.xi.liuliu.topnews.fragment.HomeFragment;
 import com.xi.liuliu.topnews.fragment.LiveFragment;
 import com.xi.liuliu.topnews.fragment.MineFragment;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
+import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import de.greenrobot.event.EventBus;
 
@@ -170,9 +171,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (mExitToast == null) {
-                mExitToast = Toast.makeText(getApplicationContext(), R.string.main_activity_exit_toast, Toast.LENGTH_SHORT);
-                mExitToast.getView().getBackground().setAlpha(200);//设置背景透明度
-                mExitToast.setGravity(Gravity.CENTER, 0, 0);
+                mExitToast = ToastUtil.getTransparentToast(this, R.string.main_activity_exit_toast, 200);
                 mExitToast.show();
                 new Handler().postDelayed(new Runnable() {
                     @Override

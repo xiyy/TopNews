@@ -19,8 +19,8 @@ import okhttp3.RequestBody;
  * Created by liuliu on 2017/6/13.
  */
 
-public class HttpUtil {
-    private static final String TAG = "HttpUtil";
+public class HttpClient {
+    public static final String TAG = "HttpClient";
     private Callback mCallback;
 
     public void requestNews(String channel) {
@@ -33,7 +33,7 @@ public class HttpUtil {
         }
     }
 
-    public HttpUtil setCallback(Callback callback) {
+    public HttpClient setCallback(Callback callback) {
         mCallback = callback;
         return this;
     }

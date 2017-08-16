@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LoginResultEvent;
-import com.xi.liuliu.topnews.http.HttpUtil;
+import com.xi.liuliu.topnews.http.HttpClient;
 import com.xi.liuliu.topnews.utils.CheckPhone;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
@@ -115,7 +115,7 @@ public class LoginDialog implements View.OnClickListener {
                 mSendingDialog = new SendingDialog(mContext, false);
             }
             mSendingDialog.show();
-            new HttpUtil().setCallback(new Callback() {
+            new HttpClient().setCallback(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
 
@@ -147,7 +147,7 @@ public class LoginDialog implements View.OnClickListener {
                 mSendingDialog = new SendingDialog(mContext, false);
             }
             mSendingDialog.show();
-            new HttpUtil().setCallback(new Callback() {
+            new HttpClient().setCallback(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {

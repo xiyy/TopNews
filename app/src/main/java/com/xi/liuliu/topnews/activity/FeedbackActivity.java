@@ -11,14 +11,12 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.feedback.Comment;
@@ -29,6 +27,7 @@ import com.xi.liuliu.topnews.dialog.FeedbackGetPicDialog;
 import com.xi.liuliu.topnews.dialog.SendingDialog;
 import com.xi.liuliu.topnews.event.FeedbackPicDeleteEvent;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
+import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import java.io.File;
 import java.util.List;
@@ -127,7 +126,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     private void sendFeedback() {
         if (TextUtils.isEmpty(mFeedbackContent.getText().toString())) {
-            Toast.makeText(this, R.string.feedback_toast_say_something, Toast.LENGTH_SHORT).show();
+            ToastUtil.toastInCenter(this, R.string.feedback_toast_say_something);
             return;
         }
         if (mSendingDialog == null) {
@@ -152,9 +151,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
             public void onCommentsSend(List<Comment> list, AVException e) {
                 if (mSendingDialog != null) {
                     mSendingDialog.dissmiss();
-                    Toast toast = Toast.makeText(getApplicationContext(), R.string.feedback_toast_sending_success, Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    ToastUtil.toastInCenter(FeedbackActivity.this, R.string.feedback_toast_sending_success);
                 }
             }
 
@@ -193,6 +190,6 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0,R.anim.zoomout);
+        overridePendingTransition(0, R.anim.zoomout);
     }
 }

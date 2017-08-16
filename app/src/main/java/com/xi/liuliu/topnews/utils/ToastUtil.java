@@ -14,4 +14,11 @@ public class ToastUtil {
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
+
+    public static Toast getTransparentToast(Context context, int StringId, int alpha) {
+        Toast toast = Toast.makeText(context, StringId, Toast.LENGTH_SHORT);
+        toast.getView().getBackground().setAlpha(200);//设置背景透明度
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        return toast;
+    }
 }
