@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
@@ -24,6 +23,7 @@ import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.NewsPhotoPagerAdapter;
 import com.xi.liuliu.topnews.impl.ZoomInTransform;
 import com.xi.liuliu.topnews.utils.FileUtils;
+import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,7 +138,7 @@ public class PhotoBrowserDialog implements View.OnClickListener {
                     @Override
                     public void run() {
                         //主线程更新UI
-                        Toast.makeText(mContext, R.string.news_detail_save_photo_toast_success, Toast.LENGTH_SHORT).show();
+                        ToastUtil.toastInCenter(mContext, R.string.news_detail_save_photo_toast_success);
                     }
                 });
             }
@@ -149,7 +149,7 @@ public class PhotoBrowserDialog implements View.OnClickListener {
                     @Override
                     public void run() {
                         //主线程更新UI
-                        Toast.makeText(mContext, R.string.news_detail_save_photo_toast_failed, Toast.LENGTH_SHORT).show();
+                        ToastUtil.toastInCenter(mContext, R.string.news_detail_save_photo_toast_failed);
                     }
                 });
             }
