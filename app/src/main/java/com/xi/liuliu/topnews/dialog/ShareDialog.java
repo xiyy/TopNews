@@ -2,8 +2,6 @@ package com.xi.liuliu.topnews.dialog;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +10,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
@@ -29,9 +26,10 @@ import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.WeiboShareEvent;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
+import com.xi.liuliu.topnews.utils.PackageUtil;
+import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -102,21 +100,15 @@ public class ShareDialog implements View.OnClickListener {
             case R.id.share_weixin_btn:
                 shareToWX(SendMessageToWX.Req.WXSceneSession);
                 break;
-
             case R.id.share_qq_btn:
                 shareToQQ();
                 break;
-
             case R.id.share_qzone_btn:
                 shareToQZone();
-
                 break;
-
             case R.id.share_weibo_btn:
                 shareToWeibo();
-
                 break;
-
             case R.id.share_cancle:
                 dismiss();
                 break;
@@ -148,9 +140,7 @@ public class ShareDialog implements View.OnClickListener {
                 throw new RuntimeException("ShareDialog 133 line,newsItem or shareThum is null");
             }
         } else {
-            Toast toast = Toast.makeText(mContext.getApplicationContext(), R.string.share_dialog_weixin_not_installed, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            ToastUtil.toastInCenter(mContext, R.string.share_dialog_weixin_not_installed);
         }
         dismiss();
     }
@@ -160,7 +150,7 @@ public class ShareDialog implements View.OnClickListener {
     }
 
     private void shareToQQ() {
-        if (isQQClientInstalled()) {
+        if (PackageUtil.isQQClientInstalled(mContext)) {
             Tencent tencent = Tencent.createInstance(Constants.QQ_APP_ID, mContext);
             Bundle params = new Bundle();
             params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
@@ -192,14 +182,14 @@ public class ShareDialog implements View.OnClickListener {
             }, 3000);
 
         } else {
-            qqNotInstalled();
+            ToastUtil.toastInCenter(mContext, R.string.share_dialog_qq_not_installed);
             dismiss();
         }
 
     }
 
     private void shareToQZone() {
-        if (isQQClientInstalled()) {
+        if (PackageUtil.isQQClientInstalled(mContext)) {
             Tencent tencent = Tencent.createInstance(Constants.QQ_APP_ID, mContext);
             Bundle params = new Bundle();
             params.putString(QzoneShare.SHARE_TO_QQ_TITLE, mNewsItem.getTitle());
@@ -231,30 +221,11 @@ public class ShareDialog implements View.OnClickListener {
                 }
             }, 3000);
         } else {
-            qqNotInstalled();
+            ToastUtil.toastInCenter(mContext, R.string.share_dialog_qq_not_installed);
             dismiss();
         }
     }
 
-    private void qqNotInstalled() {
-        Toast toast = Toast.makeText(mContext.getApplicationContext(), R.string.share_dialog_qq_not_installed, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-    }
-
-    public boolean isQQClientInstalled() {
-        PackageManager packageManager = mContext.getPackageManager();
-        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
-        if (pinfo != null) {
-            for (int i = 0; i < pinfo.size(); i++) {
-                String pn = pinfo.get(i).packageName;
-                if (pn.equals("com.tencent.mobileqq")) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     private void shareToWeibo() {
         EventBus.getDefault().post(new WeiboShareEvent());
