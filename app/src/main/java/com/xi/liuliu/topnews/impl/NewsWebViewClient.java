@@ -41,14 +41,15 @@ public class NewsWebViewClient extends WebViewClient {
 
     /**
      * 加载资源时回调；点击图片时会发生跳转，此时拦截跳转的URL，该URL就是图片的URL
+     * 当详情页加载完成，并且mImagesUrl已经获取到时，点击图片才会进入大图浏览页
      *
      * @param view
-     * @param url
+     * @param url  点击图片时跳转的URL，也就是图片的URL
      */
     @Override
     public void onLoadResource(WebView view, String url) {
         Log.i(TAG, "onLoadResource-->" + url);
-        if (hasImagesUrlLoadFinished) {
+        if (hasImagesUrlLoadFinished && mImagesUrl != null) {
             for (String imageUrl : mImagesUrl) {
                 if (!TextUtils.isEmpty(imageUrl)) {
                     if (imageUrl.equals(url)) {
