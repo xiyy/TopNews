@@ -2,6 +2,7 @@ package com.xi.liuliu.topnews.http;
 
 import android.text.TextUtils;
 
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.xi.liuliu.topnews.constants.Constants;
 
 import org.json.JSONException;
@@ -71,5 +72,16 @@ public class HttpClient {
             Call call = okHttpClient.newCall(request);
             call.enqueue(mCallback);
         }
+    }
+
+    public void requestWeiboLogin(Oauth2AccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("HttpClient.requestWeiboLogin(),accessToken is null ");
+        }
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder().get().url(Constants.WEI_BO_INFO_URL + "?access_token=" + accessToken.getToken() + "&uid=" + accessToken.getUid());
+        Request request = builder.build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(mCallback);
     }
 }

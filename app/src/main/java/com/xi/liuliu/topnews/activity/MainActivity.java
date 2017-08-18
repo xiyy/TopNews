@@ -2,30 +2,44 @@ package com.xi.liuliu.topnews.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WbAuthListener;
+import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
 import com.xi.liuliu.topnews.event.LoginResultEvent;
+import com.xi.liuliu.topnews.event.ThirdPartyLoginEvent;
+import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.fragment.HomeFragment;
 import com.xi.liuliu.topnews.fragment.LiveFragment;
 import com.xi.liuliu.topnews.fragment.MineFragment;
+import com.xi.liuliu.topnews.http.HttpClient;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
 
+import java.io.IOException;
+
 import de.greenrobot.event.EventBus;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private static final int HOME_FRAGMENT = 0;
     private static final int LIVE_FRAGMENT = 1;
     private static final int MINE_FRAGMENT = 2;
@@ -40,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton mMineRadioBtn;
     private boolean isLoggedIn;
     private Toast mExitToast;
+    private SsoHandler mSsoHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +156,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onEventMainThread(WeiboLoginEvent event) {
+        if (event != null) {
+            weiboLogin();
+        }
+    }
+
     private void setLogin() {
         Drawable loginDrawable = getResources().getDrawable(R.drawable.selector_main_tab_item_login);
         loginDrawable.setBounds(0, 0, loginDrawable.getMinimumWidth(), loginDrawable.getMinimumHeight());
@@ -157,6 +178,82 @@ public class MainActivity extends AppCompatActivity {
         mMineRadioBtn.setText(R.string.mine_index_not_login);
         ColorStateList color = getResources().getColorStateList(R.color.main_tab_item_color);
         mMineRadioBtn.setTextColor(color);
+    }
+
+    private void weiboLogin() {
+        if (mSsoHandler == null) {
+            mSsoHandler = new SsoHandler(this);
+        }
+        mSsoHandler.authorize(new WbAuthListener() {
+
+            @Override
+            public void onSuccess(final Oauth2AccessToken oauth2AccessToken) {
+                Log.i(TAG, "授权成功");
+                if (oauth2AccessToken.isSessionValid()) {
+                    new HttpClient().setCallback(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ToastUtil.toastInCenter(MainActivity.this, R.string.mine_login_failed);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            final String weiboUserInfo = response.body().string();
+                            Log.i(TAG, "Weibo Response:" + weiboUserInfo);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ToastUtil.toastInCenter(MainActivity.this, R.string.mine_login_sucess);
+                                    updateLoginUI(weiboUserInfo);
+                                }
+                            });
+                        }
+                    }).requestWeiboLogin(oauth2AccessToken);
+
+                }
+            }
+
+            @Override
+            public void cancel() {
+                Log.i(TAG, "授权取消");
+            }
+
+            @Override
+            public void onFailure(WbConnectErrorMessage wbConnectErrorMessage) {
+                Log.i(TAG, "授权失败");
+            }
+        });
+    }
+
+    private void updateLoginUI(String userInfo) {
+        if (userInfo != null) {
+            org.json.JSONObject jsonObject;
+            String name;
+            String portraitUrl;
+            try {
+                jsonObject = new org.json.JSONObject(userInfo);
+                name = jsonObject.getString("name");
+                portraitUrl = jsonObject.getString("avatar_hd");
+                EventBus.getDefault().post(new ThirdPartyLoginEvent(name, portraitUrl));
+                setLogin();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.i(TAG, "showUserInfo Exception");
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mSsoHandler != null) {
+            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
     }
 
     @Override

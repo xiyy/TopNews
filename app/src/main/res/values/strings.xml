@@ -12,6 +12,8 @@
     <string name="mine_broke_news">我要爆料</string>
     <string name="mine_user_feed_back">用户反馈</string>
     <string name="mine_app_settings">系统设置</string>
+    <string name="mine_login_sucess">登录成功</string>
+    <string name="mine_login_failed">登录失败</string>
     <string name="toast_load_news_failure">网络错误，请稍后重试！</string>
     <string name="loading_dialog_message">客官，请稍后...</string>
     <string name="share">分享</string>

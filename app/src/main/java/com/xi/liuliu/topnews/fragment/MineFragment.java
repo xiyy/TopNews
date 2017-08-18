@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.BrokeNewsActivity;
 import com.xi.liuliu.topnews.activity.FavorHistoryActivity;
@@ -18,6 +21,8 @@ import com.xi.liuliu.topnews.activity.SettingsActivity;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoginDialog;
 import com.xi.liuliu.topnews.event.LoginResultEvent;
+import com.xi.liuliu.topnews.event.ThirdPartyLoginEvent;
+import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
 import de.greenrobot.event.EventBus;
@@ -37,7 +42,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout mWeiboLogin;
     private TextView mMoreLoginWays;
     private RelativeLayout mHeaderUserinfo;
-    private TextView mHeaderUserInfoPhone;
+    private TextView mUserNickName;
+    private ImageView mUserPortrait;
     private RelativeLayout mSettingsRlt;
     private RelativeLayout mBrokeNewsRlt;
 
@@ -62,7 +68,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         mMoreLoginWays = (TextView) mHeaderLogin.findViewById(R.id.header_fragment_mine_login_more_ways);
         mMoreLoginWays.setOnClickListener(this);
         mHeaderUserinfo = (RelativeLayout) view.findViewById(R.id.header_user_into_rtl);
-        mHeaderUserInfoPhone = (TextView) mHeaderUserinfo.findViewById(R.id.user_nick_name);
+        mUserNickName = (TextView) mHeaderUserinfo.findViewById(R.id.user_nick_name);
+        mUserPortrait = (ImageView) mHeaderUserinfo.findViewById(R.id.head_portrait);
         mSettingsRlt = (RelativeLayout) view.findViewById(R.id.mine_app_settings);
         mSettingsRlt.setOnClickListener(this);
         mBrokeNewsRlt = (RelativeLayout) view.findViewById(R.id.mine_broke_news);
@@ -71,7 +78,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             String phoneNumber = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
             mHeaderLogin.setVisibility(View.GONE);
             mHeaderUserinfo.setVisibility(View.VISIBLE);
-            mHeaderUserInfoPhone.setText("手机用户 " + phoneNumber);
+            mUserNickName.setText("手机用户 " + phoneNumber);
         }
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -115,6 +122,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 startActivity(brokeNewsIntent);
                 getActivity().overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
                 break;
+            case R.id.header_fragment_mine_login_weibo:
+                weiboLogin();
+                break;
 
         }
     }
@@ -125,11 +135,20 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 String phoneNumber = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
                 mHeaderLogin.setVisibility(View.GONE);
                 mHeaderUserinfo.setVisibility(View.VISIBLE);
-                mHeaderUserInfoPhone.setText("手机用户 " + phoneNumber);
+                mUserNickName.setText("手机用户 " + phoneNumber);
             } else {
                 mHeaderLogin.setVisibility(View.VISIBLE);
                 mHeaderUserinfo.setVisibility(View.GONE);
             }
+        }
+    }
+
+    public void onEventMainThread(ThirdPartyLoginEvent event) {
+        if (event != null) {
+            mHeaderLogin.setVisibility(View.GONE);
+            mHeaderUserinfo.setVisibility(View.VISIBLE);
+            mUserNickName.setText(event.getName());
+            Glide.with(getActivity()).load(event.getPortraitUrl()).transition(DrawableTransitionOptions.withCrossFade()).into(mUserPortrait);
         }
     }
 
@@ -139,5 +158,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+    }
+
+    private void weiboLogin() {
+        EventBus.getDefault().post(new WeiboLoginEvent());
     }
 }
