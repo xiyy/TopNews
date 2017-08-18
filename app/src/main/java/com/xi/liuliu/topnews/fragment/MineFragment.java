@@ -21,7 +21,7 @@ import com.xi.liuliu.topnews.activity.SettingsActivity;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoginDialog;
 import com.xi.liuliu.topnews.event.LoginResultEvent;
-import com.xi.liuliu.topnews.event.ThirdPartyLoginEvent;
+import com.xi.liuliu.topnews.event.LoginInfoEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
@@ -143,7 +143,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void onEventMainThread(ThirdPartyLoginEvent event) {
+    public void onEventMainThread(LoginInfoEvent event) {
         if (event != null) {
             mHeaderLogin.setVisibility(View.GONE);
             mHeaderUserinfo.setVisibility(View.VISIBLE);

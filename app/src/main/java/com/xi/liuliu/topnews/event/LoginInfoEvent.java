@@ -4,17 +4,17 @@ package com.xi.liuliu.topnews.event;
  * Created by zhangxb171 on 2017/8/18.
  */
 
-public class ThirdPartyLoginEvent {
-    private String mName;
+public class LoginInfoEvent {
+    private String mNickName;
     private String mPortraitUrl;
 
-    public ThirdPartyLoginEvent(String name, String PortraitUrl) {
-        this.mName = name;
+    public LoginInfoEvent(String nickName, String PortraitUrl) {
+        this.mNickName = nickName;
         this.mPortraitUrl = PortraitUrl;
     }
 
     public String getName() {
-        return mName;
+        return mNickName;
     }
 
     public String getPortraitUrl() {

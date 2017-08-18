@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LoginResultEvent;
+import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.http.HttpClient;
 import com.xi.liuliu.topnews.utils.CheckPhone;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
@@ -46,6 +47,7 @@ public class LoginDialog implements View.OnClickListener {
     private TextView mLoginWayTitle;
     private TextView mEntry;
     private EditText mPhoneNumber;
+    private TextView mWeiboLogin;
     private SendingDialog mSendingDialog;
 
     public LoginDialog(Context context) {
@@ -68,6 +70,8 @@ public class LoginDialog implements View.OnClickListener {
         mEntry = (TextView) view.findViewById(R.id.dialog_login_entry);
         mEntry.setOnClickListener(this);
         mPhoneNumber = (EditText) view.findViewById(R.id.dialog_login_input_phone_number);
+        mWeiboLogin = (TextView) view.findViewById(R.id.header_fragment_mine_login_weibo);
+        mWeiboLogin.setOnClickListener(this);
         mDialogView = new DialogView(mContext, view);
         mDialogView.setFullScreen(true);
         mDialogView.setCanceledOnTouchOutside(false);
@@ -101,6 +105,10 @@ public class LoginDialog implements View.OnClickListener {
                 break;
             case R.id.dialog_login_send_identify_code:
                 sendSmsCode();
+                break;
+            case R.id.header_fragment_mine_login_weibo:
+                EventBus.getDefault().post(new WeiboLoginEvent());
+                dismiss();
                 break;
         }
     }

@@ -22,7 +22,7 @@ import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
 import com.xi.liuliu.topnews.event.LoginResultEvent;
-import com.xi.liuliu.topnews.event.ThirdPartyLoginEvent;
+import com.xi.liuliu.topnews.event.LoginInfoEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.fragment.HomeFragment;
 import com.xi.liuliu.topnews.fragment.LiveFragment;
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         mMineRadioBtn = (RadioButton) findViewById(R.id.radio_button_mine_activity_main);
         isLoggedIn = SharedPrefUtil.getInstance(this).getBoolean(Constants.LOGIN_SP_KEY);
         if (isLoggedIn) {
-            setLogin();
+            updateBottomBarAsLogin();
         }
         showFragment(HOME_FRAGMENT);
     }
@@ -149,9 +149,9 @@ public class MainActivity extends AppCompatActivity {
         isLoggedIn = event.getLoginResult();
         if (event != null) {
             if (isLoggedIn) {
-                setLogin();
+                updateBottomBarAsLogin();
             } else {
-                setLogout();
+                updateBottomBarAsLogout();
             }
         }
     }
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setLogin() {
+    private void updateBottomBarAsLogin() {
         Drawable loginDrawable = getResources().getDrawable(R.drawable.selector_main_tab_item_login);
         loginDrawable.setBounds(0, 0, loginDrawable.getMinimumWidth(), loginDrawable.getMinimumHeight());
         mMineRadioBtn.setCompoundDrawables(null, loginDrawable, null, null);
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         mMineRadioBtn.setTextColor(color);
     }
 
-    private void setLogout() {
+    private void updateBottomBarAsLogout() {
         Drawable notLoginDrawable = getResources().getDrawable(R.drawable.selector_main_tab_item_mine_not_login);
         notLoginDrawable.setBounds(0, 0, notLoginDrawable.getMinimumWidth(), notLoginDrawable.getMinimumHeight());
         mMineRadioBtn.setCompoundDrawables(null, notLoginDrawable, null, null);
@@ -209,7 +209,8 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     ToastUtil.toastInCenter(MainActivity.this, R.string.mine_login_sucess);
-                                    updateLoginUI(weiboUserInfo);
+                                    updateUserInfoUI(weiboUserInfo);
+                                    SharedPrefUtil.getInstance(MainActivity.this).putBoolean(Constants.LOGIN_SP_KEY, true);
                                 }
                             });
                         }
@@ -230,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void updateLoginUI(String userInfo) {
+    private void updateUserInfoUI(String userInfo) {
         if (userInfo != null) {
             org.json.JSONObject jsonObject;
             String name;
@@ -239,8 +240,8 @@ public class MainActivity extends AppCompatActivity {
                 jsonObject = new org.json.JSONObject(userInfo);
                 name = jsonObject.getString("name");
                 portraitUrl = jsonObject.getString("avatar_hd");
-                EventBus.getDefault().post(new ThirdPartyLoginEvent(name, portraitUrl));
-                setLogin();
+                EventBus.getDefault().post(new LoginInfoEvent(name, portraitUrl));
+                updateBottomBarAsLogin();
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "showUserInfo Exception");
