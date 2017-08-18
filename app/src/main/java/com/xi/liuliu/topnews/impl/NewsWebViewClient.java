@@ -8,15 +8,13 @@ import android.webkit.WebViewClient;
 
 import com.xi.liuliu.topnews.dialog.PhotoBrowserDialog;
 
-import io.vov.vitamio.utils.Log;
-
 /**
  * Created by zhangxb171 on 2017/7/28.
  */
 
 public class NewsWebViewClient extends WebViewClient {
     private static final String TAG = "NewsWebViewClient";
-    private boolean hasImagesUrlLoadFinished;
+    private boolean isPageFinished;
     private String[] mImagesUrl;
     private Context mContext;
 
@@ -31,7 +29,7 @@ public class NewsWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
-        hasImagesUrlLoadFinished = true;
+        isPageFinished = true;
     }
 
     @Override
@@ -40,24 +38,25 @@ public class NewsWebViewClient extends WebViewClient {
     }
 
     /**
-     * 加载资源时回调；点击图片时会发生跳转，此时拦截跳转的URL，该URL就是图片的URL
-     * 当详情页加载完成，并且mImagesUrl已经获取到时，点击图片才会进入大图浏览页
+     * 点击图片时拦截URL
      *
      * @param view
-     * @param url  点击图片时跳转的URL，也就是图片的URL
+     * @param url
+     * @return true表明，针对点击请求的URL，不执行跳转，WebViewClient自己处理点击请求的URL
      */
     @Override
-    public void onLoadResource(WebView view, String url) {
-        Log.i(TAG, "onLoadResource-->" + url);
-        if (hasImagesUrlLoadFinished && mImagesUrl != null) {
-            for (String imageUrl : mImagesUrl) {
-                if (!TextUtils.isEmpty(imageUrl)) {
-                    if (imageUrl.equals(url)) {
-                        view.goBack();
-                        new PhotoBrowserDialog(mContext, imageUrl, mImagesUrl).show();
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        if (isPageFinished) {
+            if (mImagesUrl != null) {
+                for (String imageUrl : mImagesUrl) {
+                    if (!TextUtils.isEmpty(imageUrl)) {
+                        if (imageUrl.equals(url)) {
+                            new PhotoBrowserDialog(mContext, imageUrl, mImagesUrl).show();
+                        }
                     }
                 }
             }
         }
+        return true;
     }
 }
