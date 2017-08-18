@@ -5,12 +5,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
-import com.xi.liuliu.topnews.event.LoginResultEvent;
+import com.xi.liuliu.topnews.event.LogoutEvent;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
+import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import de.greenrobot.event.EventBus;
 
@@ -56,15 +56,12 @@ public class LogoutDialog implements View.OnClickListener {
 
     private void logout() {
         SharedPrefUtil.getInstance(mSettinsActivity).putBoolean(Constants.LOGIN_SP_KEY, false);
-        SharedPrefUtil.getInstance(mSettinsActivity).putString(Constants.USER_PHONE_NUMBER_SP_KEY, null);
-        EventBus.getDefault().post(new LoginResultEvent(false));
+        EventBus.getDefault().post(new LogoutEvent());
         dismiss();
         if (mSettinsActivity != null) {
             mSettinsActivity.finish();
         }
-        Toast toast = Toast.makeText(mSettinsActivity.getApplicationContext(), R.string.settings_toast_log_out_success, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+        ToastUtil.toastInCenter(mSettinsActivity, R.string.settings_toast_log_out_success);
     }
 
     public void show() {

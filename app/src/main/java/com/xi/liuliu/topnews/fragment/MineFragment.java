@@ -20,8 +20,8 @@ import com.xi.liuliu.topnews.activity.FeedbackActivity;
 import com.xi.liuliu.topnews.activity.SettingsActivity;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoginDialog;
-import com.xi.liuliu.topnews.event.LoginResultEvent;
-import com.xi.liuliu.topnews.event.LoginInfoEvent;
+import com.xi.liuliu.topnews.event.LoginEvent;
+import com.xi.liuliu.topnews.event.LogoutEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
@@ -129,26 +129,23 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void onEventMainThread(LoginResultEvent event) {
+    public void onEventMainThread(LogoutEvent event) {
         if (event != null) {
-            if (event.getLoginResult()) {
-                String phoneNumber = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
-                mHeaderLogin.setVisibility(View.GONE);
-                mHeaderUserinfo.setVisibility(View.VISIBLE);
-                mUserNickName.setText("手机用户 " + phoneNumber);
-            } else {
-                mHeaderLogin.setVisibility(View.VISIBLE);
-                mHeaderUserinfo.setVisibility(View.GONE);
-            }
+            mHeaderLogin.setVisibility(View.VISIBLE);
+            mHeaderUserinfo.setVisibility(View.GONE);
         }
     }
 
-    public void onEventMainThread(LoginInfoEvent event) {
+    public void onEventMainThread(LoginEvent event) {
         if (event != null) {
             mHeaderLogin.setVisibility(View.GONE);
             mHeaderUserinfo.setVisibility(View.VISIBLE);
             mUserNickName.setText(event.getName());
-            Glide.with(getActivity()).load(event.getPortraitUrl()).transition(DrawableTransitionOptions.withCrossFade()).into(mUserPortrait);
+            if (event.getLoginType() == LoginEvent.LOGIN_PHONE) {
+                mUserPortrait.setImageResource(R.drawable.default_head_portrait);
+            } else {
+                Glide.with(getActivity()).load(event.getPortraitUrl()).transition(DrawableTransitionOptions.withCrossFade()).into(mUserPortrait);
+            }
         }
     }
 

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
-import com.xi.liuliu.topnews.event.LoginResultEvent;
+import com.xi.liuliu.topnews.event.LoginEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.http.HttpClient;
 import com.xi.liuliu.topnews.utils.CheckPhone;
@@ -172,11 +172,12 @@ public class LoginDialog implements View.OnClickListener {
                         @Override
                         public void run() {
                             SharedPrefUtil.getInstance(mContext).putBoolean(Constants.LOGIN_SP_KEY, true);
-                            SharedPrefUtil.getInstance(mContext).putString(Constants.USER_PHONE_NUMBER_SP_KEY, mPhoneNumber.getText().toString().trim());
+                            String phoneNumber = mPhoneNumber.getText().toString().trim();
+                            SharedPrefUtil.getInstance(mContext).putString(Constants.USER_PHONE_NUMBER_SP_KEY, phoneNumber);
                             if (mSendingDialog != null) {
                                 mSendingDialog.dissmiss();
                             }
-                            EventBus.getDefault().post(new LoginResultEvent(true));
+                            EventBus.getDefault().post(new LoginEvent(LoginEvent.LOGIN_PHONE, "手机用户" + phoneNumber, null));
                             dismiss();
                         }
                     });

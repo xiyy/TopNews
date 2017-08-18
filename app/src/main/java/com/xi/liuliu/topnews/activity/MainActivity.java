@@ -21,8 +21,8 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
-import com.xi.liuliu.topnews.event.LoginResultEvent;
-import com.xi.liuliu.topnews.event.LoginInfoEvent;
+import com.xi.liuliu.topnews.event.LoginEvent;
+import com.xi.liuliu.topnews.event.LogoutEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.fragment.HomeFragment;
 import com.xi.liuliu.topnews.fragment.LiveFragment;
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton mHomeRadioBtn;
     private RadioButton mLiveRadioBtn;
     private RadioButton mMineRadioBtn;
-    private boolean isLoggedIn;
     private Toast mExitToast;
     private SsoHandler mSsoHandler;
 
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         mHomeRadioBtn = (RadioButton) findViewById(R.id.radio_button_home_activity_main);
         mLiveRadioBtn = (RadioButton) findViewById(R.id.radio_button_live_activity_main);
         mMineRadioBtn = (RadioButton) findViewById(R.id.radio_button_mine_activity_main);
-        isLoggedIn = SharedPrefUtil.getInstance(this).getBoolean(Constants.LOGIN_SP_KEY);
+        boolean isLoggedIn = SharedPrefUtil.getInstance(this).getBoolean(Constants.LOGIN_SP_KEY);
         if (isLoggedIn) {
             updateBottomBarAsLogin();
         }
@@ -145,14 +144,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onEventMainThread(LoginResultEvent event) {
-        isLoggedIn = event.getLoginResult();
+    public void onEventMainThread(LogoutEvent event) {
         if (event != null) {
-            if (isLoggedIn) {
-                updateBottomBarAsLogin();
-            } else {
-                updateBottomBarAsLogout();
-            }
+            updateBottomBarAsLogout();
+        }
+    }
+
+    public void onEventMainThread(LoginEvent event) {
+        if (event != null) {
+            updateBottomBarAsLogin();
         }
     }
 
@@ -240,8 +240,7 @@ public class MainActivity extends AppCompatActivity {
                 jsonObject = new org.json.JSONObject(userInfo);
                 name = jsonObject.getString("name");
                 portraitUrl = jsonObject.getString("avatar_hd");
-                EventBus.getDefault().post(new LoginInfoEvent(name, portraitUrl));
-                updateBottomBarAsLogin();
+                EventBus.getDefault().post(new LoginEvent(LoginEvent.LOGIN_WEIBO, name, portraitUrl));
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "showUserInfo Exception");
