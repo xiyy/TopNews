@@ -9,15 +9,14 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.NewsPhotoPagerAdapter;
@@ -90,16 +89,13 @@ public class PhotoBrowserDialog implements View.OnClickListener {
 
     private void initData() {
         mPhotoViewList = new ArrayList<>(mImageUrls.length);
-        RequestOptions options = new RequestOptions();
-        options.override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).fitCenter();
         for (int i = 0; i < mImageUrls.length; i++) {
             //确定当前图片的position
             if (mCurImageUrl.equals(mImageUrls[i])) {
                 mCurrentPosition = i;
             }
-            final PhotoView photoView = new PhotoView(mContext);
-            photoView.enable();
-            Glide.with(mContext).load(mImageUrls[i]).apply(options).transition(DrawableTransitionOptions.withCrossFade()).into(new SimpleTarget<Drawable>() {
+            final PhotoView photoView = getPhotoView();
+            Glide.with(mContext).load(mImageUrls[i]).transition(DrawableTransitionOptions.withCrossFade()).into(new SimpleTarget<Drawable>() {
                 @Override
                 public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                     photoView.setImageDrawable(resource);
@@ -166,5 +162,20 @@ public class PhotoBrowserDialog implements View.OnClickListener {
         if (mDialogView != null) {
             mDialogView.dismissDialog();
         }
+    }
+
+    /**
+     * 获取自适应的PhotoView，宽度填满屏幕，高度按比例填充
+     *
+     * @return
+     */
+    private PhotoView getPhotoView() {
+        PhotoView photoView = new PhotoView(mContext);
+        photoView.enable();//允许缩放
+        photoView.setMaxWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        photoView.setMaxHeight(3 * ViewGroup.LayoutParams.MATCH_PARENT);
+        photoView.setScaleType(ImageView.ScaleType.FIT_XY);//填充整个屏幕
+        photoView.setAdjustViewBounds(true);//填充时，保持宽高比例
+        return photoView;
     }
 }
