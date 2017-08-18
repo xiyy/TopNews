@@ -17,7 +17,7 @@
         android:id="@+id/mine_rtl_favo_histor_night"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="143dp"
         android:paddingBottom="5dp"
         android:paddingTop="5dp">
 

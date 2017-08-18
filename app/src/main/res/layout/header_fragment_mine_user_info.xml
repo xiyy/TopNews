@@ -2,21 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/user_info_rtl"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
-    android:background="@color/grey_dark"
-    android:paddingBottom="15dp"
-    android:paddingTop="15dp">
+    android:layout_height="140dp"
+    android:background="@color/grey_dark">
 
-
-    <ImageView
-        android:id="@+id/head_portrait"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <RelativeLayout
+        android:id="@+id/fl_head_portrait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/default_head_portrait" />
+        android:layout_marginLeft="15dp">
+
+        <ImageView
+            android:id="@+id/head_portrait"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/default_head_portrait" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_user_info_bg" />
+
+
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/user_nick_name"
@@ -24,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/head_portrait"
+        android:layout_toRightOf="@+id/fl_head_portrait"
         android:text="手机用户15611067757" />
 
     <Button
@@ -33,6 +44,6 @@
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="15dp"
         android:background="@drawable/setting_arrow_right" />
 </RelativeLayout>
