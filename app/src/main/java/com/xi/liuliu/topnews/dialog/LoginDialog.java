@@ -171,9 +171,8 @@ public class LoginDialog implements View.OnClickListener {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            SharedPrefUtil.getInstance(mContext).putBoolean(Constants.LOGIN_SP_KEY, true);
                             String phoneNumber = mPhoneNumber.getText().toString().trim();
-                            SharedPrefUtil.getInstance(mContext).putString(Constants.USER_PHONE_NUMBER_SP_KEY, phoneNumber);
+                            SharedPrefUtil.getInstance(mContext).savaLoginStateWithPhone(phoneNumber);
                             if (mSendingDialog != null) {
                                 mSendingDialog.dissmiss();
                             }

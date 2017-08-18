@@ -14,6 +14,9 @@ public interface Constants {
     String[] FAVOURITE_HISTORY = new String[]{"我的收藏", "阅读历史"};
     String LOGIN_SP_KEY = "isUserLoggedIn";
     String USER_PHONE_NUMBER_SP_KEY = "phoneNumber";
+    String LOGIN_TYPE_SP_KEY = "loginType";
+    String WEI_BO_NICK_NAME_SP_KEY = "weiboNickName";
+    String WEI_BO_Portrait_URL = "weiboPortraitUrl";
     String LOGIN_SMS_CODE_HOST = "https://api.leancloud.cn/1.1/requestSmsCode";
     String VERIFY_SMS_CODE = "https://api.leancloud.cn/1.1/verifySmsCode";
     String LEAN_CLOUND_APP_KEY = "LSe5Tdf9RP0kHbBsp0FYWrwL";

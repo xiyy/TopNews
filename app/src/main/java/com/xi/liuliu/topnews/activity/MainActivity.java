@@ -210,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
                                 public void run() {
                                     ToastUtil.toastInCenter(MainActivity.this, R.string.mine_login_sucess);
                                     updateUserInfoUI(weiboUserInfo);
-                                    SharedPrefUtil.getInstance(MainActivity.this).putBoolean(Constants.LOGIN_SP_KEY, true);
                                 }
                             });
                         }
@@ -241,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
                 name = jsonObject.getString("name");
                 portraitUrl = jsonObject.getString("avatar_hd");
                 EventBus.getDefault().post(new LoginEvent(LoginEvent.LOGIN_WEIBO, name, portraitUrl));
+                SharedPrefUtil.getInstance(this).saveLoginStateWithWeibo(name, portraitUrl);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "showUserInfo Exception");

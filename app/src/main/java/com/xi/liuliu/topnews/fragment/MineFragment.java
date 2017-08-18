@@ -74,12 +74,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         mSettingsRlt.setOnClickListener(this);
         mBrokeNewsRlt = (RelativeLayout) view.findViewById(R.id.mine_broke_news);
         mBrokeNewsRlt.setOnClickListener(this);
-        if (SharedPrefUtil.getInstance(getActivity()).getBoolean(Constants.LOGIN_SP_KEY)) {
-            String phoneNumber = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
-            mHeaderLogin.setVisibility(View.GONE);
-            mHeaderUserinfo.setVisibility(View.VISIBLE);
-            mUserNickName.setText("手机用户 " + phoneNumber);
-        }
+        checkLoginState();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -159,5 +154,30 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
     private void weiboLogin() {
         EventBus.getDefault().post(new WeiboLoginEvent());
+    }
+
+    private void checkLoginState() {
+        if (SharedPrefUtil.getInstance(getActivity()).getBoolean(Constants.LOGIN_SP_KEY)) {
+            mHeaderLogin.setVisibility(View.GONE);
+            mHeaderUserinfo.setVisibility(View.VISIBLE);
+            String loginType = SharedPrefUtil.getInstance(getActivity()).getString(Constants.LOGIN_TYPE_SP_KEY);
+            switch (loginType) {
+                case LoginEvent.LOGIN_WEIBO + "":
+                    String nickName = SharedPrefUtil.getInstance(getActivity()).getString(Constants.WEI_BO_NICK_NAME_SP_KEY);
+                    String portraitUrl = SharedPrefUtil.getInstance(getActivity()).getString(Constants.WEI_BO_Portrait_URL);
+                    mUserNickName.setText(nickName);
+                    Glide.with(getActivity()).load(portraitUrl).transition(DrawableTransitionOptions.withCrossFade()).into(mUserPortrait);
+                    break;
+                case LoginEvent.LOGIN_PHONE + "":
+                    String phoneNumber = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
+                    mUserNickName.setText("手机用户 " + phoneNumber);
+                    mUserPortrait.setImageResource(R.drawable.default_head_portrait);
+                    break;
+                case LoginEvent.LOGIN_QQ + "":
+                    break;
+                case LoginEvent.LOGIN_WEIXIN + "":
+                    break;
+            }
+        }
     }
 }
