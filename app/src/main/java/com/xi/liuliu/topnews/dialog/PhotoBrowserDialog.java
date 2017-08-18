@@ -84,7 +84,7 @@ public class PhotoBrowserDialog implements View.OnClickListener {
         mSaveBtn = (TextView) view.findViewById(R.id.save_phonto_btn);
         mSaveBtn.setOnClickListener(this);
         mDialogView = new DialogView(mContext, view);
-        mDialogView.setWindowFullScreen();
+        mDialogView.setFullScreen(true);
     }
 
 
