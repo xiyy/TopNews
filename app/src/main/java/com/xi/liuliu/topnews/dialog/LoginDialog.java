@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
@@ -19,6 +18,7 @@ import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.http.HttpClient;
 import com.xi.liuliu.topnews.utils.CheckPhone;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
+import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import java.io.IOException;
 
@@ -115,9 +115,7 @@ public class LoginDialog implements View.OnClickListener {
 
     private void sendSmsCode() {
         if (!isPhoneNumberLegal(mPhoneNumber.getText().toString().trim())) {
-            Toast toast = Toast.makeText(mContext.getApplicationContext(), R.string.login_dialog_toast_phone_number_illegal, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_phone_number_illegal);
         } else {
             if (mSendingDialog == null) {
                 mSendingDialog = new SendingDialog(mContext, false);
@@ -137,9 +135,7 @@ public class LoginDialog implements View.OnClickListener {
                             if (mSendingDialog != null) {
                                 mSendingDialog.dissmiss();
                             }
-                            Toast toast = Toast.makeText(mContext.getApplicationContext(), R.string.login_dialog_toast_has_send_sms_code, Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
+                            ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_has_send_sms_code);
                         }
                     });
 
@@ -164,10 +160,7 @@ public class LoginDialog implements View.OnClickListener {
                             if (mSendingDialog != null) {
                                 mSendingDialog.dissmiss();
                             }
-                            Toast toast = Toast.makeText(mContext.getApplicationContext(), R.string.login_dialog_toast_sms_code_error, Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-
+                            ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_sms_code_error);
                         }
                     });
 
@@ -190,9 +183,7 @@ public class LoginDialog implements View.OnClickListener {
                 }
             }).verifySmsCode(mInput.getText().toString().trim(), mPhoneNumber.getText().toString().trim());
         } else {
-            Toast toast = Toast.makeText(mContext.getApplicationContext(), R.string.login_dialog_toast_sms_code_error, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_sms_code_error);
         }
     }
 
