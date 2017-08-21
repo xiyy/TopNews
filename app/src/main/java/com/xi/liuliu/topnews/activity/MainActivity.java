@@ -18,11 +18,15 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbAuthListener;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
 import com.xi.liuliu.topnews.event.LoginEvent;
 import com.xi.liuliu.topnews.event.LogoutEvent;
+import com.xi.liuliu.topnews.event.QQLoginEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.fragment.HomeFragment;
 import com.xi.liuliu.topnews.fragment.LiveFragment;
@@ -30,6 +34,8 @@ import com.xi.liuliu.topnews.fragment.MineFragment;
 import com.xi.liuliu.topnews.http.HttpClient;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -54,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton mMineRadioBtn;
     private Toast mExitToast;
     private SsoHandler mSsoHandler;
+    private Tencent mTencent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +169,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onEventMainThread(QQLoginEvent event) {
+        if (event != null) {
+            qqLogin();
+        }
+    }
+
     private void updateBottomBarAsLogin() {
         Drawable loginDrawable = getResources().getDrawable(R.drawable.selector_main_tab_item_login);
         loginDrawable.setBounds(0, 0, loginDrawable.getMinimumWidth(), loginDrawable.getMinimumHeight());
@@ -248,11 +261,42 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void qqLogin() {
+        if (mTencent == null) {
+            mTencent = Tencent.createInstance(Constants.QQ_APP_ID, this.getApplicationContext());
+        }
+        if (!mTencent.isSessionValid()) {//Session合法的话
+            mTencent.login(this, "get_user_info", new IUiListener() {
+
+                @Override
+                public void onComplete(Object o) {
+                    Log.i(TAG, "QQ验证成功");
+                    JSONObject jsonObject = (JSONObject) o;
+                    String reponse = jsonObject.toString();
+                    Log.i(TAG, "QQ验证Reponse:" + reponse);
+                }
+
+                @Override
+                public void onError(UiError uiError) {
+                    Log.i(TAG, "QQ验证失败，code:" + uiError.errorCode + "message:" + uiError.errorMessage + "detail:" + uiError.errorDetail);
+                }
+
+                @Override
+                public void onCancel() {
+                    Log.i(TAG, "QQ验证取消");
+                }
+            });
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (mSsoHandler != null) {
             mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+        if (mTencent != null) {
+            mTencent.onActivityResult(requestCode, resultCode, data);
         }
     }
 

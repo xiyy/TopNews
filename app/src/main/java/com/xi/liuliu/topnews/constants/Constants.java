@@ -23,7 +23,7 @@ public interface Constants {
     String LEAN_CLOUND_APP_ID = "J9jGoaYEbyYl1iB4Nu3W0swr-gzGzoHsz";
     String WEI_XIN_APP_ID = "wx757db96f61a9ba7b";
     String WEI_XIN_APP_SECRET = "d8873042d045bbc07a93c4cef31b97ef";
-    String QQ_APP_ID = "1104829929";
+    String QQ_APP_ID = "1106167045";
     String WEI_BO_APP_KEY = "3432080154";
     String REDIRECT_URL = "https://api.weibo.com/oauth2/default.html";
     String SCOPE = "email,direct_messages_read,direct_messages_write,"

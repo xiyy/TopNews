@@ -22,6 +22,7 @@ import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoginDialog;
 import com.xi.liuliu.topnews.event.LoginEvent;
 import com.xi.liuliu.topnews.event.LogoutEvent;
+import com.xi.liuliu.topnews.event.QQLoginEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
@@ -120,6 +121,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.header_fragment_mine_login_weibo:
                 weiboLogin();
                 break;
+            case R.id.header_fragment_mine_login_qq:
+                qqLogin();
 
         }
     }
@@ -154,6 +157,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
     private void weiboLogin() {
         EventBus.getDefault().post(new WeiboLoginEvent());
+    }
+
+    private void qqLogin() {
+        EventBus.getDefault().post(new QQLoginEvent());
     }
 
     private void checkLoginState() {
