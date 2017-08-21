@@ -1,65 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <View
-        android:id="@+id/news_item_1_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
         android:background="@color/grey13"></View>
 
-    <RelativeLayout
-        android:id="@+id/news_item_1_pic_llt"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/news_item_1_line"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
         android:layout_marginTop="8dp">
 
-        <TextView
-            android:id="@+id/news_item_1_title"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="河北省省面积最大的县城和最小的县城,"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            android:layout_weight="2">
 
-        <TextView
-            android:id="@+id/news_item_1_src"
-            android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:paddingRight="8dp">
+
+                <TextView
+                    android:id="@+id/news_item_1_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:text="河北省省面积最大的县城和最小的县城"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/news_item_1_src"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:text="环球网"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/news_item_1_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/news_item_1_src"
+                    android:text="2017.06.13"
+                    android:textSize="10sp" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="3dp"
-            android:text="环球网"
-            android:textSize="10sp" />
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/news_item_1_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/news_item_1_src"
-            android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@+id/news_item_1_src"
-            android:text="2017.06.13 16:00"
-            android:textSize="10sp" />
+            <ImageView
+                android:id="@+id/news_item_1_ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:paddingLeft="-3dp"
+                android:paddingRight="-2dp" />
+        </LinearLayout>
+    </LinearLayout>
 
-    </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/news_item_1_ImageView"
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:layout_alignBottom="@+id/news_item_1_pic_llt"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/news_item_1_pic_llt"
-        android:layout_below="@+id/news_item_1_line"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="8dp"
-        android:layout_toRightOf="@+id/news_item_1_pic_llt" />
-
-</RelativeLayout>
+</LinearLayout>
