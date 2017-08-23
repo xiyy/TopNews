@@ -5,10 +5,10 @@
     <!-- 内部颜色 -->
     <solid android:color="#ffffff" />
     <size
-        android:width="40dp"
-        android:height="40dp" />
+        android:width="45dp"
+        android:height="45dp" />
     <stroke
         android:width="1px"
-        android:color="@color/blue_light"></stroke>
+        android:color="#FF4081"></stroke>
 
 </shape>

@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
-import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LoginEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.http.HttpClient;
@@ -47,8 +47,10 @@ public class LoginDialog implements View.OnClickListener {
     private TextView mLoginWayTitle;
     private TextView mEntry;
     private EditText mPhoneNumber;
-    private TextView mWeiboLogin;
     private SendingDialog mSendingDialog;
+    private RelativeLayout mWeiboRl;
+    private RelativeLayout mWeichatRl;
+    private RelativeLayout mQQRl;
 
     public LoginDialog(Context context) {
         mContext = context;
@@ -70,8 +72,12 @@ public class LoginDialog implements View.OnClickListener {
         mEntry = (TextView) view.findViewById(R.id.dialog_login_entry);
         mEntry.setOnClickListener(this);
         mPhoneNumber = (EditText) view.findViewById(R.id.dialog_login_input_phone_number);
-        mWeiboLogin = (TextView) view.findViewById(R.id.header_fragment_mine_login_weibo);
-        mWeiboLogin.setOnClickListener(this);
+        mWeiboRl = (RelativeLayout) view.findViewById(R.id.dialog_login_weibo_rl);
+        mWeiboRl.setOnClickListener(this);
+        mWeichatRl = (RelativeLayout) view.findViewById(R.id.dialog_login_weichat_rl);
+        mWeichatRl.setOnClickListener(this);
+        mQQRl = (RelativeLayout) view.findViewById(R.id.dialog_login_qq_rl);
+        mQQRl.setOnClickListener(this);
         mDialogView = new DialogView(mContext, view);
         mDialogView.setFullScreen(true);
         mDialogView.setCanceledOnTouchOutside(false);
@@ -106,9 +112,15 @@ public class LoginDialog implements View.OnClickListener {
             case R.id.dialog_login_send_identify_code:
                 sendSmsCode();
                 break;
-            case R.id.header_fragment_mine_login_weibo:
+            case R.id.dialog_login_weibo_rl:
                 EventBus.getDefault().post(new WeiboLoginEvent());
                 dismiss();
+                break;
+            case R.id.dialog_login_weichat_rl:
+
+                break;
+            case R.id.dialog_login_qq_rl:
+
                 break;
         }
     }
