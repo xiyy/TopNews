@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tencent.connect.share.QQShare;
@@ -41,14 +43,24 @@ public class ShareDialog implements View.OnClickListener {
     private static final String TAG = "ShareDialog";
     private Context mContext;
     private DialogView mDialogView;
-    private TextView mShareCircle;
-    private TextView mShareWeixin;
-    private TextView mShareQQ;
-    private TextView mShareQZone;
-    private TextView mShareWeibo;
     private TextView mShareCancle;
     private Bitmap mShareThum;
     private NewsItem mNewsItem;
+    private LinearLayout mWeixinCircleLl;
+    private ImageView mCircleBtn;
+    private TextView mCircleTxt;
+    private LinearLayout mWeixinFriendLl;
+    private ImageView mFriendBtn;
+    private TextView mFriendTxt;
+    private LinearLayout mQQLl;
+    private ImageView mQQBtn;
+    private TextView mQQTxt;
+    private LinearLayout mQZoneLl;
+    private ImageView mQZoneBtn;
+    private TextView mQZoneTxt;
+    private LinearLayout mWeiboLl;
+    private ImageView mWeiboBtn;
+    private TextView mWeiboTxt;
 
     public ShareDialog(Context context, NewsItem newsItem, Bitmap shareThum) {
         this.mContext = context;
@@ -59,17 +71,27 @@ public class ShareDialog implements View.OnClickListener {
 
     private void init() {
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_share, null);
-        mShareCircle = (TextView) view.findViewById(R.id.share_circle_btn);
-        mShareWeixin = (TextView) view.findViewById(R.id.share_weixin_btn);
-        mShareQQ = (TextView) view.findViewById(R.id.share_qq_btn);
-        mShareQZone = (TextView) view.findViewById(R.id.share_qzone_btn);
-        mShareWeibo = (TextView) view.findViewById(R.id.share_weibo_btn);
+        mWeixinCircleLl = (LinearLayout) view.findViewById(R.id.share_ll_weixin_circle);
+        mCircleBtn = (ImageView) view.findViewById(R.id.share_circle_btn);
+        mCircleTxt = (TextView) view.findViewById(R.id.share_circle_txt);
+        mWeixinCircleLl.setOnClickListener(this);
+        mWeixinFriendLl = (LinearLayout) view.findViewById(R.id.share_ll_weixin_friend);
+        mFriendBtn = (ImageView) view.findViewById(R.id.share_friend_btn);
+        mFriendTxt = (TextView) view.findViewById(R.id.share_friend_txt);
+        mWeixinFriendLl.setOnClickListener(this);
+        mQQLl = (LinearLayout) view.findViewById(R.id.share_ll_qq);
+        mQQBtn = (ImageView) view.findViewById(R.id.share_qq_btn);
+        mQQTxt = (TextView) view.findViewById(R.id.share_qq_txt);
+        mQQLl.setOnClickListener(this);
+        mQZoneLl = (LinearLayout) view.findViewById(R.id.share_ll_qzone);
+        mQZoneBtn = (ImageView) view.findViewById(R.id.share_qzone_btn);
+        mQZoneTxt = (TextView) view.findViewById(R.id.share_qzone_txt);
+        mQZoneLl.setOnClickListener(this);
+        mWeiboLl = (LinearLayout) view.findViewById(R.id.share_ll_weibo);
+        mWeiboBtn = (ImageView) view.findViewById(R.id.share_weibo_btn);
+        mWeiboTxt = (TextView) view.findViewById(R.id.share_weibo_txt);
+        mWeiboLl.setOnClickListener(this);
         mShareCancle = (TextView) view.findViewById(R.id.share_cancle);
-        mShareCircle.setOnClickListener(this);
-        mShareWeixin.setOnClickListener(this);
-        mShareQQ.setOnClickListener(this);
-        mShareQZone.setOnClickListener(this);
-        mShareWeibo.setOnClickListener(this);
         mShareCancle.setOnClickListener(this);
         mDialogView = new DialogView(mContext, view, R.style.share_dialog_animation);
         mDialogView.setGravity(Gravity.BOTTOM);
@@ -94,19 +116,19 @@ public class ShareDialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.share_circle_btn:
+            case R.id.share_ll_weixin_circle:
                 shareToWX(SendMessageToWX.Req.WXSceneTimeline);
                 break;
-            case R.id.share_weixin_btn:
+            case R.id.share_ll_weixin_friend:
                 shareToWX(SendMessageToWX.Req.WXSceneSession);
                 break;
-            case R.id.share_qq_btn:
+            case R.id.share_ll_qq:
                 shareToQQ();
                 break;
-            case R.id.share_qzone_btn:
+            case R.id.share_ll_qzone:
                 shareToQZone();
                 break;
-            case R.id.share_weibo_btn:
+            case R.id.share_ll_weibo:
                 shareToWeibo();
                 break;
             case R.id.share_cancle:
