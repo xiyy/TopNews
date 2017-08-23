@@ -1,6 +1,7 @@
 package com.xi.liuliu.topnews.dialog;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -34,7 +35,6 @@ import java.util.List;
 public class PhotoBrowserDialog implements View.OnClickListener {
     private static final String TAG = "PhotoBrowserDialog";
     private ViewPager mViewPager;
-    private ImageView mCloseBtn;
     private ImageView mLoading;
     private TextView mCurrentPhoto;
     private TextView mSaveBtn;
@@ -44,6 +44,7 @@ public class PhotoBrowserDialog implements View.OnClickListener {
     private int mCurrentPosition = -1;
     private DialogView mDialogView;
     private Context mContext;
+    private View.OnClickListener mOnClickListener;
 
     public PhotoBrowserDialog(Context context, String currentUrl, String[] imageUrls) {
         mContext = context;
@@ -75,8 +76,6 @@ public class PhotoBrowserDialog implements View.OnClickListener {
             }
         });
         mViewPager.setPageTransformer(true, new ZoomInTransform());
-        mCloseBtn = (ImageView) view.findViewById(R.id.news_photo_close_btn);
-        mCloseBtn.setOnClickListener(this);
         mLoading = (ImageView) view.findViewById(R.id.loading_news_photo);
         mCurrentPhoto = (TextView) view.findViewById(R.id.current_positon_photo);
         mCurrentPhoto.setText(mCurrentPosition + 1 + "/" + mImageUrls.length);
@@ -84,10 +83,31 @@ public class PhotoBrowserDialog implements View.OnClickListener {
         mSaveBtn.setOnClickListener(this);
         mDialogView = new DialogView(mContext, view);
         mDialogView.setFullScreen(true);
+        mDialogView.setCancelable(true);
+        mDialogView.setOnDialogDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (mOnClickListener != null) {
+                    mOnClickListener = null;
+                }
+                if (mDialogView != null) {
+                    mDialogView = null;
+                }
+                if (mPhotoViewList != null) {
+                    mPhotoViewList = null;
+                }
+            }
+        });
     }
 
 
     private void initData() {
+        mOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        };
         mPhotoViewList = new ArrayList<>(mImageUrls.length);
         for (int i = 0; i < mImageUrls.length; i++) {
             //确定当前图片的position
@@ -115,11 +135,9 @@ public class PhotoBrowserDialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.news_photo_close_btn:
-                dismiss();
-                break;
             case R.id.save_phonto_btn:
                 savePhoto();
+                break;
         }
 
     }
@@ -176,6 +194,7 @@ public class PhotoBrowserDialog implements View.OnClickListener {
         photoView.setMaxHeight(3 * ViewGroup.LayoutParams.MATCH_PARENT);
         photoView.setScaleType(ImageView.ScaleType.FIT_XY);//填充整个屏幕
         photoView.setAdjustViewBounds(true);//填充时，保持宽高比例
+        photoView.setOnClickListener(mOnClickListener);
         return photoView;
     }
 }
