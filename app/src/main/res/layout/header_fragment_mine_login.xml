@@ -8,66 +8,62 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal">
 
         <RelativeLayout
             android:id="@+id/header_fragment_mine_login_phone"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/shape_header_fragment_mine_login_bg">
+            android:layout_weight="1">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@drawable/mine_index_login_phone" />
+                android:background="@drawable/selector_login_phone" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/header_fragment_mine_login_weixin"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/shape_header_fragment_mine_login_bg">
+            android:layout_weight="1">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@drawable/share_wechat" />
+                android:background="@drawable/selector_login_weichat" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/header_fragment_mine_login_qq"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/shape_header_fragment_mine_login_bg">
+            android:layout_weight="1">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@drawable/share_qq" />
+                android:background="@drawable/selector_login_qq" />
         </RelativeLayout>
 
 
         <RelativeLayout
             android:id="@+id/header_fragment_mine_login_weibo"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/shape_header_fragment_mine_login_bg">
+            android:layout_weight="1">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@drawable/share_weibo" />
+                android:background="@drawable/selector_login_weibo" />
         </RelativeLayout>
 
 
