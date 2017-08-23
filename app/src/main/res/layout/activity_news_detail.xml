@@ -6,38 +6,39 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="43dp">
 
-        <ImageView
-            android:id="@+id/left_back_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/news_detail_more_icon"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/left_back_icon_titlebar"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp" />
+        <RelativeLayout
+            android:id="@+id/go_back_rl_activity_detail_news"
+            android:layout_width="56dp"
+            android:layout_height="40dp">
 
-        <ImageView
-            android:id="@+id/news_detail_more_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/more_icon_titlebar"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/left_back_icon_titlebar" />
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/more_rl_activity_detail_news"
+            android:layout_width="56dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/more_icon_titlebar" />
+
+        </RelativeLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="3px"
+            android:layout_height="3dp"
             android:layout_alignParentBottom="true"
             android:max="100" />
 
@@ -55,24 +56,32 @@
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
-        <ImageView
-            android:id="@+id/favorite_icon_news_detail"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="18dp"
-            android:layout_toLeftOf="@+id/share_icon_news_detail"
-            android:background="@drawable/favorite_icon" />
-
-        <ImageView
-            android:id="@+id/share_icon_news_detail"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+        <RelativeLayout
+            android:id="@+id/favorite_rl_activity_detail_news"
+            android:layout_width="56dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/share_icon"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp" />
+            android:layout_marginRight="70dp">
+
+            <ImageView
+                android:id="@+id/favorite_img_rl_activity_detail_news"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/favorite_icon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/share_rl_activity_detail_news"
+            android:layout_width="56dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/share_icon" />
+        </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

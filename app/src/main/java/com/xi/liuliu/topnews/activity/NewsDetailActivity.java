@@ -11,6 +11,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.api.WebpageObject;
@@ -42,10 +43,11 @@ import de.greenrobot.event.EventBus;
 public class NewsDetailActivity extends AppCompatActivity implements View.OnClickListener, WbShareCallback {
     private static final String TAG = "NewsDetailActivity";
     private WebView mWebView;
-    private ImageView mLeftGoBack;
-    private ImageView mMore;
-    private ImageView mMyFavourite;
-    private ImageView mShare;
+    private RelativeLayout mLeftGoBack;
+    private RelativeLayout mMore;
+    private RelativeLayout mMyFavourite;
+    private ImageView mMyFavouriteImg;
+    private RelativeLayout mShare;
     private ProgressBar mProgressBar;
     private NewsItem mNewsItem;
     private DBDao mDBDao;
@@ -71,10 +73,11 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         mWebView.getSettings().setDatabaseEnabled(true);
         mWebView.getSettings().setDomStorageEnabled(true);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mLeftGoBack = (ImageView) findViewById(R.id.left_back_icon);
-        mMore = (ImageView) findViewById(R.id.news_detail_more_icon);
-        mMyFavourite = (ImageView) findViewById(R.id.favorite_icon_news_detail);
-        mShare = (ImageView) findViewById(R.id.share_icon_news_detail);
+        mLeftGoBack = (RelativeLayout) findViewById(R.id.go_back_rl_activity_detail_news);
+        mMore = (RelativeLayout) findViewById(R.id.more_rl_activity_detail_news);
+        mMyFavourite = (RelativeLayout) findViewById(R.id.favorite_rl_activity_detail_news);
+        mMyFavouriteImg = (ImageView) findViewById(R.id.favorite_img_rl_activity_detail_news);
+        mShare = (RelativeLayout) findViewById(R.id.share_rl_activity_detail_news);
         mLeftGoBack.setOnClickListener(this);
         mShare.setOnClickListener(this);
         mMore.setOnClickListener(this);
@@ -86,7 +89,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         }
         isFavouriteNews = mDBDao.isFavouriteExist(new FavouriteNews(mNewsItem));
         if (isFavouriteNews) {
-            mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_selected));
+            mMyFavouriteImg.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_selected));
         }
         HtmlUtil.getImagesUrlFromHtml(mNewsItem.getUrl());//获取HTML源代码
         mWebView.setWebChromeClient(new WebChromeClient() {
@@ -111,16 +114,16 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.share_icon_news_detail:
+            case R.id.share_rl_activity_detail_news:
                 new ShareDialog(this, mNewsItem, mShareThumb).show();
                 break;
-            case R.id.news_detail_more_icon:
+            case R.id.more_rl_activity_detail_news:
                 new ShareDialog(this, mNewsItem, mShareThumb).show();
                 break;
-            case R.id.favorite_icon_news_detail:
+            case R.id.favorite_rl_activity_detail_news:
                 myFavourite();
                 break;
-            case R.id.left_back_icon:
+            case R.id.go_back_rl_activity_detail_news:
                 finish();
                 break;
         }
@@ -139,14 +142,14 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
             boolean isDeleted = mDBDao.deleteFavourite(favouriteNews);
             if (isDeleted) {
                 isFavouriteNews = false;
-                mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon));
+                mMyFavouriteImg.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon));
                 ToastUtil.toastInCenter(this, R.string.favourite_cancle);
             }
         } else {
             boolean insertFavourite = mDBDao.insertFavourite(favouriteNews);
             if (insertFavourite) {
                 isFavouriteNews = true;
-                mMyFavourite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_selected));
+                mMyFavouriteImg.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_selected));
                 ToastUtil.toastInCenter(this, R.string.favourite_success);
             }
         }
