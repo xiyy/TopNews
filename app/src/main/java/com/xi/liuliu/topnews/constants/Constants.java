@@ -31,7 +31,7 @@ public interface Constants {
             + "follow_app_official_microblog," + "invitation_write";
     String WEI_BO_INFO_URL = "https://api.weibo.com/2/users/show.json";
     String[] LIVE_CHANNEL = {"央视", "卫视", "地方", "体育", "影视", "海外"};
-    int[] LIVE_CHANNEL_ICON_ID = {R.drawable.live_cctv_logo, R.drawable.live_wei_shi_logo, R.drawable.live_di_fang_logo, R.drawable.live_sports_logo, R.drawable.live_moive_logo, R.drawable.live_overseas_logo};
+    int[] LIVE_CHANNEL_ICON_ID = {R.drawable.live_logo_cctv, R.drawable.live_logo_weishi, R.drawable.live_logo_local, R.drawable.live_logo_sports, R.drawable.live_logo_movie, R.drawable.live_logo_overseas};
     //央视
     String CCTV1 = "http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8";
     String CCTV2 = "http://ivi.bupt.edu.cn/hls/cctv2.m3u8";

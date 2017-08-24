@@ -6,11 +6,11 @@
 
     <ImageView
         android:id="@+id/image_view_item_live_fragment"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:scaleType="fitXY"
-        android:src="@drawable/live_cctv_logo" />
+        android:src="@drawable/live_logo_cctv" />
 
     <TextView
         android:id="@+id/text_view_item_live_fragment"
