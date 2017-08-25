@@ -26,6 +26,7 @@ import android.util.Log;
 
 import io.vov.vitamio.utils.FileUtils;
 
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
 
@@ -45,11 +46,33 @@ public class MediaMetadataRetriever {
   private AssetFileDescriptor mFD = null;
 
   static {
-    String LIB_ROOT = Vitamio.getLibraryPath();
-    Log.i("LIB ROOT: %s", LIB_ROOT);
-    System.load(LIB_ROOT + "libstlport_shared.so");
-    System.load(LIB_ROOT + "libvscanner.so");
-    loadFFmpeg_native(LIB_ROOT + "libffmpeg.so");
+    File libFile; 
+	String LIB_ROOT="";
+	
+    try {
+        libFile = new File(Vitamio.getLibraryPath()+"libstlport_shared.so" );
+    	if(libFile.exists()){
+    		LIB_ROOT=Vitamio.getLibraryPath();
+    	}else{
+    		libFile = new File(Vitamio.getDataPath()+"libstlport_shared.so" );
+    		if(libFile.exists()){
+    			LIB_ROOT=Vitamio.getDataPath();
+    		}
+    	}
+    }catch(Exception e){
+    	Log.e("scanner err",  " load library err ");
+    }
+    if(LIB_ROOT==null){
+    	System.loadLibrary("stlport_shared");
+    	System.loadLibrary("vscanner");	
+    	loadFFmpeg_native("libffmpeg.so");
+    }else{
+    	System.load(LIB_ROOT+ "libstlport_shared.so");
+    	System.load(LIB_ROOT+ "libvscanner.so");
+    	loadFFmpeg_native(LIB_ROOT+"libffmpeg.so");
+    }  
+
+    
     native_init();
   }
 

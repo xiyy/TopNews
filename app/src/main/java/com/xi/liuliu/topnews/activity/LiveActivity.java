@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.Vitamio;
 import io.vov.vitamio.widget.VideoView;
 
 public class LiveActivity extends AppCompatActivity {
@@ -51,8 +52,9 @@ public class LiveActivity extends AppCompatActivity {
         int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         Window window = LiveActivity.this.getWindow();
         window.setFlags(flag, flag);
-        if (!io.vov.vitamio.LibsChecker.checkVitamioLibs(this))
+        if (!Vitamio.isInitialized(getApplicationContext())) {
             return;
+        }
         setContentView(R.layout.activity_live);
         if (mLoadingDialog == null) {
             mLoadingDialog = new LoadingDialog(this).setCancelable(true).
@@ -64,7 +66,7 @@ public class LiveActivity extends AppCompatActivity {
         mVideoView.setVideoPath(liveUrl);
         mMediaController = new LiveMediaController(this, mVideoView, this);
         mVideoView.setMediaController(mMediaController);
-        mVideoView.setBufferSize(200 * 1024);//200kB
+        //mVideoView.setBufferSize(200 * 1024);//200kB
         mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
         mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
@@ -92,6 +94,12 @@ public class LiveActivity extends AppCompatActivity {
                         break;
                 }
                 return true;
+            }
+        });
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setPlaybackSpeed(1.0f);
             }
         });
         mVideoView.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
