@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -36,7 +37,9 @@ import io.vov.vitamio.widget.VideoView;
 public class LiveFragment extends Fragment {
     private VideoView mVideoView;
     private GridView mGridView;
+    private ImageView mLoadingView;
     private List<ImageView> mChannelImageViews = new ArrayList<>(5);
+    private AnimationDrawable mLoadingAnim;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,6 +132,30 @@ public class LiveFragment extends Fragment {
                 mediaPlayer.setPlaybackSpeed(1.0f);
             }
         });
+        mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                switch (what) {
+                    case MediaPlayer.MEDIA_INFO_BUFFERING_START:
+                        if (!mLoadingAnim.isRunning()) {
+                            mLoadingView.setVisibility(View.VISIBLE);
+                            mLoadingAnim.start();
+                            mp.pause();
+                        }
+                        break;
+                    case MediaPlayer.MEDIA_INFO_BUFFERING_END:
+                        mLoadingView.setVisibility(View.GONE);
+                        mLoadingAnim.stop();
+                        mp.start();
+                        break;
+                }
+                return true;
+            }
+        });
+        mLoadingView = (ImageView) view.findViewById(R.id.loading_fragment_live);
+        mLoadingAnim = (AnimationDrawable) mLoadingView.getBackground();
+        mLoadingView.setVisibility(View.VISIBLE);
+        mLoadingAnim.start();
     }
 
     private void rotateChannelImageView(ImageView channelIcon) {

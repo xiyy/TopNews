@@ -14,10 +14,24 @@
         android:textColor="@android:color/white"
         android:textSize="16sp" />
 
-    <io.vov.vitamio.widget.VideoView
-        android:id="@+id/video_view_live_fragment"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="203dp" />
+        android:layout_height="wrap_content">
+
+        <io.vov.vitamio.widget.VideoView
+            android:id="@+id/video_view_live_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="203dp" />
+
+        <ImageView
+            android:id="@+id/loading_fragment_live"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/loading_spinner"
+            android:visibility="gone" />
+    </FrameLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
