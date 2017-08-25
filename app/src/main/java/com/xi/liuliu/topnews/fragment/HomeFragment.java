@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         fillDatas();
         mViewPager = (ViewPager) view.findViewById(R.id.viewPager_fragment_home);
         mTabLayout = (TabLayout) view.findViewById(R.id.tabLayout_fragment_home);

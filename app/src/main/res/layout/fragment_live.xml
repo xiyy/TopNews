@@ -7,7 +7,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:background="@android:color/holo_red_light"
         android:gravity="center"
         android:text="@string/live_index"

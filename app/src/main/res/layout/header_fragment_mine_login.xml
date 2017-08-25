@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
+    android:layout_height="150dp"
     android:background="@color/grey_dark"
     android:orientation="vertical">
 
@@ -76,16 +76,16 @@
         android:layout_gravity="center"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/shape_mine_login_more_ways_bg"
+        android:background="@drawable/selector_more_ways_login"
         android:drawablePadding="10dp"
         android:drawableRight="@drawable/mine_login_right_arrow_white"
         android:gravity="center"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="8dp"
         android:text="@string/login_more_ways"
         android:textColor="@color/white"
-        android:textSize="13sp" />
+        android:textSize="15sp" />
 </LinearLayout>
 

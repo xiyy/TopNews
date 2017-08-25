@@ -17,7 +17,7 @@
         android:id="@+id/mine_rtl_favo_histor_night"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="143dp"
+        android:layout_marginTop="153dp"
         android:paddingBottom="5dp"
         android:paddingTop="5dp">
 
@@ -28,7 +28,8 @@
             android:layout_marginLeft="30dp"
             android:drawablePadding="3dp"
             android:drawableTop="@drawable/mine_favorite"
-            android:text="@string/mine_favorite" />
+            android:text="@string/mine_favorite"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/mine_history"
@@ -38,7 +39,8 @@
             android:layout_marginRight="30dp"
             android:drawablePadding="3dp"
             android:drawableTop="@drawable/mine_history"
-            android:text="@string/mine_history" />
+            android:text="@string/mine_history"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
@@ -47,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_below="@+id/mine_rtl_favo_histor_night"
-        android:background="@color/grey7">
+        android:background="#E3E3E3">
 
     </View>
 
@@ -63,7 +65,8 @@
             android:layout_marginLeft="10dp"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:text="@string/mine_broke_news" />
+            android:text="@string/mine_broke_news"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/mine_broke_news_button"
@@ -82,7 +85,8 @@
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:layout_below="@+id/mine_broke_news"
-        android:background="@color/grey7">
+        android:layout_marginLeft="10dp"
+        android:background="#E3E3E3">
 
     </View>
 
@@ -98,7 +102,8 @@
             android:layout_marginLeft="10dp"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:text="@string/mine_user_feed_back" />
+            android:text="@string/mine_user_feed_back"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/mine_feed_back_button"
@@ -116,7 +121,8 @@
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:layout_below="@+id/mine_feedback"
-        android:background="@color/grey7">
+        android:layout_marginLeft="10dp"
+        android:background="#E3E3E3">
 
     </View>
 
@@ -132,7 +138,8 @@
             android:layout_marginLeft="10dp"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:text="@string/mine_app_settings" />
+            android:text="@string/mine_app_settings"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/mine_app_settings_button"
@@ -150,7 +157,8 @@
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:layout_below="@+id/mine_app_settings"
-        android:background="@color/grey7"></View>
+        android:layout_marginLeft="10dp"
+        android:background="#E3E3E3"></View>
 
 
 </RelativeLayout>

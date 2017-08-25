@@ -50,7 +50,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mine_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_mine, container, false);
         mMyFavourite = (TextView) view.findViewById(R.id.mine_favorite);
         mMyFavourite.setOnClickListener(this);
         mReadHistory = (TextView) view.findViewById(R.id.mine_history);
