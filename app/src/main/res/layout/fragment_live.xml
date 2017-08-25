@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:background="@android:color/holo_red_light"
         android:gravity="center"
         android:text="@string/live_index"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 
-    <GridView
-        android:id="@+id/grid_view_fragment_live"
+    <io.vov.vitamio.widget.VideoView
+        android:id="@+id/video_view_live_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:listSelector="@color/TRANSPARENT"
-        android:numColumns="3"
-        android:verticalSpacing="25dp"></GridView>
+        android:layout_height="203dp" />
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <GridView
+            android:id="@+id/grid_view_fragment_live"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:listSelector="@color/TRANSPARENT"
+            android:numColumns="3"
+            android:verticalSpacing="25dp"></GridView>
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +25,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.Vitamio;
+import io.vov.vitamio.widget.VideoView;
 
 /**
  * Created by liuliu on 2017/7/7.
  */
 
 public class LiveFragment extends Fragment {
+    private VideoView mVideoView;
     private GridView mGridView;
     private List<ImageView> mChannelImageViews = new ArrayList<>(5);
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Vitamio.isInitialized(getActivity().getApplicationContext());
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,19 +50,7 @@ public class LiveFragment extends Fragment {
             EventBus.getDefault().register(this);
         }
         View view = inflater.inflate(R.layout.fragment_live, container, false);
-        mGridView = (GridView) view.findViewById(R.id.grid_view_fragment_live);
-        mGridView.setAdapter(new ChannelAdapter(getActivity(), Constants.LIVE_CHANNEL, Constants.LIVE_CHANNEL_ICON_ID));
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("live_channel_title_id", position);
-                Intent intent = new Intent(getActivity(), LiveListActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
-            }
-        });
+        initView(view);
         return view;
     }
 
@@ -105,6 +104,31 @@ public class LiveFragment extends Fragment {
         }
 
 
+    }
+
+    private void initView(View view) {
+        mGridView = (GridView) view.findViewById(R.id.grid_view_fragment_live);
+        mGridView.setAdapter(new ChannelAdapter(getActivity(), Constants.LIVE_CHANNEL, Constants.LIVE_CHANNEL_ICON_ID));
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("live_channel_title_id", position);
+                Intent intent = new Intent(getActivity(), LiveListActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+            }
+        });
+        mVideoView = (VideoView) view.findViewById(R.id.video_view_live_fragment);
+        mVideoView.setVideoPath(Constants.CCTV13);
+        mVideoView.requestFocus();
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.setPlaybackSpeed(1.0f);
+            }
+        });
     }
 
     private void rotateChannelImageView(ImageView channelIcon) {
