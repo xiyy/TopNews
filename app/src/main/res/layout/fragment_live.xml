@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/title_live_fragment"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@android:color/holo_red_light"
@@ -15,13 +16,18 @@
         android:textSize="16sp" />
 
     <FrameLayout
+        android:id="@+id/fl_video_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="203dp">
+
 
         <io.vov.vitamio.widget.VideoView
             android:id="@+id/video_view_live_fragment"
             android:layout_width="match_parent"
-            android:layout_height="203dp" />
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
 
         <ImageView
             android:id="@+id/loading_fragment_live"
@@ -56,7 +62,8 @@
             android:layout_centerInParent="true"
             android:listSelector="@color/TRANSPARENT"
             android:numColumns="3"
-            android:verticalSpacing="25dp"></GridView>
+            android:verticalSpacing="25dp"
+            android:visibility="visible"></GridView>
     </RelativeLayout>
 
 

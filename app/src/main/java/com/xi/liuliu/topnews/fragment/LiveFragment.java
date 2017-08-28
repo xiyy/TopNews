@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,15 +16,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
-import com.xi.liuliu.topnews.activity.LiveActivity;
 import com.xi.liuliu.topnews.activity.LiveListActivity;
+import com.xi.liuliu.topnews.activity.MainActivity;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
+import com.xi.liuliu.topnews.utils.DeviceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +42,16 @@ import io.vov.vitamio.widget.VideoView;
  */
 
 public class LiveFragment extends Fragment {
+    private FrameLayout mFlVideoView;
     private VideoView mVideoView;
     private GridView mGridView;
     private ImageView mLoadingView;
     private ImageView mFullScreen;
-    private List<ImageView> mChannelImageViews = new ArrayList<>(5);
+    private TextView mTitle;
+    private List<ImageView> mChannelImageViews = new ArrayList<>(6);
     private AnimationDrawable mLoadingAnim;
     private boolean isFullScreenImgShow;
+    private boolean isFullScreen;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,6 +123,8 @@ public class LiveFragment extends Fragment {
     }
 
     private void initView(View view) {
+        mTitle = (TextView) view.findViewById(R.id.title_live_fragment);
+        mFlVideoView = (FrameLayout) view.findViewById(R.id.fl_video_view);
         mGridView = (GridView) view.findViewById(R.id.grid_view_fragment_live);
         mGridView.setAdapter(new ChannelAdapter(getActivity(), Constants.LIVE_CHANNEL, Constants.LIVE_CHANNEL_ICON_ID));
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -187,10 +196,11 @@ public class LiveFragment extends Fragment {
         mFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mVideoView.stopPlayback();
-                Intent intent = new Intent(getActivity(), LiveActivity.class);
-                intent.putExtra("live_url", Constants.CCTV13);
-                startActivity(intent);
+                if (isFullScreen) {
+                    setVideoPreview();//竖屏
+                } else {
+                    setFullScreen();
+                }
             }
         });
         mLoadingView = (ImageView) view.findViewById(R.id.loading_fragment_live);
@@ -223,4 +233,31 @@ public class LiveFragment extends Fragment {
         }
     }
 
+    private void setFullScreen() {
+
+        LinearLayout.LayoutParams fullScreenLLP = new LinearLayout.LayoutParams(
+                DeviceUtil.getHeightPixel(getActivity()), DeviceUtil.getWidthPixel(getActivity()) - DeviceUtil.getStatusBarHeight(getActivity()));
+        mTitle.setVisibility(View.GONE);
+        mGridView.setVisibility(View.GONE);
+        ((MainActivity) getActivity()).setBottomBarVisibility(View.GONE);
+        mFlVideoView.setLayoutParams(fullScreenLLP);//mFlVideoView的宽是屏幕高度，高是屏幕宽度-状态栏高度
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//Activity横屏
+        mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE, 0);
+        isFullScreen = true;
+    }
+
+    public void setVideoPreview() {
+        LinearLayout.LayoutParams previewLLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DeviceUtil.dip2px(203, getActivity()));
+        mTitle.setVisibility(View.VISIBLE);
+        mGridView.setVisibility(View.VISIBLE);
+        ((MainActivity) getActivity()).setBottomBarVisibility(View.VISIBLE);
+        mFlVideoView.setLayoutParams(previewLLP);//mFlVideoView的宽是屏幕的宽度，高是203dp
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Activity竖屏
+        mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE, 0);
+        isFullScreen = false;
+    }
+
+    public boolean isFullScreen() {
+        return isFullScreen;
+    }
 }

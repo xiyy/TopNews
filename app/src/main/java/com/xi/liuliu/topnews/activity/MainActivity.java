@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -317,6 +318,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mLiveFrament != null && mLiveFrament.isFullScreen()) {
+                mLiveFrament.setVideoPreview();//LiveFragment横屏播放时，点击返回键，退出全屏模式
+                return true;
+            }
             if (mExitToast == null) {
                 mExitToast = ToastUtil.getTransparentToast(this, R.string.main_activity_exit_toast, 200);
                 mExitToast.show();
@@ -335,6 +340,19 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             return super.onKeyDown(keyCode, event);
+        }
+    }
+
+    /**
+     * 设置底部导航栏的可见性，LiveFragment横屏播放时，需要隐藏导航栏
+     *
+     * @param visibility
+     */
+    public void setBottomBarVisibility(int visibility) {
+        if (visibility == View.VISIBLE) {
+            mRadioGroup.setVisibility(View.VISIBLE);
+        } else if (visibility == View.GONE) {
+            mRadioGroup.setVisibility(View.GONE);
         }
     }
 }

@@ -27,7 +27,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.NewsDetailActivity" />
-        <activity android:name=".activity.MainActivity" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation" />
         <activity android:name=".activity.FavorHistoryActivity" />
         <activity android:name=".activity.FeedbackActivity" />
         <!-- 反馈组件（需要加入以下声明）START -->
@@ -43,9 +45,11 @@
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <!-- 防止vitamio底层bug引发crash，另起一个进程 -->
         <activity
             android:name=".activity.LiveActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:process=":vitamio" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
