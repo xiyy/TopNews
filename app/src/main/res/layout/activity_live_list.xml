@@ -7,32 +7,35 @@
     android:orientation="vertical"
     tools:context="com.xi.liuliu.topnews.activity.LiveListActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="43dp"
         android:background="@color/red_light">
 
-        <Button
-            android:id="@+id/go_back_activity_live_list"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/left_back_icon_titlebar" />
+        <RelativeLayout
+            android:id="@+id/rl_go_back_activity_live_list"
+            android:layout_width="56dp"
+            android:layout_height="43dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/left_back_icon_titlebar" />
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/text_view_activity_live_list"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_centerInParent="true"
             android:paddingBottom="3dp"
             android:paddingTop="3dp"
             android:text="@string/live_list_cctv_channel"
             android:textColor="@color/white"
             android:textSize="17sp" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/list_view_activity_live_list"

@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
@@ -14,7 +14,7 @@ import com.xi.liuliu.topnews.adapter.LiveListAdapter;
 import com.xi.liuliu.topnews.constants.Constants;
 
 public class LiveListActivity extends AppCompatActivity {
-    private Button mGoBack;
+    private RelativeLayout mGoBack;
     private ListView mLiveList;
     private TextView mChannelTitle;
     private String[] mLiveUrls;
@@ -23,7 +23,7 @@ public class LiveListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_list);
-        mGoBack = (Button) findViewById(R.id.go_back_activity_live_list);
+        mGoBack = (RelativeLayout) findViewById(R.id.rl_go_back_activity_live_list);
         mGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

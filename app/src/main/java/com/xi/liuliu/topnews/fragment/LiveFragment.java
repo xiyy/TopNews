@@ -52,6 +52,7 @@ public class LiveFragment extends Fragment {
     private AnimationDrawable mLoadingAnim;
     private boolean isFullScreenImgShow;
     private boolean isFullScreen;
+    private boolean isLiveFragmentVisible;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,8 +162,12 @@ public class LiveFragment extends Fragment {
                     case MediaPlayer.MEDIA_INFO_BUFFERING_END:
                         mLoadingView.setVisibility(View.GONE);
                         mLoadingAnim.stop();
+                        if (!isLiveFragmentVisible) {
+                            mp.pause();//视频缓冲时，如果切换Fragment，视频缓冲完成后，会播放视频；此时应该停止播放
+                        } else {
+                            mp.start();
+                        }
                         //mp.setVolume(0, 0);音量为0
-                        mp.start();
                         break;
                 }
                 return true;
@@ -218,6 +223,7 @@ public class LiveFragment extends Fragment {
     public void onEventMainThread(LiveFragmentVisibleEvent event) {
         if (event != null) {
             if (event.isFragmentVisible()) {
+                isLiveFragmentVisible = true;
                 //旋转动画
                 if (mChannelImageViews != null) {
                     for (ImageView each : mChannelImageViews) {
@@ -228,6 +234,7 @@ public class LiveFragment extends Fragment {
                     mVideoView.start();//fragment切回来时，继续播放
                 }
             } else {
+                isLiveFragmentVisible = false;
                 mVideoView.pause();//切换fragment时，暂停播放
             }
         }
