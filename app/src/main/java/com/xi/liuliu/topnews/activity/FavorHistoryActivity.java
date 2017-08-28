@@ -12,7 +12,7 @@ import com.xi.liuliu.topnews.adapter.FavorHistFragmentPagerAdpter;
 import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.fragment.FavorHistFragment;
-import com.xi.liuliu.topnews.utils.DBDao;
+import com.xi.liuliu.topnews.database.DBDao;
 
 import java.util.ArrayList;
 import java.util.List;

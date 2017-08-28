@@ -25,7 +25,7 @@ import com.xi.liuliu.topnews.activity.NewsDetailActivity;
 import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.bean.ReadNews;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
-import com.xi.liuliu.topnews.utils.DBDao;
+import com.xi.liuliu.topnews.database.DBDao;
 import com.xi.liuliu.topnews.utils.DateUtil;
 
 /**

@@ -1,4 +1,4 @@
-package com.xi.liuliu.topnews.utils;
+package com.xi.liuliu.topnews.database;
 
 import android.content.Context;
 import android.database.Cursor;

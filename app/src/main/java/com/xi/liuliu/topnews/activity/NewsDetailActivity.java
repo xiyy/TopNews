@@ -30,7 +30,7 @@ import com.xi.liuliu.topnews.dialog.ShareDialog;
 import com.xi.liuliu.topnews.event.NewsPhotoUrlsEvent;
 import com.xi.liuliu.topnews.event.WeiboShareEvent;
 import com.xi.liuliu.topnews.impl.NewsWebViewClient;
-import com.xi.liuliu.topnews.utils.DBDao;
+import com.xi.liuliu.topnews.database.DBDao;
 import com.xi.liuliu.topnews.utils.HtmlUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
 
