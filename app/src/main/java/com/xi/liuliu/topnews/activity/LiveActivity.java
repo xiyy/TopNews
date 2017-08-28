@@ -58,7 +58,7 @@ public class LiveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_live);
         if (mLoadingDialog == null) {
             mLoadingDialog = new LoadingDialog(this).setCancelable(true).
-                    setLoadingMessage("已经缓冲0%");
+                    setLoadingMessage("已缓冲0%");
         }
         mLoadingDialog.show();//初始化时，就显示LoadingDialog
         String liveUrl = getIntent().getStringExtra("live_url");
@@ -76,7 +76,7 @@ public class LiveActivity extends AppCompatActivity {
                         if (mLoadingDialog == null) {
                             //播放过程中，网络卡，缓冲时，显示LoadingDialog
                             mLoadingDialog = new LoadingDialog(getApplicationContext()).setCancelable(true).
-                                    setLoadingMessage("已经缓冲0%");
+                                    setLoadingMessage("已缓冲0%");
                             mLoadingDialog.show();
                         } else {
                             if (!mLoadingDialog.isShowing()) {
@@ -105,7 +105,7 @@ public class LiveActivity extends AppCompatActivity {
         mVideoView.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
             @Override
             public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                mLoadingDialog.setLoadingMessage("已经缓冲" + percent + "%");
+                mLoadingDialog.setLoadingMessage("已缓冲" + percent + "%");
             }
         });
         mMediaController.show(5000);

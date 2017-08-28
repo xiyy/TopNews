@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -84,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.radio_button_live_activity_main:
                         showFragment(LIVE_FRAGMENT);
-                        EventBus.getDefault().post(new LiveFragmentVisibleEvent(true));
                         break;
                     case R.id.radio_button_mine_activity_main:
                         showFragment(MINE_FRAGMENT);
@@ -94,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
         });
         mHomeRadioBtn = (RadioButton) findViewById(R.id.radio_button_home_activity_main);
         mLiveRadioBtn = (RadioButton) findViewById(R.id.radio_button_live_activity_main);
+        mLiveRadioBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                EventBus.getDefault().post(new LiveFragmentVisibleEvent(isChecked));
+            }
+        });
         mMineRadioBtn = (RadioButton) findViewById(R.id.radio_button_mine_activity_main);
         boolean isLoggedIn = SharedPrefUtil.getInstance(this).getBoolean(Constants.LOGIN_SP_KEY);
         if (isLoggedIn) {

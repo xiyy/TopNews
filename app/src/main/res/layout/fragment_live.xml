@@ -30,6 +30,17 @@
             android:layout_gravity="center"
             android:background="@drawable/loading_spinner"
             android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/full_screen_live_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/live_full_screen"
+            android:visibility="gone" />
+
     </FrameLayout>
 
 

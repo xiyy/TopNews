@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.activity.LiveActivity;
 import com.xi.liuliu.topnews.activity.LiveListActivity;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
@@ -38,8 +41,10 @@ public class LiveFragment extends Fragment {
     private VideoView mVideoView;
     private GridView mGridView;
     private ImageView mLoadingView;
+    private ImageView mFullScreen;
     private List<ImageView> mChannelImageViews = new ArrayList<>(5);
     private AnimationDrawable mLoadingAnim;
+    private boolean isFullScreenImgShow;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +69,7 @@ public class LiveFragment extends Fragment {
             EventBus.getDefault().unregister(this);
         }
         mChannelImageViews = null;
+        mVideoView.stopPlayback();//停止播放并释放资源
     }
 
     class ChannelAdapter extends BaseAdapter {
@@ -146,10 +152,45 @@ public class LiveFragment extends Fragment {
                     case MediaPlayer.MEDIA_INFO_BUFFERING_END:
                         mLoadingView.setVisibility(View.GONE);
                         mLoadingAnim.stop();
+                        //mp.setVolume(0, 0);音量为0
                         mp.start();
                         break;
                 }
                 return true;
+            }
+        });
+        mVideoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == event.ACTION_DOWN) {
+                    if (isFullScreenImgShow) {
+                        mFullScreen.setVisibility(View.GONE);
+                        isFullScreenImgShow = false;
+                    } else {
+                        mFullScreen.setVisibility(View.VISIBLE);
+                        isFullScreenImgShow = true;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (isFullScreenImgShow) {
+                                    mFullScreen.setVisibility(View.GONE);
+                                    isFullScreenImgShow = false;
+                                }
+                            }
+                        }, 3000);
+                    }
+                }
+                return true;
+            }
+        });
+        mFullScreen = (ImageView) view.findViewById(R.id.full_screen_live_fragment);
+        mFullScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mVideoView.stopPlayback();
+                Intent intent = new Intent(getActivity(), LiveActivity.class);
+                intent.putExtra("live_url", Constants.CCTV13);
+                startActivity(intent);
             }
         });
         mLoadingView = (ImageView) view.findViewById(R.id.loading_fragment_live);
@@ -166,11 +207,20 @@ public class LiveFragment extends Fragment {
 
     public void onEventMainThread(LiveFragmentVisibleEvent event) {
         if (event != null) {
-            if (event.isFragmentVisible() && mChannelImageViews != null) {
-                for (ImageView each : mChannelImageViews) {
-                    rotateChannelImageView(each);
+            if (event.isFragmentVisible()) {
+                //旋转动画
+                if (mChannelImageViews != null) {
+                    for (ImageView each : mChannelImageViews) {
+                        rotateChannelImageView(each);
+                    }
                 }
+                if (!mVideoView.isBuffering()) {
+                    mVideoView.start();//fragment切回来时，继续播放
+                }
+            } else {
+                mVideoView.pause();//切换fragment时，暂停播放
             }
         }
     }
+
 }
