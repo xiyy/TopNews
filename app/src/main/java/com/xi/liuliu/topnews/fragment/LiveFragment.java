@@ -52,7 +52,7 @@ public class LiveFragment extends Fragment {
     private AnimationDrawable mLoadingAnim;
     private boolean isFullScreenImgShow;
     private boolean isFullScreen;
-    private boolean isLiveFragmentVisible;
+    private boolean isLiveFragmentVisible = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -162,13 +162,14 @@ public class LiveFragment extends Fragment {
                     case MediaPlayer.MEDIA_INFO_BUFFERING_END:
                         mLoadingView.setVisibility(View.GONE);
                         mLoadingAnim.stop();
-                        if (!isLiveFragmentVisible) {
-                            mp.pause();//视频缓冲时，如果切换Fragment，视频缓冲完成后，会播放视频；此时应该停止播放
-                        } else {
+                        if (isLiveFragmentVisible) {
                             mp.start();
+                        } else {
+                            //视频缓冲时，如果切换Fragment，视频缓冲完成后，会播放视频；此时应该停止播放
+                            mp.pause();
                         }
-                        //mp.setVolume(0, 0);音量为0
                         break;
+
                 }
                 return true;
             }
@@ -231,7 +232,10 @@ public class LiveFragment extends Fragment {
                     }
                 }
                 if (!mVideoView.isBuffering()) {
-                    mVideoView.start();//fragment切回来时，继续播放
+                    mVideoView.requestFocus();//没有缓冲的话，开始缓冲
+                }
+                if (mVideoView.hasFocus() && !mVideoView.isPlaying()) {
+                    mVideoView.start();//暂停状态的话，开始播放
                 }
             } else {
                 isLiveFragmentVisible = false;
@@ -241,7 +245,6 @@ public class LiveFragment extends Fragment {
     }
 
     private void setFullScreen() {
-
         LinearLayout.LayoutParams fullScreenLLP = new LinearLayout.LayoutParams(
                 DeviceUtil.getHeightPixel(getActivity()), DeviceUtil.getWidthPixel(getActivity()) - DeviceUtil.getStatusBarHeight(getActivity()));
         mTitle.setVisibility(View.GONE);
