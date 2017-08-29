@@ -48,7 +48,7 @@
         <!-- 防止vitamio底层bug引发crash，另起一个进程 -->
         <activity
             android:name=".activity.LiveActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:process=":vitamio" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/shape_live_activity_switch_bg"></item>
+    <item android:drawable="@drawable/live_activity_pause"></item>
+</layer-list>

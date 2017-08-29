@@ -1,92 +1,85 @@
 package com.xi.liuliu.topnews.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.Configuration;
+import android.content.pm.ActivityInfo;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.xi.liuliu.topnews.R;
-import com.xi.liuliu.topnews.controller.LiveMediaController;
-import com.xi.liuliu.topnews.dialog.LoadingDialog;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.xi.liuliu.topnews.utils.DeviceUtil;
 
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.Vitamio;
 import io.vov.vitamio.widget.VideoView;
 
-public class LiveActivity extends AppCompatActivity {
-    private VideoView mVideoView;
-    private LiveMediaController mMediaController;
-    private static final int MESSAGE_TIME = 10010;
-    private static final int MESSAGE_BATTERY = 10011;
-    private LiveTimer mLiveTimer;
-    private LoadingDialog mLoadingDialog;
+public class LiveActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "LiveActivity";
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MESSAGE_TIME:
-                    mMediaController.setTime(msg.obj.toString());
-                    break;
-                case MESSAGE_BATTERY:
-                    mMediaController.setBattery(msg.obj.toString());
-                    break;
-            }
-        }
-    };
+    private VideoView mVideoView;
+    private ImageView mSwitchBtn;
+    private ImageView mExitBtn;
+    private ImageView mFullScreenBtn;
+    private FrameLayout mFlVideoView;
+    private ImageView mLoadingView;
+    private AnimationDrawable mLoadingAnim;
+    private boolean isFullScreen;
+    private boolean isScreenClear = true;
+    private boolean hasVideoViewInited;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
-        Window window = LiveActivity.this.getWindow();
-        window.setFlags(flag, flag);
         if (!Vitamio.isInitialized(getApplicationContext())) {
             return;
         }
         setContentView(R.layout.activity_live);
-        if (mLoadingDialog == null) {
-            mLoadingDialog = new LoadingDialog(this).setCancelable(true).
-                    setLoadingMessage("已缓冲0%");
-        }
-        mLoadingDialog.show();//初始化时，就显示LoadingDialog
         String liveUrl = getIntent().getStringExtra("live_url");
+        mFlVideoView = (FrameLayout) findViewById(R.id.fl_video_view_live_activity);
+        mSwitchBtn = (ImageView) findViewById(R.id.switch_video_live_activity);
+        mExitBtn = (ImageView) findViewById(R.id.exit_btn_video_live_activity);
+        mSwitchBtn.setOnClickListener(this);
+        mExitBtn.setOnClickListener(this);
+        mFullScreenBtn = (ImageView) findViewById(R.id.full_screen_live_activity);
+        mFullScreenBtn.setOnClickListener(this);
+        mLoadingView = (ImageView) findViewById(R.id.loading_btn_live_activity);
+        mLoadingAnim = (AnimationDrawable) mLoadingView.getBackground();
+        mLoadingView.setVisibility(View.VISIBLE);
+        mLoadingAnim.start();
         mVideoView = (VideoView) findViewById(R.id.video_view_live_activity);
         mVideoView.setVideoPath(liveUrl);
-        mMediaController = new LiveMediaController(this, mVideoView, this);
-        mVideoView.setMediaController(mMediaController);
-        //mVideoView.setBufferSize(200 * 1024);//200kB
-        mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
+        mVideoView.requestFocus();
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setPlaybackSpeed(1.0f);
+            }
+        });
         mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
                 switch (what) {
                     case MediaPlayer.MEDIA_INFO_BUFFERING_START:
-                        if (mLoadingDialog == null) {
-                            //播放过程中，网络卡，缓冲时，显示LoadingDialog
-                            mLoadingDialog = new LoadingDialog(getApplicationContext()).setCancelable(true).
-                                    setLoadingMessage("已缓冲0%");
-                            mLoadingDialog.show();
-                        } else {
-                            if (!mLoadingDialog.isShowing()) {
-                                mLoadingDialog.show();
+                        if (!mLoadingAnim.isRunning()) {
+                            //缓冲时，如果mSwitchBtn可见，要使其隐藏；mSwitchBtn和mLoadingView不允许同时显示
+                            if (mSwitchBtn.getVisibility() == View.VISIBLE) {
+                                mSwitchBtn.setVisibility(View.GONE);
                             }
+                            mLoadingView.setVisibility(View.VISIBLE);
+                            mLoadingAnim.start();
                         }
+
                         mp.pause();
                         break;
                     case MediaPlayer.MEDIA_INFO_BUFFERING_END:
-                        mLoadingDialog.dissmiss();
+                        hasVideoViewInited = true;
+                        mLoadingView.setVisibility(View.GONE);
+                        mLoadingAnim.stop();
                         mp.start();
                         break;
                     case MediaPlayer.MEDIA_INFO_DOWNLOAD_RATE_CHANGED:
@@ -96,90 +89,94 @@ public class LiveActivity extends AppCompatActivity {
                 return true;
             }
         });
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setPlaybackSpeed(1.0f);
-            }
-        });
-        mVideoView.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
-            @Override
-            public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                mLoadingDialog.setLoadingMessage("已缓冲" + percent + "%");
-            }
-        });
-        mMediaController.show(5000);
-        mVideoView.requestFocus();
-        registerBoradcastReceiver();
-        if (mLiveTimer == null) {
-            mLiveTimer = new LiveTimer();
-        }
-        mLiveTimer.start();
-    }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (mVideoView != null) {
-            mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE, 0);
-        }
-        super.onConfigurationChanged(newConfig);
+        mVideoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.ACTION_DOWN == event.getAction()) {
+                    if (isScreenClear) {
+                        isScreenClear = false;
+                        //第一次进入时，缓冲没完成前，mExitBtn、mFullScreenBtn不可见
+                        if (hasVideoViewInited) {
+                            mExitBtn.setVisibility(View.VISIBLE);
+                            mFullScreenBtn.setVisibility(View.VISIBLE);
+                        }
+                        //缓冲时隐藏mSwitchBtn，缓冲完成后才能显示mSwitchBtn；缓冲对话框与mSwitchBtn不能同时显示
+                        if (!mLoadingAnim.isRunning()) {
+                            mSwitchBtn.setVisibility(View.VISIBLE);
+                            if (mVideoView.isPlaying()) {
+                                mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
+                            }
+                            if (mVideoView.hasFocus() && !mVideoView.isPlaying()) {
+                                //暂停状态
+                                mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_play);
+                            }
+                        } else {
+                            mSwitchBtn.setVisibility(View.GONE);
+                        }
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!isScreenClear) {
+                                    isScreenClear = true;
+                                    mFullScreenBtn.setVisibility(View.GONE);
+                                    mExitBtn.setVisibility(View.GONE);
+                                    mSwitchBtn.setVisibility(View.GONE);
+                                }
+                            }
+                        }, 3000);
+                    } else {
+                        isScreenClear = true;
+                        mFullScreenBtn.setVisibility(View.GONE);
+                        mExitBtn.setVisibility(View.GONE);
+                        mSwitchBtn.setVisibility(View.GONE);
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mLiveTimer != null && !mLiveTimer.isInterrupted()) {
-            mLiveTimer.interrupt();
-            mLiveTimer = null;
-            Log.i(TAG, "mLiveTimer interrupt");
-        }
-        if (mVideoView != null) {
+        if (mVideoView != null && mVideoView.isPlaying()) {
             mVideoView.stopPlayback();//停止播放，并释放资源
         }
-        try {
-            unregisterReceiver(batteryBroadcastReceiver);
-        } catch (IllegalArgumentException ex) {
-
-        }
     }
 
-    private BroadcastReceiver batteryBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
-                int level = intent.getIntExtra("level", 0);
-                int scale = intent.getIntExtra("scale", 100);
-                Message msg = new Message();
-                msg.obj = (level * 100) / scale + "";
-                msg.what = MESSAGE_BATTERY;
-                mHandler.sendMessage(msg);
-            }
-        }
-    };
-
-    public void registerBoradcastReceiver() {
-        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(batteryBroadcastReceiver, intentFilter);
-
-    }
-
-    class LiveTimer extends Thread {
-        @Override
-        public void run() {
-            // TODO Auto-generated method stub
-            while (true) {
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                String str = sdf.format(new Date());
-                Message msg = new Message();
-                msg.obj = str;
-                msg.what = MESSAGE_TIME;
-                mHandler.sendMessage(msg);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.switch_video_live_activity:
+                if (mVideoView.isPlaying()) {
+                    mVideoView.pause();
+                    mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_play);
+                } else {
+                    mVideoView.start();
+                    mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
                 }
-            }
+                break;
+            case R.id.exit_btn_video_live_activity:
+                if (mLoadingAnim != null && mLoadingAnim.isRunning()) {
+                    mLoadingAnim.stop();
+                }
+                finish();
+                break;
+            case R.id.full_screen_live_activity:
+                if (!isFullScreen) {
+                    setFullScreen();
+                }
+                break;
         }
+    }
+
+    private void setFullScreen() {
+        LinearLayout.LayoutParams fullScreenLLP = new LinearLayout.LayoutParams(
+                DeviceUtil.getHeightPixel(this), DeviceUtil.getWidthPixel(this) - DeviceUtil.getStatusBarHeight(this));
+        mFlVideoView.setLayoutParams(fullScreenLLP);//mFlVideoView的宽是屏幕高度，高是屏幕宽度-状态栏高度
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//Activity横屏
+        mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE, 0);
+        isFullScreen = true;
     }
 }

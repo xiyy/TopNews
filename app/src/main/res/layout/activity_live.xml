@@ -1,12 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
-    <io.vov.vitamio.widget.VideoView
-        android:id="@+id/video_view_live_activity"
+    <FrameLayout
+        android:id="@+id/fl_video_view_live_activity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
-</RelativeLayout>
+        android:layout_height="203dp"
+        android:layout_gravity="center">
+
+        <io.vov.vitamio.widget.VideoView
+            android:id="@+id/video_view_live_activity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+        <ImageView
+            android:id="@+id/exit_btn_video_live_activity"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/live_activity_exit"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/loading_btn_live_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/loading_spinner" />
+
+        <ImageView
+            android:id="@+id/full_screen_live_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/live_full_screen"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/switch_video_live_activity"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+
+</LinearLayout>
