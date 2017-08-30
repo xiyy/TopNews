@@ -41,18 +41,21 @@ import io.vov.vitamio.widget.VideoView;
  * Created by liuliu on 2017/7/7.
  */
 
-public class LiveFragment extends Fragment {
+public class LiveFragment extends Fragment implements View.OnClickListener {
     private FrameLayout mFlVideoView;
     private VideoView mVideoView;
     private GridView mGridView;
     private ImageView mLoadingView;
     private ImageView mFullScreen;
+    private ImageView mSwitchBtn;
+    private ImageView mExitFullScreenBtn;
     private TextView mTitle;
     private List<ImageView> mChannelImageViews = new ArrayList<>(6);
     private AnimationDrawable mLoadingAnim;
-    private boolean isFullScreenImgShow;
+    private boolean isVideoClear = true;
     private boolean isFullScreen;
     private boolean isLiveFragmentVisible = true;
+    private boolean isVideoFirstStart = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,59 +71,6 @@ public class LiveFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_live, container, false);
         initView(view);
         return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
-        mChannelImageViews = null;
-        mVideoView.stopPlayback();//停止播放并释放资源
-    }
-
-    class ChannelAdapter extends BaseAdapter {
-        private Context context;
-        private String[] channels;
-        private int[] channelsIconId;
-
-        public ChannelAdapter(Context context, String[] channels, int[] channelsIconId) {
-            this.context = context;
-            this.channels = channels;
-            this.channelsIconId = channelsIconId;
-        }
-
-        @Override
-        public int getCount() {
-            return channels.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(context).inflate(R.layout.item_live_fragment, null);
-            }
-            ImageView channelIcon = (ImageView) convertView.findViewById(R.id.image_view_item_live_fragment);
-            TextView channel = (TextView) convertView.findViewById(R.id.text_view_item_live_fragment);
-            channelIcon.setImageResource(channelsIconId[position]);
-            channel.setText(channels[position]);
-            mChannelImageViews.add(position, channelIcon);
-            rotateChannelImageView(channelIcon);
-            return convertView;
-        }
-
-
     }
 
     private void initView(View view) {
@@ -140,8 +90,6 @@ public class LiveFragment extends Fragment {
             }
         });
         mVideoView = (VideoView) view.findViewById(R.id.video_view_live_fragment);
-        mVideoView.setVideoPath(Constants.CCTV13);
-        mVideoView.requestFocus();
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
@@ -160,6 +108,9 @@ public class LiveFragment extends Fragment {
                         }
                         break;
                     case MediaPlayer.MEDIA_INFO_BUFFERING_END:
+                        if (isVideoFirstStart) {
+                            isVideoFirstStart = false;
+                        }
                         mLoadingView.setVisibility(View.GONE);
                         mLoadingAnim.stop();
                         if (isLiveFragmentVisible) {
@@ -178,41 +129,105 @@ public class LiveFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == event.ACTION_DOWN) {
-                    if (isFullScreenImgShow) {
-                        mFullScreen.setVisibility(View.GONE);
-                        isFullScreenImgShow = false;
-                    } else {
-                        mFullScreen.setVisibility(View.VISIBLE);
-                        isFullScreenImgShow = true;
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (isFullScreenImgShow) {
-                                    mFullScreen.setVisibility(View.GONE);
-                                    isFullScreenImgShow = false;
+                    if (!isVideoFirstStart) {
+                        if (isVideoClear) {
+                            mFullScreen.setVisibility(View.VISIBLE);
+                            isVideoClear = false;
+                            //缓冲View与mSwitchBtn不允许同时出现
+                            if (!mLoadingAnim.isRunning()) {
+                                mSwitchBtn.setVisibility(View.VISIBLE);
+                                if (mVideoView.isPlaying()) {
+                                    mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
+                                } else {
+                                    mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_play);
                                 }
+                            } else {
+                                mSwitchBtn.setVisibility(View.GONE);
                             }
-                        }, 3000);
+                            //全屏时，退出按钮才显示
+                            if (isFullScreen()) {
+                                mExitFullScreenBtn.setVisibility(View.VISIBLE);
+                            }
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!isVideoClear) {
+                                        mFullScreen.setVisibility(View.GONE);
+                                        mSwitchBtn.setVisibility(View.GONE);
+                                        mExitFullScreenBtn.setVisibility(View.GONE);
+                                        isVideoClear = true;
+                                    }
+                                }
+                            }, 3000);
+
+                        } else {
+                            mFullScreen.setVisibility(View.GONE);
+                            mSwitchBtn.setVisibility(View.GONE);
+                            mExitFullScreenBtn.setVisibility(View.GONE);
+                            isVideoClear = true;
+                        }
                     }
+
                 }
                 return true;
             }
         });
         mFullScreen = (ImageView) view.findViewById(R.id.full_screen_live_fragment);
-        mFullScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mFullScreen.setOnClickListener(this);
+        mSwitchBtn = (ImageView) view.findViewById(R.id.switch_video_live_fragment);
+        mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_play);
+        mSwitchBtn.setOnClickListener(this);
+        mExitFullScreenBtn = (ImageView) view.findViewById(R.id.exit_btn_video_live_fragment);
+        mExitFullScreenBtn.setOnClickListener(this);
+        mLoadingView = (ImageView) view.findViewById(R.id.loading_fragment_live);
+        mLoadingAnim = (AnimationDrawable) mLoadingView.getBackground();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.switch_video_live_fragment:
+                if (isVideoFirstStart) {
+                    mSwitchBtn.setVisibility(View.GONE);
+                    mLoadingView.setVisibility(View.VISIBLE);
+                    mLoadingAnim.start();
+                    mVideoView.setVideoPath(Constants.CCTV13);
+                    mVideoView.requestFocus();
+                } else {
+                    if (mVideoView.isPlaying()) {
+                        mVideoView.pause();
+                        mSwitchBtn.setVisibility(View.VISIBLE);
+                        mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_play);
+                    } else {
+                        mVideoView.start();
+                        mSwitchBtn.setVisibility(View.VISIBLE);
+                        mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
+                    }
+                }
+                break;
+            case R.id.full_screen_live_fragment:
                 if (isFullScreen) {
                     setVideoPreview();//竖屏
                 } else {
                     setFullScreen();
                 }
-            }
-        });
-        mLoadingView = (ImageView) view.findViewById(R.id.loading_fragment_live);
-        mLoadingAnim = (AnimationDrawable) mLoadingView.getBackground();
-        mLoadingView.setVisibility(View.VISIBLE);
-        mLoadingAnim.start();
+                break;
+            case R.id.exit_btn_video_live_fragment:
+                if (isFullScreen()) {
+                    setVideoPreview();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        mChannelImageViews = null;
+        mVideoView.stopPlayback();//停止播放并释放资源
     }
 
     private void rotateChannelImageView(ImageView channelIcon) {
@@ -269,5 +284,47 @@ public class LiveFragment extends Fragment {
 
     public boolean isFullScreen() {
         return isFullScreen;
+    }
+
+
+    class ChannelAdapter extends BaseAdapter {
+        private Context context;
+        private String[] channels;
+        private int[] channelsIconId;
+
+        public ChannelAdapter(Context context, String[] channels, int[] channelsIconId) {
+            this.context = context;
+            this.channels = channels;
+            this.channelsIconId = channelsIconId;
+        }
+
+        @Override
+        public int getCount() {
+            return channels.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.item_live_fragment, null);
+            }
+            ImageView channelIcon = (ImageView) convertView.findViewById(R.id.image_view_item_live_fragment);
+            TextView channel = (TextView) convertView.findViewById(R.id.text_view_item_live_fragment);
+            channelIcon.setImageResource(channelsIconId[position]);
+            channel.setText(channels[position]);
+            mChannelImageViews.add(position, channelIcon);
+            rotateChannelImageView(channelIcon);
+            return convertView;
+        }
     }
 }

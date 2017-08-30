@@ -28,6 +28,14 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true" />
 
+        <ImageView
+            android:id="@+id/exit_btn_video_live_fragment"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/live_activity_exit"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/loading_fragment_live"
@@ -36,6 +44,12 @@
             android:layout_gravity="center"
             android:background="@drawable/loading_spinner"
             android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/switch_video_live_fragment"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center" />
 
         <ImageView
             android:id="@+id/full_screen_live_fragment"
