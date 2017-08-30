@@ -27,10 +27,11 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mFullScreenBtn;
     private FrameLayout mFlVideoView;
     private ImageView mLoadingView;
+    private LinearLayout mTopPart;
+    private LinearLayout mBottomPart;
     private AnimationDrawable mLoadingAnim;
     private boolean isFullScreen;
     private boolean isScreenClear = true;
-    private boolean hasVideoViewInited;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
         mExitBtn.setOnClickListener(this);
         mFullScreenBtn = (ImageView) findViewById(R.id.full_screen_live_activity);
         mFullScreenBtn.setOnClickListener(this);
+        mTopPart = (LinearLayout) findViewById(R.id.top_part_live_activity);
+        mBottomPart = (LinearLayout) findViewById(R.id.bottom_part_live_activity);
         mLoadingView = (ImageView) findViewById(R.id.loading_btn_live_activity);
         mLoadingAnim = (AnimationDrawable) mLoadingView.getBackground();
         mLoadingView.setVisibility(View.VISIBLE);
@@ -77,7 +80,6 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
                         mp.pause();
                         break;
                     case MediaPlayer.MEDIA_INFO_BUFFERING_END:
-                        hasVideoViewInited = true;
                         mLoadingView.setVisibility(View.GONE);
                         mLoadingAnim.stop();
                         mp.start();
@@ -96,11 +98,8 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
                 if (event.ACTION_DOWN == event.getAction()) {
                     if (isScreenClear) {
                         isScreenClear = false;
-                        //第一次进入时，缓冲没完成前，mExitBtn、mFullScreenBtn不可见
-                        if (hasVideoViewInited) {
-                            mExitBtn.setVisibility(View.VISIBLE);
-                            mFullScreenBtn.setVisibility(View.VISIBLE);
-                        }
+                        mExitBtn.setVisibility(View.VISIBLE);
+                        mFullScreenBtn.setVisibility(View.VISIBLE);
                         //缓冲时隐藏mSwitchBtn，缓冲完成后才能显示mSwitchBtn；缓冲对话框与mSwitchBtn不能同时显示
                         if (!mLoadingAnim.isRunning()) {
                             mSwitchBtn.setVisibility(View.VISIBLE);
@@ -161,11 +160,17 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
                 if (mLoadingAnim != null && mLoadingAnim.isRunning()) {
                     mLoadingAnim.stop();
                 }
-                finish();
+                if (isFullScreen) {
+                    setVideoPreview();
+                } else {
+                    finish();
+                }
                 break;
             case R.id.full_screen_live_activity:
                 if (!isFullScreen) {
                     setFullScreen();
+                } else {
+                    setVideoPreview();
                 }
                 break;
         }
@@ -174,9 +179,21 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
     private void setFullScreen() {
         LinearLayout.LayoutParams fullScreenLLP = new LinearLayout.LayoutParams(
                 DeviceUtil.getHeightPixel(this), DeviceUtil.getWidthPixel(this) - DeviceUtil.getStatusBarHeight(this));
+        mTopPart.setVisibility(View.GONE);
+        mBottomPart.setVisibility(View.GONE);
         mFlVideoView.setLayoutParams(fullScreenLLP);//mFlVideoView的宽是屏幕高度，高是屏幕宽度-状态栏高度
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//Activity横屏
         mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE, 0);
         isFullScreen = true;
+    }
+
+    public void setVideoPreview() {
+        LinearLayout.LayoutParams previewLLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DeviceUtil.dip2px(203, this));
+        mTopPart.setVisibility(View.VISIBLE);
+        mBottomPart.setVisibility(View.VISIBLE);
+        mFlVideoView.setLayoutParams(previewLLP);//mFlVideoView的宽是屏幕的宽度，高是203dp
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Activity竖屏
+        mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE, 0);
+        isFullScreen = false;
     }
 }

@@ -2,7 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/top_part_live_activity"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/darker_gray"
+        android:orientation="vertical"></LinearLayout>
 
     <FrameLayout
         android:id="@+id/fl_video_view_live_activity"
@@ -50,5 +58,13 @@
             android:layout_gravity="center" />
     </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/bottom_part_live_activity"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/darker_gray"
+        android:orientation="vertical">
 
+    </LinearLayout>
 </LinearLayout>
