@@ -2,8 +2,10 @@ package com.xi.liuliu.topnews.fragment;
 
 
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.AnimationDrawable;
@@ -28,6 +30,7 @@ import com.xi.liuliu.topnews.activity.MainActivity;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
 import com.xi.liuliu.topnews.utils.DeviceUtil;
+import com.xi.liuliu.topnews.utils.NetWorkUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -188,11 +191,39 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.switch_video_live_fragment:
                 if (isVideoFirstStart) {
-                    mSwitchBtn.setVisibility(View.GONE);
-                    mLoadingView.setVisibility(View.VISIBLE);
-                    mLoadingAnim.start();
-                    mVideoView.setVideoPath(Constants.CCTV13);
-                    mVideoView.requestFocus();
+                    //WiFi网络直接播放
+                    if (NetWorkUtil.isWiFi(getActivity())) {
+                        mSwitchBtn.setVisibility(View.GONE);
+                        mLoadingView.setVisibility(View.VISIBLE);
+                        mLoadingAnim.start();
+                        mVideoView.setVideoPath(Constants.CCTV13);
+                        mVideoView.requestFocus();
+                        return;
+                    }
+                    //移动网络，弹出对话框
+                    if (!NetWorkUtil.isWiFi(getActivity()) && NetWorkUtil.isMobile(getActivity())) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle(R.string.alert_dialog_mobile_network_title).setMessage(R.string.alert_dialog_mobile_network_message).setPositiveButton(R.string.alert_dialog_mobile_network_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                mSwitchBtn.setVisibility(View.GONE);
+                                mLoadingView.setVisibility(View.VISIBLE);
+                                mLoadingAnim.start();
+                                mVideoView.setVideoPath(Constants.CCTV13);
+                                mVideoView.requestFocus();
+                                return;
+
+                            }
+                        }).setNegativeButton(R.string.alert_dialog_mobile_network_cancle, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                return;
+                            }
+                        }).create().show();
+                    }
+
                 } else {
                     if (mVideoView.isPlaying()) {
                         mVideoView.pause();
@@ -246,15 +277,20 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
                         rotateChannelImageView(each);
                     }
                 }
-                if (!mVideoView.isBuffering()) {
-                    mVideoView.requestFocus();//没有缓冲的话，开始缓冲
+                //检查网络并播放
+                if (NetWorkUtil.isNetWorkAvailable(getActivity())) {
+                    if (!mVideoView.isBuffering()) {
+                        mVideoView.requestFocus();//没有缓冲的话，开始缓冲
+                    }
+                    if (mVideoView.hasFocus() && !mVideoView.isPlaying()) {
+                        mVideoView.start();//暂停状态的话，开始播放
+                    }
                 }
-                if (mVideoView.hasFocus() && !mVideoView.isPlaying()) {
-                    mVideoView.start();//暂停状态的话，开始播放
-                }
+
             } else {
+                //切换fragment时，暂停播放
                 isLiveFragmentVisible = false;
-                mVideoView.pause();//切换fragment时，暂停播放
+                mVideoView.pause();
             }
         }
     }

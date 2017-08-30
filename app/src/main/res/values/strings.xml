@@ -79,5 +79,10 @@
     <string name="share_dialog_toast_cancel">分享取消</string>
     <string name="share_dialog_qq_not_installed">QQ未安装</string>
     <string name="share_dialog_weibo_not_installed">微博未安装</string>
+    <!-- 移动网络提示 -->
+    <string name="alert_dialog_mobile_network_message">正在使用非WiFi网络，播放将产生流量费用</string>
+    <string name="alert_dialog_mobile_network_title">网络提示</string>
+    <string name="alert_dialog_mobile_network_ok">继续</string>
+    <string name="alert_dialog_mobile_network_cancle">取消</string>
 
 </resources>

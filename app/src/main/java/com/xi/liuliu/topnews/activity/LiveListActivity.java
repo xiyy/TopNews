@@ -1,5 +1,7 @@
 package com.xi.liuliu.topnews.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.LiveListAdapter;
 import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.utils.NetWorkUtil;
 
 public class LiveListActivity extends AppCompatActivity {
     private RelativeLayout mGoBack;
@@ -34,7 +37,26 @@ public class LiveListActivity extends AppCompatActivity {
         mLiveList = (ListView) findViewById(R.id.list_view_activity_live_list);
         mLiveList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                if (!NetWorkUtil.isWiFi(LiveListActivity.this) && NetWorkUtil.isMobile(LiveListActivity.this)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LiveListActivity.this);
+                    builder.setTitle(R.string.alert_dialog_mobile_network_title).setMessage(R.string.alert_dialog_mobile_network_message).setPositiveButton(R.string.alert_dialog_mobile_network_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(getApplicationContext(), LiveActivity.class);
+                            intent.putExtra("live_url", mLiveUrls[position]);
+                            startActivity(intent);
+
+                        }
+                    }).setNegativeButton(R.string.alert_dialog_mobile_network_cancle, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create().show();
+                    return;
+                }
                 Intent intent = new Intent(getApplicationContext(), LiveActivity.class);
                 intent.putExtra("live_url", mLiveUrls[position]);
                 startActivity(intent);
