@@ -5,7 +5,7 @@
         android:gravity="center"></item>
     <item
         android:bottom="8dp"
-        android:drawable="@drawable/share_qzone"
+        android:drawable="@drawable/share_qq"
         android:gravity="center"
         android:left="8dp"
         android:right="8dp"
