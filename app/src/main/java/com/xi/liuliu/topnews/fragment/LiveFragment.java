@@ -1,7 +1,6 @@
 package com.xi.liuliu.topnews.fragment;
 
 
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -29,6 +28,7 @@ import com.xi.liuliu.topnews.activity.LiveListActivity;
 import com.xi.liuliu.topnews.activity.MainActivity;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
+import com.xi.liuliu.topnews.utils.AnimUtil;
 import com.xi.liuliu.topnews.utils.DeviceUtil;
 import com.xi.liuliu.topnews.utils.NetWorkUtil;
 
@@ -134,11 +134,11 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
                 if (event.getAction() == event.ACTION_DOWN) {
                     if (!isVideoFirstStart) {
                         if (isVideoClear) {
-                            mFullScreen.setVisibility(View.VISIBLE);
                             isVideoClear = false;
+                            AnimUtil.alphaAndVisible(mFullScreen, 0, 1, 1000);
                             //缓冲View与mSwitchBtn不允许同时出现
                             if (!mLoadingAnim.isRunning()) {
-                                mSwitchBtn.setVisibility(View.VISIBLE);
+                                AnimUtil.alphaAndVisible(mSwitchBtn, 0, 1, 1000);
                                 if (mVideoView.isPlaying()) {
                                     mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
                                 } else {
@@ -149,24 +149,21 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
                             }
                             //全屏时，退出按钮才显示
                             if (isFullScreen()) {
-                                mExitFullScreenBtn.setVisibility(View.VISIBLE);
+                                AnimUtil.alphaAndVisible(mExitFullScreenBtn, 0, 1, 1000);
                             }
+                            //3秒后自动消失
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     if (!isVideoClear) {
-                                        mFullScreen.setVisibility(View.GONE);
-                                        mSwitchBtn.setVisibility(View.GONE);
-                                        mExitFullScreenBtn.setVisibility(View.GONE);
+                                        clearScreen();
                                         isVideoClear = true;
                                     }
                                 }
                             }, 3000);
 
                         } else {
-                            mFullScreen.setVisibility(View.GONE);
-                            mSwitchBtn.setVisibility(View.GONE);
-                            mExitFullScreenBtn.setVisibility(View.GONE);
+                            clearScreen();
                             isVideoClear = true;
                         }
                     }
@@ -261,12 +258,6 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
         mVideoView.stopPlayback();//停止播放并释放资源
     }
 
-    private void rotateChannelImageView(ImageView channelIcon) {
-        if (channelIcon != null) {
-            ObjectAnimator.ofFloat(channelIcon, "rotationY", 0.0f, 360.0f).setDuration(1000).start();
-        }
-    }
-
     public void onEventMainThread(LiveFragmentVisibleEvent event) {
         if (event != null) {
             if (event.isFragmentVisible()) {
@@ -274,7 +265,7 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
                 //旋转动画
                 if (mChannelImageViews != null) {
                     for (ImageView each : mChannelImageViews) {
-                        rotateChannelImageView(each);
+                        AnimUtil.rotate(each, AnimUtil.ROTATE_Y, 0, 360, 1000);
                     }
                 }
                 //检查网络并播放
@@ -293,6 +284,12 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
                 mVideoView.pause();
             }
         }
+    }
+
+    private void clearScreen() {
+        AnimUtil.alphaAndGone(mFullScreen, 1, 0, 1000);
+        AnimUtil.alphaAndGone(mSwitchBtn, 1, 0, 1000);
+        AnimUtil.alphaAndGone(mExitFullScreenBtn, 1, 0, 1000);
     }
 
     private void setFullScreen() {
@@ -359,7 +356,7 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
             channelIcon.setImageResource(channelsIconId[position]);
             channel.setText(channels[position]);
             mChannelImageViews.add(position, channelIcon);
-            rotateChannelImageView(channelIcon);
+            AnimUtil.rotate(channelIcon, AnimUtil.ROTATE_Y, 0, 360, 1000);
             return convertView;
         }
     }
