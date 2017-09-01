@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.utils.AnimUtil;
 import com.xi.liuliu.topnews.utils.DeviceUtil;
 
 import io.vov.vitamio.MediaPlayer;
@@ -98,11 +99,11 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
                 if (event.ACTION_DOWN == event.getAction()) {
                     if (isScreenClear) {
                         isScreenClear = false;
-                        mExitBtn.setVisibility(View.VISIBLE);
-                        mFullScreenBtn.setVisibility(View.VISIBLE);
+                        AnimUtil.alphaAndVisible(mExitBtn, 0, 1, 1000);
+                        AnimUtil.alphaAndVisible(mFullScreenBtn, 0, 1, 1000);
                         //缓冲时隐藏mSwitchBtn，缓冲完成后才能显示mSwitchBtn；缓冲对话框与mSwitchBtn不能同时显示
                         if (!mLoadingAnim.isRunning()) {
-                            mSwitchBtn.setVisibility(View.VISIBLE);
+                            AnimUtil.alphaAndVisible(mSwitchBtn, 0, 1, 1000);
                             if (mVideoView.isPlaying()) {
                                 mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
                             }
@@ -118,17 +119,13 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
                             public void run() {
                                 if (!isScreenClear) {
                                     isScreenClear = true;
-                                    mFullScreenBtn.setVisibility(View.GONE);
-                                    mExitBtn.setVisibility(View.GONE);
-                                    mSwitchBtn.setVisibility(View.GONE);
+                                    clearScreen();
                                 }
                             }
                         }, 3000);
                     } else {
                         isScreenClear = true;
-                        mFullScreenBtn.setVisibility(View.GONE);
-                        mExitBtn.setVisibility(View.GONE);
-                        mSwitchBtn.setVisibility(View.GONE);
+                        clearScreen();
                     }
                 }
                 return true;
@@ -174,6 +171,12 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
         }
+    }
+
+    private void clearScreen() {
+        AnimUtil.alphaAndGone(mFullScreenBtn, 1, 0, 1000);
+        AnimUtil.alphaAndGone(mExitBtn, 1, 0, 1000);
+        AnimUtil.alphaAndGone(mSwitchBtn, 1, 0, 1000);
     }
 
     private void setFullScreen() {
