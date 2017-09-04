@@ -20,4 +20,6 @@
     <color name="share_item_pressed">#55000000</color>
     <color name="TRANSPARENT">#00000000</color>
     <color name="photo_browser_dialog_bg">#000000</color>
+    <color name="login_dialog_user_agreement_checked">#8A000000</color>
+    <color name="login_dialog_user_agreement_un_checked">#aaa</color>
 </resources>

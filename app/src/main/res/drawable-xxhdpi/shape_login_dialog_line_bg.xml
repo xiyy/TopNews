@@ -8,5 +8,5 @@
     </stroke>
     <solid android:color="#F5F5F5"></solid>
     <!--圆角-->
-    <corners android:radius="8dp"></corners>
+    <corners android:radius="20dp"></corners>
 </shape>

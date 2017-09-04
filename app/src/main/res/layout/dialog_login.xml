@@ -7,8 +7,8 @@
 
     <Button
         android:id="@+id/dialog_login_close"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_gravity="right|top"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
@@ -18,17 +18,18 @@
         android:id="@+id/dialog_login_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="@string/login_dialog_with_identify_code_title"
-        android:textSize="17sp" />
+        android:textColor="#bb000000"
+        android:textSize="19sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/shape_login_dialog_line_bg">
 
         <EditText
@@ -38,10 +39,11 @@
             android:layout_weight="1"
             android:background="@null"
             android:hint="@string/login_phone_number"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:textSize="15sp" />
+            android:inputType="number"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:textSize="17sp" />
 
 
         <TextView
@@ -49,11 +51,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
             android:text="@string/login_send_identifying_code"
-            android:textSize="15sp"
+            android:textColor="#bb000000"
+            android:textSize="17sp"
             android:visibility="visible" />
 
     </LinearLayout>
@@ -73,21 +76,22 @@
             android:layout_weight="1"
             android:background="@null"
             android:hint="@string/login_input_identifying_code"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:textSize="15sp" />
+            android:inputType="number"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/dialog_login_find_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
             android:text="@string/login_find_my_password"
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:visibility="gone" />
 
 
@@ -97,7 +101,7 @@
         android:id="@+id/dialog_login_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/login_input_auto_login"
         android:textSize="11sp" />
@@ -108,73 +112,111 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/shape_login_dialog_entry_bg"
         android:gravity="center"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
+        android:padding="10dp"
         android:text="@string/login_entry_topnews"
         android:textColor="@color/white"
-        android:textSize="15sp" />
+        android:textSize="17sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <CheckBox
+                android:id="@+id/check_box_login_dialog_user_agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true" />
+
+            <TextView
+                android:id="@+id/user_agreement_login_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_dialog_user_agreement" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/dialog_login_way"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="@string/login_with_count_password"
         android:textColor="@color/blue_light"
         android:textSize="14sp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginTop="200dp"
-        android:gravity="center_horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <RelativeLayout
-            android:id="@+id/dialog_login_weichat_rl"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/more_ways_ll_login_dialog"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="100dp">
 
-            <ImageView
+            <View
+                android:layout_width="50dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/grey_dark"></View>
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_marginLeft="8dp"
+                android:text="@string/login_more_ways"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:background="@color/grey_dark"></View>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="35dp">
+
+            <ImageView
+                android:id="@+id/we_chat_login_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/selector_dialog_login_weichat" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/dialog_login_qq_rl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
             <ImageView
+                android:id="@+id/qq_login_dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/selector_dialog_login_qq" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/dialog_login_weibo_rl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
             <ImageView
+                android:id="@+id/wei_bo_login_dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/selector_dialog_login_weibo" />
+        </LinearLayout>
+    </RelativeLayout>
 
-        </RelativeLayout>
-    </LinearLayout>
 </LinearLayout>

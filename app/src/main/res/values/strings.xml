@@ -48,7 +48,8 @@
     <string name="login_with_count_password">账号密码登录</string>
     <string name="login_with_not_password">免密码登录</string>
     <string name="login_find_my_password">|  找回密码</string>
-    <string name="login_dialog_with_identify_code_title">登录后，精彩永不丢失</string>
+    <string name="login_dialog_with_identify_code_title">登录TopNews，精彩永不丢失</string>
+    <string name="login_dialog_user_agreement">我已阅读并同意“用户协议和隐私条款”</string>
     <string name="logint_dialog_password">密码</string>
     <string name="login_dialog_toast_phone_number_illegal">手机号码错误</string>
     <string name="login_dialog_toast_has_send_sms_code">已发送验证码</string>

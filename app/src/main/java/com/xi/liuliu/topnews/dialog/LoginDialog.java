@@ -1,18 +1,23 @@
 package com.xi.liuliu.topnews.dialog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.activity.UserAgreementActivity;
 import com.xi.liuliu.topnews.event.LoginEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.http.HttpClient;
@@ -48,9 +53,11 @@ public class LoginDialog implements View.OnClickListener {
     private TextView mEntry;
     private EditText mPhoneNumber;
     private SendingDialog mSendingDialog;
-    private RelativeLayout mWeiboRl;
-    private RelativeLayout mWeichatRl;
-    private RelativeLayout mQQRl;
+    private ImageView mWeiboBtn;
+    private ImageView mWeichatBtn;
+    private ImageView mQQBtn;
+    private CheckBox mUserAgreementCb;
+    private TextView mUserAgreementTv;
 
     public LoginDialog(Context context) {
         mContext = context;
@@ -72,13 +79,26 @@ public class LoginDialog implements View.OnClickListener {
         mEntry = (TextView) view.findViewById(R.id.dialog_login_entry);
         mEntry.setOnClickListener(this);
         mPhoneNumber = (EditText) view.findViewById(R.id.dialog_login_input_phone_number);
-        mWeiboRl = (RelativeLayout) view.findViewById(R.id.dialog_login_weibo_rl);
-        mWeiboRl.setOnClickListener(this);
-        mWeichatRl = (RelativeLayout) view.findViewById(R.id.dialog_login_weichat_rl);
-        mWeichatRl.setOnClickListener(this);
-        mQQRl = (RelativeLayout) view.findViewById(R.id.dialog_login_qq_rl);
-        mQQRl.setOnClickListener(this);
-        mDialogView = new DialogView(mContext, view);
+        mWeiboBtn = (ImageView) view.findViewById(R.id.wei_bo_login_dialog);
+        mWeiboBtn.setOnClickListener(this);
+        mWeichatBtn = (ImageView) view.findViewById(R.id.we_chat_login_dialog);
+        mWeichatBtn.setOnClickListener(this);
+        mQQBtn = (ImageView) view.findViewById(R.id.qq_login_dialog);
+        mQQBtn.setOnClickListener(this);
+        mUserAgreementCb = (CheckBox) view.findViewById(R.id.check_box_login_dialog_user_agreement);
+        mUserAgreementCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mUserAgreementTv.setTextColor(mContext.getResources().getColor(R.color.login_dialog_user_agreement_checked));
+                } else {
+                    mUserAgreementTv.setTextColor(mContext.getResources().getColor(R.color.login_dialog_user_agreement_un_checked));
+                }
+            }
+        });
+        mUserAgreementTv = (TextView) view.findViewById(R.id.user_agreement_login_dialog);
+        mUserAgreementTv.setOnClickListener(this);
+        mDialogView = new DialogView(mContext, view, R.style.share_dialog_animation);
         mDialogView.setFullScreen(true);
         mDialogView.setCanceledOnTouchOutside(false);
         mDialogView.setCancelable(true);
@@ -112,15 +132,19 @@ public class LoginDialog implements View.OnClickListener {
             case R.id.dialog_login_send_identify_code:
                 sendSmsCode();
                 break;
-            case R.id.dialog_login_weibo_rl:
+            case R.id.wei_bo_login_dialog:
                 EventBus.getDefault().post(new WeiboLoginEvent());
                 dismiss();
                 break;
-            case R.id.dialog_login_weichat_rl:
+            case R.id.we_chat_login_dialog:
 
                 break;
-            case R.id.dialog_login_qq_rl:
+            case R.id.qq_login_dialog:
 
+                break;
+            case R.id.user_agreement_login_dialog:
+                Intent intent = new Intent(mContext, UserAgreementActivity.class);
+                mContext.startActivity(intent);
                 break;
         }
     }
@@ -205,6 +229,7 @@ public class LoginDialog implements View.OnClickListener {
             mLoginWay.setText(R.string.login_with_not_password);
             mLoginHint.setVisibility(View.INVISIBLE);
             mInput.setHint(R.string.logint_dialog_password);
+            mInput.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
             mFindPassword.setVisibility(View.VISIBLE);
             mSendIdentifyCode.setVisibility(View.GONE);
             mLoginWayTitle.setText(R.string.login_with_count_password);
