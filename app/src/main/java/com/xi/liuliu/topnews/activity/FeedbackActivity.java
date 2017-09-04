@@ -13,10 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.feedback.Comment;
@@ -41,8 +40,8 @@ import de.greenrobot.event.EventBus;
 public class FeedbackActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mFeedbackContent;
     private EditText mFeedbackContact;
-    private Button mGoBack;
-    private TextView mSend;
+    private RelativeLayout mGoBack;
+    private RelativeLayout mSend;
     private ImageView mFeedbackPic;
     private String mImagePath;
     private SendingDialog mSendingDialog;
@@ -55,9 +54,9 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_feedback);
         mFeedbackContent = (EditText) findViewById(R.id.activity_feedback_content);
         mFeedbackContact = (EditText) findViewById(R.id.activity_feedback_contact);
-        mGoBack = (Button) findViewById(R.id.activity_feedback_go_back);
+        mGoBack = (RelativeLayout) findViewById(R.id.activity_feedback_go_back);
         mGoBack.setOnClickListener(this);
-        mSend = (TextView) findViewById(R.id.activity_feedback_send);
+        mSend = (RelativeLayout) findViewById(R.id.activity_feedback_send);
         mSend.setOnClickListener(this);
         mFeedbackPic = (ImageView) findViewById(R.id.activity_feedback_pic);
         mFeedbackPic.setOnClickListener(this);

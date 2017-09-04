@@ -8,30 +8,39 @@
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
-        <Button
+        <RelativeLayout
             android:id="@+id/activity_feedback_go_back"
-            android:layout_width="25dp"
-            android:layout_height="18dp"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/left_back_icon_titlebar" />
+            android:layout_width="56dp"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/left_back_icon_titlebar" />
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/feedback_title" />
+            android:text="@string/feedback_title"
+            android:textSize="17sp" />
 
-        <TextView
+        <RelativeLayout
             android:id="@+id/activity_feedback_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:text="@string/feedback_send" />
+            android:layout_width="56dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/feedback_send"
+                android:textSize="17sp" />
+        </RelativeLayout>
+
 
         <View
             android:layout_width="match_parent"
@@ -52,7 +61,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="3dp"
-        android:background="@drawable/shape_feedback_frame">
+        android:background="@drawable/shape_feedback_content_bg">
 
         <EditText
             android:id="@+id/activity_feedback_content"
@@ -65,11 +74,11 @@
             android:inputType="textMultiLine"
             android:maxLines="8"
             android:minLines="5"
-            android:paddingLeft="3dp"
+            android:paddingLeft="5dp"
             android:paddingRight="65dp"
-            android:paddingTop="3dp"
+            android:paddingTop="5dp"
             android:scrollbars="vertical"
-            android:textSize="14sp"></EditText>
+            android:textSize="16sp"></EditText>
 
         <ImageView
             android:id="@+id/activity_feedback_pic"
@@ -95,12 +104,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/shape_feedback_frame"
+            android:background="@drawable/shape_feedback_contact_bg"
             android:hint="@string/feedback_contact"
-            android:paddingBottom="3dp"
+            android:paddingBottom="5dp"
             android:paddingLeft="3dp"
-            android:paddingTop="3dp"
-            android:textSize="14sp"></EditText>
+            android:paddingTop="5dp"
+            android:textSize="16sp"></EditText>
 
         <TextView
             android:layout_width="match_parent"
@@ -108,6 +117,6 @@
             android:layout_below="@+id/activity_feedback_contact"
             android:layout_marginTop="5dp"
             android:text="@string/feedback_contact_hint"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
     </RelativeLayout>
 </RelativeLayout>

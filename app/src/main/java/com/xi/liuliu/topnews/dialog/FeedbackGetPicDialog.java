@@ -53,7 +53,7 @@ public class FeedbackGetPicDialog implements View.OnClickListener {
             mDelete = (TextView) view.findViewById(R.id.feedback_get_pic_select_delete);
             mDelete.setOnClickListener(this);
         }
-        mDialogView = new DialogView(mContext, view);
+        mDialogView = new DialogView(mContext, view,R.style.share_dialog_animation);
         mDialogView.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         mDialogView.setGravity(Gravity.BOTTOM);
         mDialogView.setFullWidth(true);
