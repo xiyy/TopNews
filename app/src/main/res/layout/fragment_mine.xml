@@ -57,7 +57,8 @@
         android:id="@+id/mine_broke_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mine_divide_line">
+        android:layout_below="@+id/mine_divide_line"
+        android:background="@drawable/selector_mine_fragment_item">
 
         <TextView
             android:layout_width="wrap_content"
@@ -94,7 +95,8 @@
         android:id="@+id/mine_feedback"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mine_divide_line_broke_news">
+        android:layout_below="@+id/mine_divide_line_broke_news"
+        android:background="@drawable/selector_mine_fragment_item">
 
         <TextView
             android:layout_width="wrap_content"
@@ -130,7 +132,8 @@
         android:id="@+id/mine_app_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mine_feedback">
+        android:layout_below="@+id/mine_feedback"
+        android:background="@drawable/selector_mine_fragment_item">
 
         <TextView
             android:layout_width="wrap_content"
