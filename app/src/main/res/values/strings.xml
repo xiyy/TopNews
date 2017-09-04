@@ -56,6 +56,10 @@
     <string name="login_dialog_toast_sms_code_error">验证码错误</string>
     <string name="settings_title">设置</string>
     <string name="settings_log_out">退出登录</string>
+    <string name="settings_edit_personal_info">编辑资料</string>
+    <string name="settings_clear_cache">清除缓存</string>
+    <string name="settings_check_version">检查版本</string>
+    <string name="settings_notice_with_not_wifi">非WiFi网络播放提醒</string>
     <string name="settings_rights_reserved">All Rights Reserved By Xiaobei</string>
     <string name="settings_toast_log_out_success">退出成功</string>
     <string name="settings_log_out_confirm_dialog_title">退出确认</string>

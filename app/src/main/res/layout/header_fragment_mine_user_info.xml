@@ -36,7 +36,8 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/fl_head_portrait"
-        android:text="手机用户15611067757" />
+        android:text="手机用户15611067757"
+        android:textSize="17sp"/>
 
     <Button
         android:id="@+id/setting_arrow_user_info"
