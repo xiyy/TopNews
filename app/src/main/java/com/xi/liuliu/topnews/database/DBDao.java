@@ -67,6 +67,17 @@ public class DBDao {
         return false;
     }
 
+    private boolean isReadNewsExist(ReadNews readNews) {
+        SQLiteDatabase database = mDBOpenHelper.getReadableDatabase();
+        if (database.isOpen()) {
+            Cursor cursor = database.rawQuery("select * from myReadHistory where url=?", new String[]{readNews.getUrl()});
+            if (cursor != null && cursor.getCount() >= 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public ArrayList<NewsItem> getAllFavourite() {
         ArrayList<NewsItem> newsList = new ArrayList<>();
         SQLiteDatabase database = mDBOpenHelper.getReadableDatabase();
@@ -94,14 +105,16 @@ public class DBDao {
     }
 
     public boolean insertHistory(ReadNews readNews) {
-        SQLiteDatabase database = mDBOpenHelper.getWritableDatabase();
-        if (database.isOpen()) {
-            database.execSQL(
-                    "insert into myReadHistory(title,icon1,icon2,icon3,src,url,readTime) values (?,?,?,?,?,?,?)",
-                    new Object[]{readNews.getTitle(), readNews.getIcon1(), readNews.getICon2(), readNews.getIcon3(), readNews.getSrc(), readNews.getUrl(), readNews.getReadTime()});
-            database.close();
-            return true;
+        if (!isReadNewsExist(readNews)) {
+            SQLiteDatabase database = mDBOpenHelper.getWritableDatabase();
+            if (database.isOpen()) {
+                database.execSQL(
+                        "insert into myReadHistory(title,icon1,icon2,icon3,src,url,readTime) values (?,?,?,?,?,?,?)",
+                        new Object[]{readNews.getTitle(), readNews.getIcon1(), readNews.getICon2(), readNews.getIcon3(), readNews.getSrc(), readNews.getUrl(), readNews.getReadTime()});
+                database.close();
+                return true;
 
+            }
         }
         return false;
     }
