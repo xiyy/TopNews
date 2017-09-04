@@ -5,14 +5,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.FavorHistFragmentPagerAdpter;
 import com.xi.liuliu.topnews.bean.NewsItem;
 import com.xi.liuliu.topnews.constants.Constants;
-import com.xi.liuliu.topnews.fragment.FavorHistFragment;
 import com.xi.liuliu.topnews.database.DBDao;
+import com.xi.liuliu.topnews.fragment.FavorHistFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 public class FavorHistoryActivity extends AppCompatActivity implements View.OnClickListener {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private Button mGoBack;
+    private RelativeLayout mGoBack;
     private ArrayList<NewsItem> mFavouriteList;
     private ArrayList<NewsItem> mReadHistoryList;
     private DBDao mDBDao;
@@ -40,13 +40,13 @@ public class FavorHistoryActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void init() {
-        mGoBack = (Button) findViewById(R.id.go_back_favor_history);
+        mGoBack = (RelativeLayout) findViewById(R.id.go_back_rl_activity_detail_news);
         mGoBack.setOnClickListener(this);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout_activity_favor_history);
         mViewPager = (ViewPager) findViewById(R.id.viewPager_activity_favor_history);
         mFavorHistFragmentPagerAdpter = new FavorHistFragmentPagerAdpter(getSupportFragmentManager(), mFavorHistFragmentList, mTabs);
         mViewPager.setAdapter(mFavorHistFragmentPagerAdpter);//给ViewPager设置适配器
-        mViewPager.setCurrentItem(getIntent().getIntExtra("viewPager_current_item",0));//当前显示的页卡
+        mViewPager.setCurrentItem(getIntent().getIntExtra("viewPager_current_item", 0));//当前显示的页卡
         mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
         mTabLayout.setTabsFromPagerAdapter(mFavorHistFragmentPagerAdpter);//给Tabs设置适配器
     }
@@ -67,7 +67,7 @@ public class FavorHistoryActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.go_back_favor_history:
+            case R.id.go_back_rl_activity_detail_news:
                 finish();
                 break;
         }
@@ -76,6 +76,6 @@ public class FavorHistoryActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0,R.anim.zoomout);
+        overridePendingTransition(0, R.anim.zoomout);
     }
 }

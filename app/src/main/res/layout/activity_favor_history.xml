@@ -9,23 +9,26 @@
     <RelativeLayout
         android:id="@+id/rtl_favourite_history"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="43dp">
 
-        <Button
-            android:id="@+id/go_back_favor_history"
-            android:layout_width="25dp"
-            android:layout_height="18dp"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/left_back_icon_titlebar" />
+        <RelativeLayout
+            android:id="@+id/go_back_rl_activity_detail_news"
+            android:layout_width="56dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/left_back_icon_titlebar" />
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/favourite_history" />
+            android:text="@string/favourite_history"
+            android:textSize="17sp" />
     </RelativeLayout>
 
     <View
@@ -38,11 +41,12 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout_activity_favor_history"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="43dp"
         android:layout_below="@+id/divide_line_favourite_history"
         app:tabGravity="center"
         app:tabIndicatorColor="@android:color/holo_red_light"
-        app:tabSelectedTextColor="@android:color/holo_red_light" />
+        app:tabSelectedTextColor="@android:color/holo_red_light"
+        app:tabTextAppearance="@style/table_layout_favor_histor_activity_text_size" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager_activity_favor_history"
