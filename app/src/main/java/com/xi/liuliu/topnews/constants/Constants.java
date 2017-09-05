@@ -16,6 +16,9 @@ public interface Constants {
     String USER_PHONE_NUMBER_SP_KEY = "phoneNumber";
     String LOGIN_TYPE_SP_KEY = "loginType";
     String WEI_BO_NICK_NAME_SP_KEY = "weiboNickName";
+    String LOCATION_LATITUDE_SP_KEY = "latitude";
+    String LOCATION_lONGITUDE_SP_KEY = "longitude";
+    String LOCATION_ADDRESS_SP_KEY = "address";
     String WEI_BO_Portrait_URL = "weiboPortraitUrl";
     String LOGIN_SMS_CODE_HOST = "https://api.leancloud.cn/1.1/requestSmsCode";
     String VERIFY_SMS_CODE = "https://api.leancloud.cn/1.1/verifySmsCode";
@@ -103,5 +106,7 @@ public interface Constants {
     String HU_NAN_DIAN_SHI_JU_MOIVE = HU_NAN_DIAN_SHI_JU;
     String TIAN_YING_JING_DIAN_MOIVE = TIAN_YING_JING_DIAN;
     String JING_SONG_TV_MOIVE = JING_SONG_TV;
+    //定位相关
+    String GET_NEARBY_ADDRESSES_URL = "http://api.map.baidu.com/geocoder/v2/?ak=6eea93095ae93db2c77be9ac910ff311";
 
 }

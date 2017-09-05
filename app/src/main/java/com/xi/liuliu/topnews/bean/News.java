@@ -10,7 +10,7 @@ public class News {
     private String reason;
     @SerializedName("error_code")
     private int errorCode;
-    private Result result;
+    private NewsResult result;
 
     public String getReason() {
         return reason;
@@ -28,11 +28,11 @@ public class News {
         this.errorCode = errorCode;
     }
 
-    public Result getResult() {
+    public NewsResult getResult() {
         return result;
     }
 
-    public void setResult(Result result) {
+    public void setResult(NewsResult result) {
         this.result = result;
     }
 }

@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
 import com.xi.liuliu.topnews.event.LoginEvent;
@@ -34,12 +36,14 @@ import com.xi.liuliu.topnews.fragment.HomeFragment;
 import com.xi.liuliu.topnews.fragment.LiveFragment;
 import com.xi.liuliu.topnews.fragment.MineFragment;
 import com.xi.liuliu.topnews.http.HttpClient;
+import com.xi.liuliu.topnews.utils.JsonUtil;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 import okhttp3.Call;
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private Toast mExitToast;
     private SsoHandler mSsoHandler;
     private Tencent mTencent;
+    private ArrayList<Address> mAddresses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
             updateBottomBarAsLogin();
         }
         showFragment(HOME_FRAGMENT);
+        getLocation();
     }
 
 
@@ -355,4 +361,27 @@ public class MainActivity extends AppCompatActivity {
             mRadioGroup.setVisibility(View.GONE);
         }
     }
+
+    private void getLocation() {
+        String latitude = SharedPrefUtil.getInstance(this).getString(Constants.LOCATION_LATITUDE_SP_KEY);
+        String longitude = SharedPrefUtil.getInstance(this).getString(Constants.LOCATION_lONGITUDE_SP_KEY);
+        if (!TextUtils.isEmpty(latitude) && !TextUtils.isEmpty(longitude)) {
+            mAddresses = new ArrayList<>();
+            HttpClient httpClient = new HttpClient();
+            httpClient.setCallback(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.i(TAG, "getLocation onFailure");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String jsonResponse = response.body().string();
+                    JsonUtil.getAddresses(jsonResponse, mAddresses);
+                }
+            }).requestAddresses(latitude, longitude);
+        }
+    }
+
+
 }

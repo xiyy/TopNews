@@ -28,7 +28,8 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     private ImageView mImg8;
     private ImageView mImg9;
     private EditText mContact;
-    private LinearLayout mLocation;
+    private LinearLayout mLocationLl;
+    private TextView mLocationTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +67,9 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
         mImg9 = (ImageView) findViewById(R.id.img_9_broke_news);
         mImg9.setOnClickListener(this);
         mContact = (EditText) findViewById(R.id.edit_contact_broke_news);
-        mLocation = (LinearLayout) findViewById(R.id.ll_location_broke_news);
-        mLocation.setOnClickListener(this);
+        mLocationLl = (LinearLayout) findViewById(R.id.ll_location_broke_news);
+        mLocationLl.setOnClickListener(this);
+        mLocationTv = (TextView) findViewById(R.id.location_broke_news);
     }
 
     @Override

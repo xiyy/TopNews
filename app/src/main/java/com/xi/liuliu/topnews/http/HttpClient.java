@@ -84,4 +84,15 @@ public class HttpClient {
         Call call = okHttpClient.newCall(request);
         call.enqueue(mCallback);
     }
+
+    public void requestAddresses(String latitude, String longitude) {
+        if (TextUtils.isEmpty(latitude) || TextUtils.isEmpty(longitude)) {
+            throw new NullPointerException("HttpClient.requestAddresses(),latitude is null or longitude is null");
+        }
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder().get().url(Constants.GET_NEARBY_ADDRESSES_URL + "&location=" + latitude + "," + longitude + "&output=json&pois=1");
+        Request request = builder.build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(mCallback);
+    }
 }

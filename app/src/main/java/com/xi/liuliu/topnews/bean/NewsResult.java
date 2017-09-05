@@ -6,7 +6,7 @@ import java.util.List;
  * Created by liuliu on 2017/6/15.
  */
 
-public class Result {
+public class NewsResult {
     private String stat;
     private List<NewsItem> data;
     public List<NewsItem> getData() {
