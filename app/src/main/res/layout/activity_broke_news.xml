@@ -1,12 +1,327 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.xi.liuliu.topnews.activity.BrokeNewsActivity">
 
-    <WebView
-        android:id="@+id/web_view_activity_broke_news"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
-</RelativeLayout>
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/cancle_broke_news_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="8dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"
+            android:text="@string/broke_news_cancle"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/broke_news_title"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/broke_news_publish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="8dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"
+            android:text="@string/broke_news_publish" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/grey13">
+        ></View>
+
+    <ScrollView
+        android:id="@+id/scroll_view_broke_news_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_title_broke_news"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="@string/broke_news_hint_title"
+                android:singleLine="true"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/grey13">
+                ></View>
+
+            <EditText
+                android:id="@+id/edit_content_brokes_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:enabled="true"
+                android:gravity="top"
+                android:hint="@string/broke_news_hint_content"
+                android:inputType="textMultiLine"
+                android:maxLines="8"
+                android:minLines="5"
+                android:paddingLeft="3dp"
+                android:paddingTop="5dp"
+                android:scrollbars="vertical"
+                android:textSize="16sp"></EditText>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/layer_1_imgs_broke_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/img_1_broke_news"
+                        android:layout_width="106dp"
+                        android:layout_height="106dp"
+                        android:background="@drawable/layer_list_broke_news_add_img"
+                        android:visibility="visible" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="106dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"></View>
+
+                    <ImageView
+                        android:id="@+id/img_2_broke_news"
+                        android:layout_width="106dp"
+                        android:layout_height="106dp"
+                        android:background="@drawable/layer_list_broke_news_add_img"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="106dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"></View>
+
+                    <ImageView
+                        android:id="@+id/img_3_broke_news"
+                        android:layout_width="106dp"
+                        android:layout_height="106dp"
+                        android:background="@drawable/layer_list_broke_news_add_img"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layer_2_imgs_broke_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/img_4_broke_news"
+                        android:layout_width="106dp"
+                        android:layout_height="106dp"
+                        android:background="@drawable/layer_list_broke_news_add_img"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="106dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"></View>
+
+                    <ImageView
+                        android:id="@+id/img_5_broke_news"
+                        android:layout_width="106dp"
+                        android:layout_height="106dp"
+                        android:background="@drawable/layer_list_broke_news_add_img"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="106dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"></View>
+
+                    <ImageView
+                        android:id="@+id/img_6_broke_news"
+                        android:layout_width="106dp"
+                        android:layout_height="106dp"
+                        android:background="@drawable/layer_list_broke_news_add_img"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layer_3_imgs_broke_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/img_7_broke_news"
+                        android:layout_width="106dp"
+                        android:layout_height="106dp"
+                        android:background="@drawable/layer_list_broke_news_add_img"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="106dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"></View>
+
+                    <ImageView
+                        android:id="@+id/img_8_broke_news"
+                        android:layout_width="106dp"
+                        android:layout_height="106dp"
+                        android:background="@drawable/layer_list_broke_news_add_img"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="106dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"></View>
+
+                    <ImageView
+                        android:id="@+id/img_9_broke_news"
+                        android:layout_width="106dp"
+                        android:layout_height="106dp"
+                        android:background="@drawable/layer_list_broke_news_add_img"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/grey13">
+                    ></View>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/grey32"></View>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/grey13">
+                    >
+                </View>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/broke_news_activity_contact" />
+
+                <EditText
+                    android:id="@+id/edit_contact_broke_news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:background="@null"
+                    android:hint="@string/broke_news_hint_contact"
+                    android:inputType="number"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="7dp"
+                    android:paddingTop="10dp"
+                    android:singleLine="true"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/grey13">
+                ></View>
+
+            <LinearLayout
+                android:id="@+id/ll_location_broke_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/broke_news_activity_location" />
+
+                <TextView
+                    android:id="@+id/location_broke_news"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:text="北京市西城区"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/setting_arrow_right" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/grey13">
+                >
+            </View>
+        </LinearLayout>
+
+
+    </ScrollView>
+</LinearLayout>

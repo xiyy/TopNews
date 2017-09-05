@@ -89,5 +89,12 @@
     <string name="alert_dialog_mobile_network_title">网络提示</string>
     <string name="alert_dialog_mobile_network_ok">继续</string>
     <string name="alert_dialog_mobile_network_cancle">取消</string>
+    <!-- 我要爆料 -->
+    <string name="broke_news_cancle">取消</string>
+    <string name="broke_news_title">我要爆料</string>
+    <string name="broke_news_publish">发布</string>
+    <string name="broke_news_hint_title">标题</string>
+    <string name="broke_news_hint_content">分享身边新鲜事...</string>
+    <string name="broke_news_hint_contact">联系电话（选填，仅工作人员可见）</string>
 
 </resources>
