@@ -1,5 +1,6 @@
 package com.xi.liuliu.topnews.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,8 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.bean.Address;
+import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.utils.SharedPrefUtil;
+
+import java.util.ArrayList;
 
 public class BrokeNewsActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "BrokeNewsActivity";
     private TextView mCancle;
     private TextView mPublish;
     private EditText mTitle;
@@ -30,12 +37,16 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     private EditText mContact;
     private LinearLayout mLocationLl;
     private TextView mLocationTv;
+    private ImageView mLocationImg;
+    private ArrayList<Address> mAddressList;
+    private boolean isLocated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_broke_news);
         initView();
+        mAddressList = getIntent().getParcelableArrayListExtra("addressList");
     }
 
     private void initView() {
@@ -70,12 +81,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
         mLocationLl = (LinearLayout) findViewById(R.id.ll_location_broke_news);
         mLocationLl.setOnClickListener(this);
         mLocationTv = (TextView) findViewById(R.id.location_broke_news);
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(0, R.anim.zoomout);
+        mLocationImg = (ImageView) findViewById(R.id.location_img_broke_news);
     }
 
     @Override
@@ -88,8 +94,27 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                 publish();
                 break;
             case R.id.ll_location_broke_news:
-
+                Intent intent = new Intent(this, AddressListActivity.class);
+                intent.putParcelableArrayListExtra("addressList", mAddressList);
+                startActivityForResult(intent, 0);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String addressName = data.getStringExtra("address_name");
+        if (addressName != null) {
+            if (addressName.equals("")) {
+                mLocationTv.setText(R.string.broke_news_location_address);
+                isLocated = false;
+                mLocationImg.setImageResource(R.drawable.selector_broke_news_location);
+            } else {
+                mLocationTv.setText(addressName);
+                isLocated = true;
+                mLocationImg.setImageResource(R.drawable.broke_news_activity_location_success);
+                SharedPrefUtil.getInstance(this).putString(Constants.LOCATION_ADDRESS_SP_KEY, addressName);
+            }
         }
     }
 

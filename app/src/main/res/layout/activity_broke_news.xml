@@ -290,11 +290,12 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/location_img_broke_news"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="15dp"
-                    android:background="@drawable/broke_news_activity_location" />
+                    android:background="@drawable/selector_broke_news_location" />
 
                 <TextView
                     android:id="@+id/location_broke_news"
@@ -303,7 +304,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:text="北京市西城区"
+                    android:text="@string/broke_news_location_address"
                     android:textSize="16sp" />
 
                 <Button

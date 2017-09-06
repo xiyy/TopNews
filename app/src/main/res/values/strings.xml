@@ -96,9 +96,12 @@
     <string name="broke_news_hint_title">标题</string>
     <string name="broke_news_hint_content">分享身边新鲜事...</string>
     <string name="broke_news_hint_contact">联系电话（选填，仅工作人员可见）</string>
+    <string name="broke_news_location_address">所在位置</string>
     <!-- 定位-->
     <string name="provider_settings_message">Your GPS seems to be disabled, do you want to enable it?</string>
     <string name="provider_settings_yes">Yes</string>
     <string name="provider_settings_no">No</string>
-
+    <!-- 地址列表-->
+    <string name="address_list_go_back">返回</string>
+    <string name="address_list_not_show">不显示位置</string>
 </resources>

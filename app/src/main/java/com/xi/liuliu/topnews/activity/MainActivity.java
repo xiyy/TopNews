@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private Toast mExitToast;
     private SsoHandler mSsoHandler;
     private Tencent mTencent;
-    private ArrayList<Address> mAddresses;
+    private ArrayList<Address> mAddressesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             updateBottomBarAsLogin();
         }
         showFragment(HOME_FRAGMENT);
-        getLocation();
+        getAddresses();
     }
 
 
@@ -362,11 +362,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getLocation() {
+    private void getAddresses() {
         String latitude = SharedPrefUtil.getInstance(this).getString(Constants.LOCATION_LATITUDE_SP_KEY);
         String longitude = SharedPrefUtil.getInstance(this).getString(Constants.LOCATION_lONGITUDE_SP_KEY);
         if (!TextUtils.isEmpty(latitude) && !TextUtils.isEmpty(longitude)) {
-            mAddresses = new ArrayList<>();
+            mAddressesList = new ArrayList<>();
             HttpClient httpClient = new HttpClient();
             httpClient.setCallback(new Callback() {
                 @Override
@@ -377,11 +377,14 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String jsonResponse = response.body().string();
-                    JsonUtil.getAddresses(jsonResponse, mAddresses);
+                    JsonUtil.getAddresses(jsonResponse, mAddressesList);
                 }
             }).requestAddresses(latitude, longitude);
         }
     }
 
+    public ArrayList<Address> getAddressList() {
+        return mAddressesList;
+    }
 
 }
