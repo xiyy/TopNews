@@ -113,8 +113,8 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                 mLocationTv.setText(addressName);
                 isLocated = true;
                 mLocationImg.setImageResource(R.drawable.broke_news_activity_location_success);
-                SharedPrefUtil.getInstance(this).putString(Constants.LOCATION_ADDRESS_SP_KEY, addressName);
             }
+            SharedPrefUtil.getInstance(this).putString(Constants.LOCATION_ADDRESS_SP_KEY, addressName);
         }
     }
 

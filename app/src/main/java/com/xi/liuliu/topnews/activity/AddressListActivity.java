@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -57,6 +58,7 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.go_back_btn_address_list:
+                //AddressListActivity是由startActivityForResult启动的，所以AddressListActivity关闭前，必须setResult，否则crash
                 String lastAddress = SharedPrefUtil.getInstance(this).getString(Constants.LOCATION_ADDRESS_SP_KEY);
                 Intent intent = new Intent();
                 if (TextUtils.isEmpty(lastAddress)) {
@@ -68,5 +70,21 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //AddressListActivity是由startActivityForResult启动的，所以AddressListActivity关闭前，必须setResult，否则crash
+            String lastAddress = SharedPrefUtil.getInstance(this).getString(Constants.LOCATION_ADDRESS_SP_KEY);
+            Intent intent = new Intent();
+            if (TextUtils.isEmpty(lastAddress)) {
+                intent.putExtra("address_name", "");
+            } else {
+                intent.putExtra("address_name", lastAddress);
+            }
+            setResult(0, intent);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
