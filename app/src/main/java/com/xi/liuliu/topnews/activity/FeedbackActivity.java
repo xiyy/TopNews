@@ -1,13 +1,11 @@
 package com.xi.liuliu.topnews.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -80,22 +78,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     mFeedbackGetPicDialog = new FeedbackGetPicDialog(this, this, R.layout.dialog_feedback_get_pic_delete);
                 }
-                //isSoftInputShow有问题，总是返回TRUE
-                if (isSoftInputShow()) {
-                    //隐藏软键盘
-                    InputMethodManager imm = (InputMethodManager)
-                            getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    //软键盘消失后，再show，软件盘消失需要时间
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mFeedbackGetPicDialog.show();
-                        }
-                    }, 150);
-                } else {
-                    mFeedbackGetPicDialog.show();
-                }
+                mFeedbackGetPicDialog.show();
                 break;
         }
     }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.dialog.BrokeNewsGetPicDialog;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
 import java.util.ArrayList;
@@ -98,6 +99,10 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                 intent.putParcelableArrayListExtra("addressList", mAddressList);
                 startActivityForResult(intent, 0);
                 break;
+            case R.id.img_1_broke_news:
+                new BrokeNewsGetPicDialog(this).show();
+                break;
+
         }
     }
 
