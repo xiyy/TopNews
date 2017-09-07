@@ -24,21 +24,49 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
     private LinearLayoutManager mLinearLayoutManager;
     private AddressListAdapter mAddressListAdapter;
     private SharedPrefUtil mSharedPrefUtil;
+    private String mLastTimeAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_list);
+        initData();
+        initView();
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //AddressListActivity是由startActivityForResult启动的，所以AddressListActivity关闭前，必须setResult，否则crash
+            Intent intent = new Intent();
+            if (mLastTimeAddress != null) {
+                if (mLastTimeAddress.equals("")) {
+                    intent.putExtra("address_name", "");
+                } else {
+                    intent.putExtra("address_name", mLastTimeAddress);
+                }
+            }
+            setResult(0, intent);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void initData() {
         mAddressList = getIntent().getParcelableArrayListExtra("addressList");
         mSharedPrefUtil = SharedPrefUtil.getInstance(this);
+        mLastTimeAddress = mSharedPrefUtil.getString(Constants.LOCATION_ADDRESS_SP_KEY);
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mAddressListAdapter = new AddressListAdapter(mAddressList, mLastTimeAddress);
+    }
+
+    private void initView() {
         mCancle = (TextView) findViewById(R.id.go_back_btn_address_list);
         mCancle.setOnClickListener(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_address_list);
-        mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         //如果每个item的高度是固定的，设置这个选项可以提高性能
         mRecyclerView.setHasFixedSize(true);
-        mAddressListAdapter = new AddressListAdapter(mAddressList);
         mRecyclerView.setAdapter(mAddressListAdapter);
         mAddressListAdapter.setOnItemClickListener(new AddressListAdapter.OnItemClickListener() {
             @Override
@@ -48,7 +76,8 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
                 if (position == 0) {
                     addressName = "";
                 } else {
-                    addressName = mAddressList.get(position - 1).getName();
+                    Address selectedAddress = mAddressList.get(position - 1);
+                    addressName = selectedAddress.getName();
                 }
                 intent.putExtra("address_name", addressName);
                 mSharedPrefUtil.putString(Constants.LOCATION_ADDRESS_SP_KEY, addressName);
@@ -63,13 +92,12 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.go_back_btn_address_list:
                 //AddressListActivity是由startActivityForResult启动的，所以AddressListActivity关闭前，必须setResult，否则crash
-                String lastAddress = mSharedPrefUtil.getString(Constants.LOCATION_ADDRESS_SP_KEY);
                 Intent intent = new Intent();
-                if (lastAddress != null) {
-                    if (lastAddress.equals("")) {
+                if (mLastTimeAddress != null) {
+                    if (mLastTimeAddress.equals("")) {
                         intent.putExtra("address_name", "");
                     } else {
-                        intent.putExtra("address_name", lastAddress);
+                        intent.putExtra("address_name", mLastTimeAddress);
                     }
                 }
                 setResult(0, intent);
@@ -78,21 +106,4 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            //AddressListActivity是由startActivityForResult启动的，所以AddressListActivity关闭前，必须setResult，否则crash
-            String lastAddress = mSharedPrefUtil.getString(Constants.LOCATION_ADDRESS_SP_KEY);
-            Intent intent = new Intent();
-            if (lastAddress != null) {
-                if (lastAddress.equals("")) {
-                    intent.putExtra("address_name", "");
-                } else {
-                    intent.putExtra("address_name", lastAddress);
-                }
-            }
-            setResult(0, intent);
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }

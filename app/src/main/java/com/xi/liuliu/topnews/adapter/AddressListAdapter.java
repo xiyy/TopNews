@@ -1,6 +1,7 @@
 package com.xi.liuliu.topnews.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,12 @@ public class AddressListAdapter extends RecyclerView.Adapter implements View.OnC
     private static final int TYPE_SHOW_ADDRESS = 1;
     private ArrayList<Address> mAddressList;
     private OnItemClickListener mOnItemClickListener;
+    private String mLastTimeAddress;
 
-    public AddressListAdapter(ArrayList<Address> list) {
+    public AddressListAdapter(ArrayList<Address> list, String lastTimeAddress) {
         this.mAddressList = list;
+        this.mLastTimeAddress = lastTimeAddress;
+        reorderAddressList();
     }
 
     @Override
@@ -59,7 +63,16 @@ public class AddressListAdapter extends RecyclerView.Adapter implements View.OnC
                 String addressNumber = mAddressList.get(position - 1).getNumber();
                 addressListHolder.addressName.setText(addressName);
                 addressListHolder.addressNumber.setText(addressNumber);
+                if (mLastTimeAddress != null && mLastTimeAddress.equals(addressName)) {
+                    addressListHolder.itemSelected.setVisibility(View.VISIBLE);
+                }
 
+            }
+        } else {
+            //上次没有选择位置的话，让对勾出现
+            AddressNoHolder addressNoHolder = (AddressNoHolder) holder;
+            if (mLastTimeAddress != null && mLastTimeAddress.equals("")) {
+                addressNoHolder.itemSelected.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -115,5 +128,24 @@ public class AddressListAdapter extends RecyclerView.Adapter implements View.OnC
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
+    }
+
+    /**
+     * 将上次选择的位置放在数组顶部(地址列表的第二个位置)
+     */
+    private void reorderAddressList() {
+        if (!TextUtils.isEmpty(mLastTimeAddress)) {
+            if (mAddressList != null && mAddressList.size() > 0) {
+                for (int i = 0; i < mAddressList.size(); i++) {
+                    Address address = mAddressList.get(i);
+                    if (address.getName().equals(mLastTimeAddress)) {
+                        //将上次选择的位置放在数组顶部
+                        mAddressList.add(0, address);
+                        mAddressList.remove(i + 1);
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
