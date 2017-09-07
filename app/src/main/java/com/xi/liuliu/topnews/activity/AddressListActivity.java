@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -24,12 +23,14 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
     private ArrayList<Address> mAddressList;
     private LinearLayoutManager mLinearLayoutManager;
     private AddressListAdapter mAddressListAdapter;
+    private SharedPrefUtil mSharedPrefUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_list);
         mAddressList = getIntent().getParcelableArrayListExtra("addressList");
+        mSharedPrefUtil = SharedPrefUtil.getInstance(this);
         mCancle = (TextView) findViewById(R.id.go_back_btn_address_list);
         mCancle.setOnClickListener(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_address_list);
@@ -43,11 +44,14 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent();
+                String addressName;
                 if (position == 0) {
-                    intent.putExtra("address_name", "");
+                    addressName = "";
                 } else {
-                    intent.putExtra("address_name", mAddressList.get(position - 1).getName());
+                    addressName = mAddressList.get(position - 1).getName();
                 }
+                intent.putExtra("address_name", addressName);
+                mSharedPrefUtil.putString(Constants.LOCATION_ADDRESS_SP_KEY, addressName);
                 setResult(0, intent);
                 finish();
             }
@@ -59,12 +63,14 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.go_back_btn_address_list:
                 //AddressListActivity是由startActivityForResult启动的，所以AddressListActivity关闭前，必须setResult，否则crash
-                String lastAddress = SharedPrefUtil.getInstance(this).getString(Constants.LOCATION_ADDRESS_SP_KEY);
+                String lastAddress = mSharedPrefUtil.getString(Constants.LOCATION_ADDRESS_SP_KEY);
                 Intent intent = new Intent();
-                if (TextUtils.isEmpty(lastAddress)) {
-                    intent.putExtra("address_name", "");
-                } else {
-                    intent.putExtra("address_name", lastAddress);
+                if (lastAddress != null) {
+                    if (lastAddress.equals("")) {
+                        intent.putExtra("address_name", "");
+                    } else {
+                        intent.putExtra("address_name", lastAddress);
+                    }
                 }
                 setResult(0, intent);
                 finish();
@@ -76,12 +82,14 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //AddressListActivity是由startActivityForResult启动的，所以AddressListActivity关闭前，必须setResult，否则crash
-            String lastAddress = SharedPrefUtil.getInstance(this).getString(Constants.LOCATION_ADDRESS_SP_KEY);
+            String lastAddress = mSharedPrefUtil.getString(Constants.LOCATION_ADDRESS_SP_KEY);
             Intent intent = new Intent();
-            if (TextUtils.isEmpty(lastAddress)) {
-                intent.putExtra("address_name", "");
-            } else {
-                intent.putExtra("address_name", lastAddress);
+            if (lastAddress != null) {
+                if (lastAddress.equals("")) {
+                    intent.putExtra("address_name", "");
+                } else {
+                    intent.putExtra("address_name", lastAddress);
+                }
             }
             setResult(0, intent);
         }

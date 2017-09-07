@@ -2,17 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="55dp"
-    android:orientation="vertical">
+    android:background="@drawable/selector_mine_fragment_item"
+    android:orientation="vertical"
+    android:paddingLeft="20dp">
 
-    <TextView
-        android:id="@+id/address_not_show"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:text="@string/address_list_not_show"
-        android:textColor="@color/blue1"
-        android:textSize="16sp" />
+        android:layout_marginRight="20dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/address_not_show"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/address_list_not_show"
+            android:textColor="@color/blue1"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/location_selected_not_show"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/broke_news_activity_location_selected"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"

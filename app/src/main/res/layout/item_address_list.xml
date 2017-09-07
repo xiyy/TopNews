@@ -1,27 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="55dp"
-    android:orientation="vertical">
+    android:background="@drawable/selector_mine_fragment_item"
+    android:orientation="vertical"
+    android:paddingLeft="20dp">
 
-    <TextView
-        android:id="@+id/address_name_item_address_list"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:text="西单大悦城"
-        android:textSize="16sp" />
+        android:layout_marginRight="20dp"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/address_number_item_address_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:text="西单北大街甲133号"
-        android:textColor="@color/grey29"
-        android:textSize="15sp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/address_name_item_address_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="西单大悦城"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/address_number_item_address_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="西单北大街甲133号"
+                android:textColor="@color/grey29"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/location_selected_item_address_list"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/broke_news_activity_location_selected"
+            android:visibility="gone" />
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"

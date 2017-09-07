@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
@@ -34,12 +35,14 @@ public class AddressListAdapter extends RecyclerView.Adapter implements View.OnC
             AddressListHolder holder = new AddressListHolder(view);
             holder.addressName = (TextView) view.findViewById(R.id.address_name_item_address_list);
             holder.addressNumber = (TextView) view.findViewById(R.id.address_number_item_address_list);
+            holder.itemSelected = (ImageView) view.findViewById(R.id.location_selected_item_address_list);
             return holder;
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_address_not_show, parent, false);
             view.setOnClickListener(this);
             AddressNoHolder holder = new AddressNoHolder(view);
             holder.textView = (TextView) view.findViewById(R.id.address_not_show);
+            holder.itemSelected = (ImageView) view.findViewById(R.id.location_selected_not_show);
             return holder;
         }
 
@@ -86,6 +89,7 @@ public class AddressListAdapter extends RecyclerView.Adapter implements View.OnC
     private static class AddressListHolder extends RecyclerView.ViewHolder {
         TextView addressName;
         TextView addressNumber;
+        ImageView itemSelected;
         View addressItemView;
 
         public AddressListHolder(View itemView) {
@@ -96,6 +100,7 @@ public class AddressListAdapter extends RecyclerView.Adapter implements View.OnC
 
     private static class AddressNoHolder extends RecyclerView.ViewHolder {
         TextView textView;
+        ImageView itemSelected;
         View view;
 
         public AddressNoHolder(View itemView) {
