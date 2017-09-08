@@ -1,6 +1,8 @@
 package com.xi.liuliu.topnews.dialog;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +17,15 @@ import com.xi.liuliu.topnews.R;
 
 public class BrokeNewsGetPicDialog implements View.OnClickListener {
     private Context mContext;
+    private Activity mActivity;
     private DialogView mDialogView;
     private TextView mCamera;
     private TextView mAlbum;
     private TextView mCancle;
 
-    public BrokeNewsGetPicDialog(Context context) {
+    public BrokeNewsGetPicDialog(Context context, Activity activity) {
         this.mContext = context;
+        this.mActivity = activity;
         init();
     }
 
@@ -74,6 +78,8 @@ public class BrokeNewsGetPicDialog implements View.OnClickListener {
     }
 
     private void getPicFromAlbum() {
-
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        mActivity.startActivityForResult(intent, 1001);
     }
 }
