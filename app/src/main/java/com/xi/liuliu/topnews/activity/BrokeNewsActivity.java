@@ -2,9 +2,12 @@ package com.xi.liuliu.topnews.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +21,7 @@ import com.xi.liuliu.topnews.adapter.ImgPickerAdapter;
 import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.BrokeNewsGetPicDialog;
+import com.xi.liuliu.topnews.utils.BitmapUtil;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.view.ImgPickerGridView;
 
@@ -40,7 +44,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     private boolean isLocated;
     private BrokeNewsGetPicDialog mBrokeNewsGetPicDialog;
     private ArrayList<Bitmap> mBitmapList;
-    private int mImgCount;
+    private int mImgCount = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +72,8 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //不满9张时，最后一张永远是“添加”图片
-                if (position == mBitmapList.size() - 1) {
-                    if (mImgCount != 9) {
+                if (position == mBitmapList.size() - 1) {//点击最后一张图片
+                    if (mImgCount <= 9) {
                         mBrokeNewsGetPicDialog.show();
                     }
                 }
@@ -132,22 +136,27 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
 
     private void handleAlbumResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1001 && resultCode == Activity.RESULT_OK && data != null) {
-//            Uri selectedImage = data.getData();
-//            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-//            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-//            c.moveToFirst();
-//            int columnIndex = c.getColumnIndex(filePathColumns[0]);
-//            mImagesPath[mImageCount] = c.getString(columnIndex);
-//            Bitmap bm = BitmapUtil.BytesToBitmap(BitmapUtil.decodeBitmap(mImagesPath[mImageCount]));
-//            mBitmapList.add(mImageCount, bm);
-//            mImageViews[mImageCount].setImageBitmap(bm);
-//            mImageViews[mImageCount].setScaleType(ImageView.ScaleType.FIT_XY);
-//            c.close();
-//            hasImagesSelected[mImageCount] = true;
-//            if (mBrokeNewsGetPicDialog != null) {
-//                mBrokeNewsGetPicDialog.dismiss();
-//            }
-//            mImageCount++;
+            Uri selectedImage = data.getData();
+            String[] filePathColumns = {MediaStore.Images.Media.DATA};
+            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+            c.moveToFirst();
+            int columnIndex = c.getColumnIndex(filePathColumns[0]);
+            String imgPath = c.getString(columnIndex);
+            Bitmap bm = BitmapUtil.BytesToBitmap(BitmapUtil.decodeBitmap(imgPath));
+            //mImgCount!=9时，最后一张显示“+”图片
+            if (mImgCount != 9) {
+                mBitmapList.add(mImgCount - 1, bm);
+            } else {
+                //mImgCount==9时，删除最后的“+”图片,再把第9张图片加入
+                mBitmapList.remove(mImgCount - 1);
+                mBitmapList.add(mImgCount - 1, bm);
+            }
+            mImgCount++;
+            mGridView.setAdapter(new ImgPickerAdapter(this, mBitmapList));
+            c.close();
+            if (mBrokeNewsGetPicDialog != null) {
+                mBrokeNewsGetPicDialog.dismiss();
+            }
         }
     }
 
