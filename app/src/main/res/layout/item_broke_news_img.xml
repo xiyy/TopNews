@@ -8,5 +8,6 @@
         android:id="@+id/image_view_item_broke_news_pic"
         android:layout_width="106dp"
         android:layout_height="106dp"
-        android:background="@drawable/layer_list_broke_news_add_img" />
+        android:background="@drawable/layer_list_broke_news_add_img"
+        android:scaleType="center"/>
 </LinearLayout>

@@ -45,6 +45,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     private BrokeNewsGetPicDialog mBrokeNewsGetPicDialog;
     private ArrayList<Bitmap> mBitmapList;
     private int mImgCount = 1;
+    private ImgPickerAdapter mImgPickerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
         mLocationTv = (TextView) findViewById(R.id.location_broke_news);
         mLocationImg = (ImageView) findViewById(R.id.location_img_broke_news);
         mGridView = (ImgPickerGridView) findViewById(R.id.grid_view_broke_news_activity);
-        mGridView.setAdapter(new ImgPickerAdapter(this, mBitmapList));
+        mGridView.setAdapter(mImgPickerAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -87,6 +88,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
         mBitmapList = new ArrayList<>();
         Bitmap addImg = BitmapFactory.decodeResource(getResources(), R.drawable.layer_list_broke_news_add_img);
         mBitmapList.add(addImg);
+        mImgPickerAdapter = new ImgPickerAdapter(this, mBitmapList);
     }
 
     @Override
@@ -152,7 +154,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                 mBitmapList.add(mImgCount - 1, bm);
             }
             mImgCount++;
-            mGridView.setAdapter(new ImgPickerAdapter(this, mBitmapList));
+            mImgPickerAdapter.notifyDataSetChanged();
             c.close();
             if (mBrokeNewsGetPicDialog != null) {
                 mBrokeNewsGetPicDialog.dismiss();
@@ -161,6 +163,20 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void handleCameraResult(int requestCode, int resultCode, Intent data) {
+        Bitmap photo = data.getParcelableExtra("data");
+        //mImgCount!=9时，最后一张显示“+”图片
+        if (mImgCount != 9) {
+            mBitmapList.add(mImgCount - 1, photo);
+        } else {
+            //mImgCount==9时，删除最后的“+”图片,再把第9张图片加入
+            mBitmapList.remove(mImgCount - 1);
+            mBitmapList.add(mImgCount - 1, photo);
+        }
+        mImgCount++;
+        mImgPickerAdapter.notifyDataSetChanged();
+        if (mBrokeNewsGetPicDialog != null) {
+            mBrokeNewsGetPicDialog.dismiss();
+        }
 
     }
 
