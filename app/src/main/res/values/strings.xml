@@ -100,6 +100,10 @@
     <string name="broke_news_get_pic_camera">手机拍照</string>
     <string name="broke_news_get_pic_album">手机相册</string>
     <string name="broke_news_get_pic_cancle">取消</string>
+    <string name="broke_news_toast_say_something">说点什么吧</string>
+    <string name="broke_news_toast_phone_empty">联系电话不能为空</string>
+    <string name="broke_news_toast_phone_invalid">手机号码不合法</string>
+    <string name="broke_news_toast_send_success">发送成功！</string>
     <!-- 定位-->
     <string name="provider_settings_message">Your GPS seems to be disabled, do you want to enable it?</string>
     <string name="provider_settings_yes">Yes</string>

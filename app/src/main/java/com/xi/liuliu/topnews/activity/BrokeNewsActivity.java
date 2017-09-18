@@ -7,8 +7,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -16,16 +18,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.feedback.Comment;
+import com.avos.avoscloud.feedback.FeedbackAgent;
+import com.avos.avoscloud.feedback.FeedbackThread;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.ImgPickerAdapter;
 import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.BrokeNewsGetPicDialog;
+import com.xi.liuliu.topnews.dialog.SendingDialog;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
+import com.xi.liuliu.topnews.utils.CheckPhone;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
+import com.xi.liuliu.topnews.utils.ToastUtil;
 import com.xi.liuliu.topnews.view.ImgPickerGridView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class BrokeNewsActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "BrokeNewsActivity";
@@ -44,8 +58,10 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     private boolean isLocated;
     private BrokeNewsGetPicDialog mBrokeNewsGetPicDialog;
     private ArrayList<Bitmap> mBitmapList;
+    private ArrayList<String> mImgPathList;
     private int mImgCount = 1;
     private ImgPickerAdapter mImgPickerAdapter;
+    private SendingDialog mSendingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +93,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                     if (mImgCount <= 9) {
                         mBrokeNewsGetPicDialog.show();
                     }
+
                 }
             }
         });
@@ -84,11 +101,12 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
 
     private void initData() {
         mAddressList = getIntent().getParcelableArrayListExtra("addressList");
-        mBrokeNewsGetPicDialog = new BrokeNewsGetPicDialog(this, this);
         mBitmapList = new ArrayList<>();
+        mImgPathList = new ArrayList<>();
         Bitmap addImg = BitmapFactory.decodeResource(getResources(), R.drawable.layer_list_broke_news_add_img);
         mBitmapList.add(addImg);
         mImgPickerAdapter = new ImgPickerAdapter(this, mBitmapList);
+        mBrokeNewsGetPicDialog = new BrokeNewsGetPicDialog(this, this);
     }
 
     @Override
@@ -120,6 +138,11 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     private void handleAddressResult(int requestCode, int resultCode, Intent data) {
         String addressName = data.getStringExtra("address_name");
         if (addressName != null) {
@@ -144,6 +167,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
             c.moveToFirst();
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
             String imgPath = c.getString(columnIndex);
+            mImgPathList.add(imgPath);
             Bitmap bm = BitmapUtil.BytesToBitmap(BitmapUtil.decodeBitmap(imgPath));
             //mImgCount!=9时，最后一张显示“+”图片
             if (mImgCount != 9) {
@@ -163,26 +187,94 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void handleCameraResult(int requestCode, int resultCode, Intent data) {
-        Bitmap photo = data.getParcelableExtra("data");
-        //mImgCount!=9时，最后一张显示“+”图片
-        if (mImgCount != 9) {
-            mBitmapList.add(mImgCount - 1, photo);
-        } else {
-            //mImgCount==9时，删除最后的“+”图片,再把第9张图片加入
-            mBitmapList.remove(mImgCount - 1);
-            mBitmapList.add(mImgCount - 1, photo);
-        }
-        mImgCount++;
-        mImgPickerAdapter.notifyDataSetChanged();
-        if (mBrokeNewsGetPicDialog != null) {
-            mBrokeNewsGetPicDialog.dismiss();
+        if (resultCode == -1) {
+            Bundle bundle = (Bundle) data.getExtras();
+            Bitmap bitmap = (Bitmap) bundle.get("data");
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+            String fileName = df.format(new Date()) + ".jpg";
+            String filePath = Environment.getExternalStorageDirectory().getAbsoluteFile() + "/topNews" + fileName;
+            FileOutputStream fos;
+            try {
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                    fos = new FileOutputStream(filePath);
+                } else {
+                    fos = new FileOutputStream(getFilesDir() + fileName);
+                }
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            mImgPathList.add(filePath);
+            //mImgCount!=9时，最后一张显示“+”图片
+            if (mImgCount != 9) {
+                mBitmapList.add(mImgCount - 1, bitmap);
+            } else {
+                //mImgCount==9时，删除最后的“+”图片,再把第9张图片加入
+                mBitmapList.remove(mImgCount - 1);
+                mBitmapList.add(mImgCount - 1, bitmap);
+            }
+            mImgCount++;
+            mImgPickerAdapter.notifyDataSetChanged();
+            if (mBrokeNewsGetPicDialog != null) {
+                mBrokeNewsGetPicDialog.dismiss();
+            }
         }
 
     }
 
     private void publish() {
+        String title = mTitle.getText().toString();
+        String content = mContent.getText().toString();
+        String contact = mContact.getText().toString();
+        String address = null;
+        if (isLocated) {
+            address = mLocationTv.getText().toString();
+        }
+        String brokeNewsContent = "title : " + title + "content : " + content + "address:" + address;
+        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(content)) {
+            ToastUtil.toastInCenter(this, R.string.broke_news_toast_say_something);
+            return;
+        }
+        if (TextUtils.isEmpty(contact)) {
+            ToastUtil.toastInCenter(this, R.string.broke_news_toast_phone_empty);
+            return;
+        }
+        if (!CheckPhone.isPhoneNum(contact)) {
+            ToastUtil.toastInCenter(this, R.string.broke_news_toast_phone_invalid);
+            return;
+        }
+        if (mSendingDialog == null) {
+            mSendingDialog = new SendingDialog(this);
+        }
+        mSendingDialog.show();
+        FeedbackAgent agent = new FeedbackAgent(this);
+        FeedbackThread thread = agent.getDefaultThread();
+        thread.setContact(contact);
+        Comment feedbackContent = new Comment(brokeNewsContent);
+        thread.add(feedbackContent);
+        if (mImgPathList != null && mImgPathList.size() > 0) {
+            for (String imgPath : mImgPathList) {
+                File file = new File(imgPath);
+                try {
+                    thread.add(new Comment(file));
+                } catch (AVException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        thread.sync(new FeedbackThread.SyncCallback() {
+            @Override
+            public void onCommentsSend(List<Comment> list, AVException e) {
+                if (mSendingDialog != null) {
+                    mSendingDialog.dissmiss();
+                    ToastUtil.toastInCenter(BrokeNewsActivity.this, R.string.broke_news_toast_send_success);
+                }
+            }
 
+            @Override
+            public void onCommentsFetch(List<Comment> list, AVException e) {
+
+            }
+        });
     }
-
-
 }
