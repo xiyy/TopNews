@@ -2,13 +2,10 @@ package com.xi.liuliu.topnews.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -161,25 +158,25 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
 
     private void handleAlbumResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1001 && resultCode == Activity.RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePathColumns[0]);
-            String imgPath = c.getString(columnIndex);
-            mImgPathList.add(imgPath);
-            Bitmap bm = BitmapUtil.BytesToBitmap(BitmapUtil.decodeBitmap(imgPath));
-            //mImgCount!=9时，最后一张显示“+”图片
-            if (mImgCount != 9) {
-                mBitmapList.add(mImgCount - 1, bm);
-            } else {
-                //mImgCount==9时，删除最后的“+”图片,再把第9张图片加入
-                mBitmapList.remove(mImgCount - 1);
-                mBitmapList.add(mImgCount - 1, bm);
+            ArrayList<String> images = data.getStringArrayListExtra("select_images_list");
+            if (images != null && images.size() > 0) {
+                for (String imgPath : images) {
+                    if (mImgPathList.size() < 9) {
+                        mImgPathList.add(imgPath);
+                        Bitmap bm = BitmapUtil.BytesToBitmap(BitmapUtil.decodeBitmap(imgPath));
+                        //mImgCount!=9时，最后一张显示“+”图片
+                        if (mImgCount != 9) {
+                            mBitmapList.add(mImgCount - 1, bm);
+                        } else {
+                            //mImgCount==9时，删除最后的“+”图片,再把第9张图片加入
+                            mBitmapList.remove(mImgCount - 1);
+                            mBitmapList.add(mImgCount - 1, bm);
+                        }
+                        mImgCount++;
+                    }
+                }
             }
-            mImgCount++;
             mImgPickerAdapter.notifyDataSetChanged();
-            c.close();
             if (mBrokeNewsGetPicDialog != null) {
                 mBrokeNewsGetPicDialog.dismiss();
             }

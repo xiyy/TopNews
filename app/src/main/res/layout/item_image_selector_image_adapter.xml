@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="1dp">
+
+    <com.xi.liuliu.topnews.view.SquareImageView
+        android:id="@+id/iv_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#010101"
+        android:scaleType="centerCrop" />
+
+    <com.xi.liuliu.topnews.view.SquareImageView
+        android:id="@+id/iv_masking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#111212" />
+
+    <ImageView
+        android:id="@+id/iv_select"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="right"
+        android:padding="5dp"
+        android:src="@drawable/image_selector_image_un_selected" />
+</FrameLayout>

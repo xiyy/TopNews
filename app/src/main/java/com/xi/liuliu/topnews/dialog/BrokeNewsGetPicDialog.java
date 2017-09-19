@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.activity.ImageSelectorActivity;
 
 /**
  * Created by zhangxb171 on 2017/9/7.
@@ -51,9 +52,11 @@ public class BrokeNewsGetPicDialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.camera_broke_news_get_pic_dialog:
                 getPicFromCamera();
+                dismiss();
                 break;
             case R.id.album_broke_news_get_pic_dialog:
                 getPicFromAlbum();
+                dismiss();
                 break;
             case R.id.cancle_broke_news_get_pic_dialog:
                 dismiss();
@@ -80,8 +83,7 @@ public class BrokeNewsGetPicDialog implements View.OnClickListener {
     }
 
     private void getPicFromAlbum() {
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(mActivity, ImageSelectorActivity.class);
         mActivity.startActivityForResult(intent, 1001);
     }
 }
