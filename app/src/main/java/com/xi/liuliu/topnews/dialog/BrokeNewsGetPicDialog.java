@@ -3,6 +3,7 @@ package com.xi.liuliu.topnews.dialog;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.ImageSelectorActivity;
+
+import java.io.File;
 
 /**
  * Created by zhangxb171 on 2017/9/7.
@@ -24,6 +27,7 @@ public class BrokeNewsGetPicDialog implements View.OnClickListener {
     private TextView mCamera;
     private TextView mAlbum;
     private TextView mCancle;
+    private File mCameraFile;
 
     public BrokeNewsGetPicDialog(Context context, Activity activity) {
         this.mContext = context;
@@ -77,13 +81,18 @@ public class BrokeNewsGetPicDialog implements View.OnClickListener {
     }
 
     private void getPicFromCamera() {
+        Uri outputFileUri = Uri.fromFile(mCameraFile);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
         mActivity.startActivityForResult(intent, 1002);
-
     }
 
     private void getPicFromAlbum() {
         Intent intent = new Intent(mActivity, ImageSelectorActivity.class);
         mActivity.startActivityForResult(intent, 1001);
+    }
+
+    public void setCameraFile(File file) {
+        this.mCameraFile = file;
     }
 }

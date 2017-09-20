@@ -134,4 +134,11 @@ public class BitmapUtil {
         Bitmap bm = bd.getBitmap();
         return bm;
     }
+
+    public static BitmapFactory.Options getBitmapOptions(int sampleSize) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPurgeable = true;
+        options.inSampleSize = sampleSize;
+        return options;
+    }
 }

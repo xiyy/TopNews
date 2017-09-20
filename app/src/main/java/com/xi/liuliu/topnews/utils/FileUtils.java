@@ -1,10 +1,13 @@
 package com.xi.liuliu.topnews.utils;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import java.io.BufferedReader;
@@ -661,6 +664,69 @@ public final class FileUtils {
         void onSavedSuccess();
 
         void onSavedFailed();
+    }
+
+    /**
+     * 拍照图片保存的路径
+     *
+     * @return
+     */
+    public static File createImageFile() {
+        File appDir = new File(Environment.getExternalStorageDirectory(), "topNews");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");//设置以当前时间格式为图片名称
+        String fileName = df.format(new Date()) + ".JPEG";
+        File file = new File(appDir, fileName);
+        return file;
+    }
+
+    /**
+     * 根据图片对应的File，拿到图片的URI
+     *
+     * @param context
+     * @param imageFile
+     * @return
+     */
+    public static Uri getImageContentUri(Context context, java.io.File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Images.Media._ID}, MediaStore.Images.Media.DATA + "=? ",
+                new String[]{filePath}, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+            Uri baseUri = Uri.parse("content://media/external/images/media");
+            return Uri.withAppendedPath(baseUri, "" + id);
+        } else {
+            if (imageFile.exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    /**
+     * 根据图片的URI，得到图片File的路径
+     *
+     * @param context
+     * @param uri
+     * @param selection
+     * @return
+     */
+    public static String getImagePathWithUri(Context context, Uri uri, String selection) {
+        String path = null;
+        Cursor cursor = context.getContentResolver().query(uri, null, selection, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+            cursor.close();
+        }
+        return path;
     }
 }
 

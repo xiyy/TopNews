@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -27,15 +27,13 @@ import com.xi.liuliu.topnews.dialog.BrokeNewsGetPicDialog;
 import com.xi.liuliu.topnews.dialog.SendingDialog;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
 import com.xi.liuliu.topnews.utils.CheckPhone;
+import com.xi.liuliu.topnews.utils.FileUtils;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
 import com.xi.liuliu.topnews.view.ImgPickerGridView;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class BrokeNewsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -59,6 +57,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     private int mImgCount = 1;
     private ImgPickerAdapter mImgPickerAdapter;
     private SendingDialog mSendingDialog;
+    private File mCameraFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +87,8 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                 //不满9张时，最后一张永远是“添加”图片
                 if (position == mBitmapList.size() - 1) {//点击最后一张图片
                     if (mImgCount <= 9) {
+                        mCameraFile = FileUtils.createImageFile();
+                        mBrokeNewsGetPicDialog.setCameraFile(mCameraFile);
                         mBrokeNewsGetPicDialog.show();
                     }
 
@@ -184,24 +185,12 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void handleCameraResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == -1) {
-            Bundle bundle = (Bundle) data.getExtras();
-            Bitmap bitmap = (Bitmap) bundle.get("data");
-            SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-            String fileName = df.format(new Date()) + ".jpg";
-            String filePath = Environment.getExternalStorageDirectory().getAbsoluteFile() + "/topNews" + fileName;
-            FileOutputStream fos;
-            try {
-                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                    fos = new FileOutputStream(filePath);
-                } else {
-                    fos = new FileOutputStream(getFilesDir() + fileName);
-                }
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            mImgPathList.add(filePath);
+        if (resultCode == RESULT_OK) {
+            Uri fileUri = FileUtils.getImageContentUri(this, mCameraFile);
+            String imgPath = FileUtils.getImagePathWithUri(this, fileUri, null);
+            //拍摄的图片要压缩，图片过大，导致Bitmap对象装不下图片，将图片的长和宽缩小为原来的1/2
+            Bitmap bitmap = BitmapFactory.decodeFile(imgPath, BitmapUtil.getBitmapOptions(2));
+            mImgPathList.add(imgPath);
             //mImgCount!=9时，最后一张显示“+”图片
             if (mImgCount != 9) {
                 mBitmapList.add(mImgCount - 1, bitmap);
