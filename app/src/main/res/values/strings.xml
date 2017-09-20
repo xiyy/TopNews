@@ -109,6 +109,11 @@
     <string name="broke_news_image_all_imgs">全部图片</string>
     <string name="broke_news_image_preview">预览</string>
     <string name="broke_news_image_preview_select">选择</string>
+    <!-- 用户反馈、爆料页，退出时已经编辑了内容，弹出对话框-->
+    <string name="dialog_exit_confirm">确定退出？</string>
+    <string name="dialog_exit_cancel">取消</string>
+    <string name="dialog_exit_quit">退出</string>
+
     <!-- 定位-->
     <string name="provider_settings_message">Your GPS seems to be disabled, do you want to enable it?</string>
     <string name="provider_settings_yes">Yes</string>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import com.xi.liuliu.topnews.adapter.ImgPickerAdapter;
 import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.BrokeNewsGetPicDialog;
+import com.xi.liuliu.topnews.dialog.ExitTipDialog;
 import com.xi.liuliu.topnews.dialog.SendingDialog;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
 import com.xi.liuliu.topnews.utils.CheckPhone;
@@ -58,6 +60,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     private int mImgCount = 1;
     private ImgPickerAdapter mImgPickerAdapter;
     private SendingDialog mSendingDialog;
+    private ExitTipDialog mExitTipDialog;
     private File mCameraFile;
 
     @Override
@@ -112,7 +115,14 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cancle_broke_news_activity:
-                finish();
+                if (hasEditContent()) {
+                    if (mExitTipDialog == null) {
+                        mExitTipDialog = new ExitTipDialog(this);
+                    }
+                    mExitTipDialog.show();
+                } else {
+                    finish();
+                }
                 break;
             case R.id.broke_news_publish:
                 publish();
@@ -265,5 +275,29 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
 
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (hasEditContent()) {
+                if (mExitTipDialog == null) {
+                    mExitTipDialog = new ExitTipDialog(this);
+                }
+                mExitTipDialog.show();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private boolean hasEditContent() {
+        String title = mTitle.getText().toString().trim();
+        String content = mContent.getText().toString().trim();
+        String contact = mContact.getText().toString().trim();
+        if (!TextUtils.isEmpty(title) || !TextUtils.isEmpty(content) || !TextUtils.isEmpty(contact) || mImgCount != 1) {
+            return true;
+        }
+        return false;
     }
 }

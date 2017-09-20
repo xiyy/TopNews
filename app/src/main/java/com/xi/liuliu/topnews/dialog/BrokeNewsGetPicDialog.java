@@ -36,7 +36,7 @@ public class BrokeNewsGetPicDialog implements View.OnClickListener {
     }
 
     private void init() {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_broke_news_get_pic_dialog, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_broke_news_get_pic, null);
         mCamera = (TextView) view.findViewById(R.id.camera_broke_news_get_pic_dialog);
         mCamera.setOnClickListener(this);
         mAlbum = (TextView) view.findViewById(R.id.album_broke_news_get_pic_dialog);
