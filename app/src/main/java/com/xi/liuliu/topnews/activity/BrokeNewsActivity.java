@@ -267,6 +267,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                 if (mSendingDialog != null) {
                     mSendingDialog.dissmiss();
                     ToastUtil.toastInCenter(BrokeNewsActivity.this, R.string.broke_news_toast_send_success);
+                    finish();
                 }
             }
 

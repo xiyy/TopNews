@@ -144,6 +144,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                 if (mSendingDialog != null) {
                     mSendingDialog.dissmiss();
                     ToastUtil.toastInCenter(FeedbackActivity.this, R.string.feedback_toast_sending_success);
+                    finish();
                 }
             }
 
