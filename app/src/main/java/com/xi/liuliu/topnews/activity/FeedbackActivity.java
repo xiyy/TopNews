@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import com.avos.avoscloud.feedback.Comment;
 import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.avos.avoscloud.feedback.FeedbackThread;
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.dialog.ExitTipDialog;
 import com.xi.liuliu.topnews.dialog.FeedbackGetPicDialog;
 import com.xi.liuliu.topnews.dialog.SendingDialog;
 import com.xi.liuliu.topnews.event.FeedbackPicDeleteEvent;
@@ -44,6 +46,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private String mImagePath;
     private SendingDialog mSendingDialog;
     private FeedbackGetPicDialog mFeedbackGetPicDialog;
+    private ExitTipDialog mExitTipDialog;
     private boolean hasPicSelected;
 
     @Override
@@ -67,7 +70,14 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activity_feedback_go_back:
-                finish();
+                if (hasEditContent()) {
+                    if (mExitTipDialog == null) {
+                        mExitTipDialog = new ExitTipDialog(this);
+                    }
+                    mExitTipDialog.show();
+                } else {
+                    finish();
+                }
                 break;
             case R.id.activity_feedback_send:
                 sendFeedback();
@@ -173,5 +183,28 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     public void finish() {
         super.finish();
         overridePendingTransition(0, R.anim.zoomout);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (hasEditContent()) {
+                if (mExitTipDialog == null) {
+                    mExitTipDialog = new ExitTipDialog(this);
+                }
+                mExitTipDialog.show();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private boolean hasEditContent() {
+        String content = mFeedbackContent.getText().toString().trim();
+        String contact = mFeedbackContact.getText().toString().trim();
+        if (!TextUtils.isEmpty(content) || !TextUtils.isEmpty(contact) || hasPicSelected) {
+            return true;
+        }
+        return false;
     }
 }
