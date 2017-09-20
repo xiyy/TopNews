@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.xi.liuliu.topnews.bean.News;
 import com.xi.liuliu.topnews.bean.NewsItem;
+import com.xi.liuliu.topnews.bean.NewsResult;
 
 import java.util.List;
 
@@ -15,10 +16,17 @@ import java.util.List;
 public class GsonUtil {
     public static List<NewsItem> getNewsList(String jsonStr) {
         List<NewsItem> itemList = null;
+        NewsResult newsResult = null;
         Gson gson = new Gson();
         if (!TextUtils.isEmpty(jsonStr)) {
             News news = gson.fromJson(jsonStr, News.class);
-            itemList = news.getResult().getData();
+            //要判null，预防crash
+            if (news != null) {
+                newsResult = news.getResult();
+            }
+            if (newsResult != null) {
+                itemList = newsResult.getData();
+            }
         }
         return itemList;
     }

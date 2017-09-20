@@ -133,7 +133,9 @@ public class ChannelFragment extends Fragment implements Callback {
     public void onResponse(Call call, Response response) throws IOException {
         String reponseBody = response.body().string();
         List<NewsItem> list = GsonUtil.getNewsList(reponseBody);
-        mAllNewsList.add(list);
+        if (list != null && list.size() > 0) {
+            mAllNewsList.add(list);
+        }
         mHandler.sendEmptyMessage(MESSAGE_SET_ADAPTER);
         hasFillData = true;
         if (mLoadingDialog != null && getUserVisibleHint()) {
