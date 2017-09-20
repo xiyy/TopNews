@@ -677,7 +677,7 @@ public final class FileUtils {
             appDir.mkdir();
         }
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");//设置以当前时间格式为图片名称
-        String fileName = df.format(new Date()) + ".JPEG";
+        String fileName = df.format(new Date()) + ".jpeg";
         File file = new File(appDir, fileName);
         return file;
     }

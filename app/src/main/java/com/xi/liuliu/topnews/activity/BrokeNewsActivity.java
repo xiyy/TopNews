@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -164,6 +165,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                 for (String imgPath : images) {
                     if (mImgPathList.size() < 9) {
                         mImgPathList.add(imgPath);
+                        Log.i(TAG, "Album imgPath:" + imgPath);
                         Bitmap bm = BitmapUtil.BytesToBitmap(BitmapUtil.decodeBitmap(imgPath));
                         //mImgCount!=9时，最后一张显示“+”图片
                         if (mImgCount != 9) {
@@ -188,6 +190,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
         if (resultCode == RESULT_OK) {
             Uri fileUri = FileUtils.getImageContentUri(this, mCameraFile);
             String imgPath = FileUtils.getImagePathWithUri(this, fileUri, null);
+            Log.i(TAG, "Camera imgPath:" + imgPath);
             //拍摄的图片要压缩，图片过大，导致Bitmap对象装不下图片，将图片的长和宽缩小为原来的1/2
             Bitmap bitmap = BitmapFactory.decodeFile(imgPath, BitmapUtil.getBitmapOptions(2));
             mImgPathList.add(imgPath);
