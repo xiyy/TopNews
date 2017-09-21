@@ -113,10 +113,12 @@
     <string name="dialog_exit_confirm">确定退出？</string>
     <string name="dialog_exit_cancel">取消</string>
     <string name="dialog_exit_quit">退出</string>
+    <!-- 清除缓存 -->
     <string name="clear_cache_counting">正在计算...</string>
     <string name="clear_cache_dialog_title">确定删除所有缓存？</string>
     <string name="clear_cache_dialog_confirm">确定</string>
     <string name="clear_cache_dialog_cancel">取消</string>
+    <string name="clear_cache_toast_success">清除成功！</string>
 
     <!-- 定位-->
     <string name="provider_settings_message">Your GPS seems to be disabled, do you want to enable it?</string>

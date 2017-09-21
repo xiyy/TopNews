@@ -819,6 +819,22 @@ public final class FileUtils {
         return fileSizeLong;
     }
 
+    public static void clearCache() {
+        File appDir = new File(Environment.getExternalStorageDirectory(), "topNews");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        if (appDir.isDirectory()) {
+            File[] childFile = appDir.listFiles();
+            if (childFile != null && childFile.length > 0) {
+                for (File file : childFile) {
+                    if (file.isFile()) {
+                        file.delete();
+                    }
+                }
+            }
+        }
+    }
 }
 
 

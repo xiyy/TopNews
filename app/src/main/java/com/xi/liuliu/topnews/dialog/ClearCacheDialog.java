@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.activity.SettingsActivity;
 
 /**
  * Created by zhangxb171 on 2017/9/21.
@@ -17,6 +18,7 @@ public class ClearCacheDialog implements View.OnClickListener {
     private DialogView mDialogView;
     private TextView mConfirm;
     private TextView mCancel;
+    private SettingsActivity.ClearCacheListener mClearCacheListener;
 
     public ClearCacheDialog(Context context) {
         this.mContext = context;
@@ -41,7 +43,8 @@ public class ClearCacheDialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.confirm_clear_cache_dialog:
 
-
+                clearCache();
+                dismiss();
                 break;
             case R.id.cancel_clear_cache_dialog:
                 dismiss();
@@ -60,4 +63,15 @@ public class ClearCacheDialog implements View.OnClickListener {
             mDialogView.dismissDialog();
         }
     }
+
+    private void clearCache() {
+        SettingsActivity.ClearCacheRunnable runnable = new SettingsActivity.ClearCacheRunnable(mClearCacheListener);
+        Thread thread = new Thread(runnable);
+        thread.start();
+    }
+
+    public void setClearCacheListener(SettingsActivity.ClearCacheListener listener) {
+        this.mClearCacheListener = listener;
+    }
+
 }

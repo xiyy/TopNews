@@ -13,6 +13,7 @@ import com.xi.liuliu.topnews.dialog.ClearCacheDialog;
 import com.xi.liuliu.topnews.dialog.LogoutDialog;
 import com.xi.liuliu.topnews.utils.FileUtils;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
+import com.xi.liuliu.topnews.utils.ToastUtil;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
     private RelativeLayout mGoBack;
@@ -49,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         } else {
             mLogout.setVisibility(View.GONE);
         }
-        caculateCacheSize();
+        calculateCacheSize();
 
     }
 
@@ -69,7 +70,24 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
                 break;
             case R.id.clear_cache_rl:
-                new ClearCacheDialog(this).show();
+                //缓存为0或者正在计算缓存时，不弹出dialog
+                if (!mCacheSize.getText().toString().equals("0.0MB") && !mCacheSize.getText().toString().equals("正在计算...")) {
+                    ClearCacheDialog clearCacheDialog = new ClearCacheDialog(this);
+                    clearCacheDialog.setClearCacheListener(new ClearCacheListener() {
+                        @Override
+                        public void onClearCacheFinished() {
+                            //ClearCacheListener.onClearCacheFinished运行在子线程中，不能在子线程中进行UI操作，引发crash
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ToastUtil.toastInCenter(SettingsActivity.this, R.string.clear_cache_toast_success);
+                                    mCacheSize.setText("0.0MB");
+                                }
+                            });
+                        }
+                    });
+                    clearCacheDialog.show();
+                }
                 break;
             case R.id.check_version_rl:
 
@@ -89,13 +107,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0, R.anim.zoomout);
     }
 
-    public void caculateCacheSize() {
-        CacheSizeCaculateListener listener = new CacheSizeCaculateListener() {
+    public void calculateCacheSize() {
+        CacheSizeCalculateListener listener = new CacheSizeCalculateListener() {
             @Override
-            public void onCaculateFinished(long cacheSize) {
+            public void onCalculateFinished(long cacheSize) {
                 String size = FileUtils.formatFileSize(cacheSize, FileUtils.SIZETYPE_MB) + "MB";
                 mCacheSize.setText(size);
             }
@@ -106,10 +123,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     static class CaculateCacheSizeRunnable implements Runnable {
-        CacheSizeCaculateListener cacheSizeCaculateListener;
+        CacheSizeCalculateListener listener;
 
-        public CaculateCacheSizeRunnable(CacheSizeCaculateListener cacheSizeCaculateListener) {
-            this.cacheSizeCaculateListener = cacheSizeCaculateListener;
+        public CaculateCacheSizeRunnable(CacheSizeCalculateListener listener) {
+            this.listener = listener;
         }
 
         @Override
@@ -120,11 +137,29 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            cacheSizeCaculateListener.onCaculateFinished(cacheSize);
+            listener.onCalculateFinished(cacheSize);
         }
     }
 
-    interface CacheSizeCaculateListener {
-        void onCaculateFinished(long cacheSize);
+    interface CacheSizeCalculateListener {
+        void onCalculateFinished(long cacheSize);
+    }
+
+    public static class ClearCacheRunnable implements Runnable {
+        ClearCacheListener listener;
+
+        public ClearCacheRunnable(ClearCacheListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void run() {
+            FileUtils.clearCache();
+            listener.onClearCacheFinished();
+        }
+    }
+
+    public interface ClearCacheListener {
+        void onClearCacheFinished();
     }
 }
