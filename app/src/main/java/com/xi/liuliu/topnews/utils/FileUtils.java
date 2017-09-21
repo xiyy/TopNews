@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +31,11 @@ import java.util.List;
 
 
 public final class FileUtils {
+    public static final int SIZETYPE_B = 1;//获取文件大小单位为B的double值
+    public static final int SIZETYPE_KB = 2;//获取文件大小单位为KB的double值
+    public static final int SIZETYPE_MB = 3;//获取文件大小单位为MB的double值
+    public static final int SIZETYPE_GB = 4;//获取文件大小单位为GB的double值
+
     private FileUtils() {
         throw new Error("￣﹏￣");
     }
@@ -728,6 +735,90 @@ public final class FileUtils {
         }
         return path;
     }
+
+    /**
+     * 获取缓存大小,以B为单位
+     *
+     * @return
+     * @throws Exception
+     */
+    public static long getCacheSize() throws Exception {
+        File appDir = new File(Environment.getExternalStorageDirectory(), "topNews");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        return getFileFolderSize(appDir);
+    }
+
+    /**
+     * 获取文件夹大小，以B为单位
+     *
+     * @param f
+     * @return
+     * @throws Exception
+     */
+    private static long getFileFolderSize(File f) throws Exception {
+        long size = 0;
+        File flist[] = f.listFiles();
+        for (int i = 0; i < flist.length; i++) {
+            if (flist[i].isDirectory()) {
+                size = size + getFileFolderSize(flist[i]);
+            } else {
+                size = size + getFileSize(flist[i]);
+            }
+        }
+        return size;
+    }
+
+    /**
+     * 获取文件大小，以B为单位
+     *
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    private static long getFileSize(File file) throws Exception {
+        long size = 0;
+        if (file.exists()) {
+            FileInputStream fis = null;
+            fis = new FileInputStream(file);
+            size = fis.available();
+        } else {
+            file.createNewFile();
+            Log.e("获取文件大小", "文件不存在!");
+        }
+        return size;
+    }
+
+    /**
+     * 将B转为KB、MB、GB
+     *
+     * @param fileSize
+     * @param sizeType
+     * @return
+     */
+    public static double formatFileSize(long fileSize, int sizeType) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        double fileSizeLong = 0;
+        switch (sizeType) {
+            case SIZETYPE_B:
+                fileSizeLong = Double.valueOf(df.format((double) fileSize));
+                break;
+            case SIZETYPE_KB:
+                fileSizeLong = Double.valueOf(df.format((double) fileSize / 1024));
+                break;
+            case SIZETYPE_MB:
+                fileSizeLong = Double.valueOf(df.format((double) fileSize / 1048576));
+                break;
+            case SIZETYPE_GB:
+                fileSizeLong = Double.valueOf(df.format((double) fileSize / 1073741824));
+                break;
+            default:
+                break;
+        }
+        return fileSizeLong;
+    }
+
 }
 
 

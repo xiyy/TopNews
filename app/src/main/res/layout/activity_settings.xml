@@ -95,13 +95,16 @@
             android:text="@string/settings_clear_cache"
             android:textSize="17sp" />
 
-        <Button
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+        <TextView
+            android:id="@+id/cache_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/setting_arrow_right" />
+            android:gravity="center"
+            android:text="@string/clear_cache_counting"
+            android:textSize="15sp" />
 
 
     </RelativeLayout>

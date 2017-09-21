@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:background="@drawable/shape_dialog_clear_cache"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
+            android:text="@string/clear_cache_dialog_title"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#E3E3E3"></View>
+
+        <TextView
+            android:id="@+id/confirm_clear_cache_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
+            android:text="@string/clear_cache_dialog_confirm"
+            android:textColor="@color/blue5"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <TextView
+
+        android:id="@+id/cancel_clear_cache_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="13dp"
+        android:background="@drawable/shape_dialog_clear_cache"
+        android:gravity="center"
+        android:paddingBottom="13dp"
+        android:paddingTop="13dp"
+        android:text="@string/clear_cache_dialog_cancel"
+        android:textColor="@color/blue5"
+        android:textSize="17sp" />
+
+</LinearLayout>
+
+
+
+

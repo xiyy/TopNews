@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.dialog.ClearCacheDialog;
 import com.xi.liuliu.topnews.dialog.LogoutDialog;
+import com.xi.liuliu.topnews.utils.FileUtils;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -20,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private RelativeLayout mVideoNoticeNoWifi;
     private TextView mLogout;
     private TextView mUserAgreement;
+    private TextView mCacheSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         mEditUserInfo.setOnClickListener(this);
         mClearCache = (RelativeLayout) findViewById(R.id.clear_cache_rl);
         mClearCache.setOnClickListener(this);
+        mCacheSize = (TextView) findViewById(R.id.cache_size);
         mCheckVersion = (RelativeLayout) findViewById(R.id.check_version_rl);
         mCheckVersion.setOnClickListener(this);
         mVideoNoticeNoWifi = (RelativeLayout) findViewById(R.id.video_notice_no_wifi);
@@ -45,6 +49,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         } else {
             mLogout.setVisibility(View.GONE);
         }
+        caculateCacheSize();
+
     }
 
     @Override
@@ -63,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
                 break;
             case R.id.clear_cache_rl:
-
+                new ClearCacheDialog(this).show();
                 break;
             case R.id.check_version_rl:
 
@@ -83,6 +89,42 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0,R.anim.zoomout);
+        overridePendingTransition(0, R.anim.zoomout);
+    }
+
+    public void caculateCacheSize() {
+        CacheSizeCaculateListener listener = new CacheSizeCaculateListener() {
+            @Override
+            public void onCaculateFinished(long cacheSize) {
+                String size = FileUtils.formatFileSize(cacheSize, FileUtils.SIZETYPE_MB) + "MB";
+                mCacheSize.setText(size);
+            }
+        };
+        CaculateCacheSizeRunnable runnable = new CaculateCacheSizeRunnable(listener);
+        Thread thread = new Thread(runnable);
+        thread.start();
+    }
+
+    static class CaculateCacheSizeRunnable implements Runnable {
+        CacheSizeCaculateListener cacheSizeCaculateListener;
+
+        public CaculateCacheSizeRunnable(CacheSizeCaculateListener cacheSizeCaculateListener) {
+            this.cacheSizeCaculateListener = cacheSizeCaculateListener;
+        }
+
+        @Override
+        public void run() {
+            long cacheSize = 0;
+            try {
+                cacheSize = FileUtils.getCacheSize();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            cacheSizeCaculateListener.onCaculateFinished(cacheSize);
+        }
+    }
+
+    interface CacheSizeCaculateListener {
+        void onCaculateFinished(long cacheSize);
     }
 }
