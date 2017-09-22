@@ -72,7 +72,8 @@
         <activity android:name=".activity.AddressListActivity" />
         <activity android:name=".activity.ImageSelectorActivity" />
         <activity android:name=".activity.ImgPreviewActivity" />
-        <activity android:name=".activity.UserInfoActivity"></activity>
+        <activity android:name=".activity.UserInfoActivity" />
+        <activity android:name=".activity.RegionActivity"></activity>
     </application>
 
 </manifest>

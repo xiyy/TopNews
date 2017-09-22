@@ -1,5 +1,6 @@
 package com.xi.liuliu.topnews.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -73,7 +74,8 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.region_rl_user_info_activity:
-
+                Intent intent = new Intent(this, RegionActivity.class);
+                startActivity(intent);
                 break;
         }
     }

@@ -574,8 +574,59 @@
     <string name="edit_user_info_region_shanxi_3_yulin">榆林市</string>
     <string name="edit_user_info_region_shanxi_3_ankang">安康市</string>
     <string name="edit_user_info_region_shanxi_3_shangluo">商洛市</string>
-
-
+    <!--甘肃省 -->
+    <string name="edit_user_info_region_gansu">甘肃省</string>
+    <string name="edit_user_info_region_lanzhou">兰州市</string>
+    <string name="edit_user_info_region_jiayuguan">嘉峪关市</string>
+    <string name="edit_user_info_region_jinchang">金昌市</string>
+    <string name="edit_user_info_region_gansu_baiyin">白银市</string>
+    <string name="edit_user_info_region_gansu_tianshui">天水市</string>
+    <string name="edit_user_info_region_gansu_wuwei">武威市</string>
+    <string name="edit_user_info_region_gansu_zhangye">张掖市</string>
+    <string name="edit_user_info_region_gansu_pingliang">平凉市</string>
+    <string name="edit_user_info_region_gansu_jiuquan">酒泉市</string>
+    <string name="edit_user_info_region_gansu_qingyang">庆阳市</string>
+    <string name="edit_user_info_region_gansu_dingxi">定西市</string>
+    <string name="edit_user_info_region_gansu_gannan">陇南市</string>
+    <string name="edit_user_info_region_gansu_linxia">临夏回族自治州</string>
+    <string name="edit_user_info_region_gansu_gannanzangzu">甘南藏族自治州</string>
+    <!-- 青海省-->
+    <string name="edit_user_info_region_qinghai">青海省</string>
+    <string name="edit_user_info_region_qinghai_xining">西宁市</string>
+    <string name="edit_user_info_region_qinghai_haidong">海东市</string>
+    <string name="edit_user_info_region_qinghai_haibei">海北藏族自治州</string>
+    <string name="edit_user_info_region_qinghai_huangnan">黄南藏族自治州</string>
+    <string name="edit_user_info_region_qinghai_hainan">海南藏族自治州</string>
+    <string name="edit_user_info_region_qinghai_guoluo">果洛藏族自治州</string>
+    <string name="edit_user_info_region_qinghai_yushu">玉树藏族自治州</string>
+    <string name="edit_user_info_region_qinghai_haixi">海西蒙古族藏族自治州</string>
+    <!-- 宁夏回族自治区-->
+    <string name="edit_user_info_region_ningxia">宁夏回族自治区</string>
+    <string name="edit_user_info_region_ningxia_yinchuan">银川市</string>
+    <string name="edit_user_info_region_ningxia_shizuishan">石嘴山市</string>
+    <string name="edit_user_info_region_ningxia_wuzhong">吴忠市</string>
+    <string name="edit_user_info_region_ningxia_guyuan">固原市</string>
+    <string name="edit_user_info_region_ningxia_zhongwei">中卫市</string>
+    <!-- 新疆维吾尔族自治区-->
+    <string name="edit_user_info_region_xinjiang">新疆维吾尔族自治区</string>
+    <string name="edit_user_info_region_xinjiang_wulumuqi">乌鲁木齐市</string>
+    <string name="edit_user_info_region_xinjiang_kelamayi">克拉玛依市</string>
+    <string name="edit_user_info_region_xinjiang_tulufan">吐鲁番市</string>
+    <string name="edit_user_info_region_xinjiang_hami">哈密市</string>
+    <string name="edit_user_info_region_xinjiang_changji">昌吉回族自治州</string>
+    <string name="edit_user_info_region_xinjiang_boerdalameng">博尔达拉蒙古自治州</string>
+    <string name="edit_user_info_region_xinjiang_bayinguolemeng">巴音郭勒盟自治州</string>
+    <string name="edit_user_info_region_xinjiang_akesu">阿克苏地区</string>
+    <string name="edit_user_info_region_xinjiang_kezilesukeer">克孜勒苏柯尔克孜自治州</string>
+    <string name="edit_user_info_region_xinjiang_kashi">喀什地区</string>
+    <string name="edit_user_info_region_xinjiang_hetian">和田地区</string>
+    <string name="edit_user_info_region_xinjiang_yili">伊犁哈萨克自治追</string>
+    <string name="edit_user_info_region_xinjiang_tacheng">塔城地区</string>
+    <string name="edit_user_info_region_xinjiang_aletai">阿勒泰地区</string>
+    <string name="edit_user_info_region_taiwan">台湾</string>
+    <string name="edit_user_info_region_xianggang">香港特别行政区</string>
+    <string name="edit_user_info_region_aomen">澳门特别行政区</string>
+    <string name="edit_user_info_region_over_seas">海外</string>
     <string name="edit_user_info_region_toast_success">修改地区成功！</string>
     <string name="edit_user_info_un_finished">待完善</string>
     <!-- 定位-->
