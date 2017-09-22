@@ -67,7 +67,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 showUserAgreement();
                 break;
             case R.id.edit_personal_info_rl:
-
+                Intent intent = new Intent(this, UserInfoActivity.class);
+                startActivity(intent);
                 break;
             case R.id.clear_cache_rl:
                 //缓存为0或者正在计算缓存时，不弹出dialog

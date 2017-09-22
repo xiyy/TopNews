@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.xi.liuliu.topnews.activity.UserInfoActivity">
+
+    <RelativeLayout
+        android:id="@+id/header_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <RelativeLayout
+            android:id="@+id/go_back_user_info_activity"
+            android:layout_width="56dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/left_back_icon_titlebar" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/edit_user_info_title"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divide_line_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_below="@+id/header_user_info_activity"
+        android:background="#F1F1F1">
+
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/portrait_rl_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divide_line_user_info_activity"
+        android:background="@drawable/selector_mine_fragment_item">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:text="@string/edit_user_info_portrait"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/portrait_user_info_activity"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp" />
+
+        <Button
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/setting_arrow_right" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divide_portrait_rl_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@+id/portrait_rl_user_info_activity"
+        android:layout_marginLeft="15dp"
+        android:background="#F1F1F1">
+
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/name_rl_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divide_portrait_rl_user_info_activity"
+        android:background="@drawable/selector_mine_fragment_item">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:text="@string/edit_user_info_user_name"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/name_user_info_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:gravity="center"
+            android:text="手机用户12325656555665"
+            android:textSize="15sp" />
+
+        <Button
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/setting_arrow_right" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divide_name_rl_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@+id/name_rl_user_info_activity"
+        android:layout_marginLeft="15dp"
+        android:background="#F1F1F1">
+
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/introduce_rl_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divide_name_rl_user_info_activity"
+        android:background="@drawable/selector_mine_fragment_item">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:text="@string/edit_user_info_introduce"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/content_introduce_user_info_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:text="个人内容介绍" />
+
+        <Button
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/setting_arrow_right" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divide2__line_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_below="@+id/introduce_rl_user_info_activity"
+        android:background="#F1F1F1">
+
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/gender_rl_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divide2__line_user_info_activity"
+        android:background="@drawable/selector_mine_fragment_item">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:text="@string/edit_user_info_gender"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/gender_user_info_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:text="@string/edit_user_info_un_finished"
+            android:textColor="@color/blue5" />
+
+        <Button
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/setting_arrow_right" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divide_gender_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@+id/gender_rl_user_info_activity"
+        android:layout_marginLeft="15dp"
+        android:background="#F1F1F1"></View>
+
+    <RelativeLayout
+        android:id="@+id/birth_day_rl_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divide_gender_user_info_activity"
+        android:background="@drawable/selector_mine_fragment_item">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:text="@string/edit_user_info_birthday"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/birth_day_user_info_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:text="2017-09-22" />
+
+        <Button
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/setting_arrow_right" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/dividebirth_day_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@+id/birth_day_rl_user_info_activity"
+        android:layout_marginLeft="15dp"
+        android:background="#F1F1F1"></View>
+
+    <RelativeLayout
+        android:id="@+id/region_rl_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dividebirth_day_user_info_activity"
+        android:background="@drawable/selector_mine_fragment_item">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:text="@string/edit_user_info_region"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/region_user_info_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:text="北京西城" />
+
+        <Button
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/setting_arrow_right" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divide_region_rl_user_info_activity"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@+id/region_rl_user_info_activity"
+        android:layout_marginLeft="15dp"
+        android:background="#F1F1F1">
+
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/divide_region_rl_user_info_activity"
+        android:background="#F1F1F1"></LinearLayout>
+</RelativeLayout>
