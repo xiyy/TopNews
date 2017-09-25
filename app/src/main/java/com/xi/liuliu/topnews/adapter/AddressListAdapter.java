@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.bean.Address;
+import com.xi.liuliu.topnews.impl.OnItemClickListener;
 
 import java.util.ArrayList;
 
@@ -121,11 +122,6 @@ public class AddressListAdapter extends RecyclerView.Adapter implements View.OnC
             view = itemView;
         }
     }
-
-    public static interface OnItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }

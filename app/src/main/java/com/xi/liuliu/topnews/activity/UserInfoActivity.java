@@ -29,6 +29,10 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        initView();
+    }
+
+    private void initView() {
         mExitRl = (RelativeLayout) findViewById(R.id.go_back_user_info_activity);
         mExitRl.setOnClickListener(this);
         mPortraitRl = (RelativeLayout) findViewById(R.id.portrait_rl_user_info_activity);
@@ -47,8 +51,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         mUserName = (TextView) findViewById(R.id.name_user_info_activity);
         mGender = (TextView) findViewById(R.id.gender_user_info_activity);
         mBirthDay = (TextView) findViewById(R.id.birth_day_user_info_activity);
-        mRegion = (TextView) findViewById(R.id.birth_day_user_info_activity);
-
+        mRegion = (TextView) findViewById(R.id.region_user_info_activity);
     }
 
     @Override
@@ -75,8 +78,17 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.region_rl_user_info_activity:
                 Intent intent = new Intent(this, RegionActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1006);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == 1006 && resultCode == 1007 && data != null) {
+            int cityName = data.getIntExtra("city_name", 0);
+            mRegion.setText(cityName);
         }
     }
 }

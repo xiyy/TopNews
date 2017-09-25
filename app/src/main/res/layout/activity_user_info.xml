@@ -290,8 +290,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="40dp"
-            android:text="北京西城" />
+            android:layout_marginRight="40dp" />
 
         <Button
             android:layout_width="20dp"

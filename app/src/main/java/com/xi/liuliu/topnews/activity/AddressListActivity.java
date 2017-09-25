@@ -13,6 +13,7 @@ import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.AddressListAdapter;
 import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.impl.OnItemClickListener;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
         //如果每个item的高度是固定的，设置这个选项可以提高性能
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAddressListAdapter);
-        mAddressListAdapter.setOnItemClickListener(new AddressListAdapter.OnItemClickListener() {
+        mAddressListAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent();
