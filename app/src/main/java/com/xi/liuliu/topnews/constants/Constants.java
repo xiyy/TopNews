@@ -19,6 +19,7 @@ public interface Constants {
     String LOCATION_LATITUDE_SP_KEY = "latitude";
     String LOCATION_lONGITUDE_SP_KEY = "longitude";
     String LOCATION_ADDRESS_SP_KEY = "address";
+    String GENDER_SP_KEY = "gender";
     String WEI_BO_Portrait_URL = "weiboPortraitUrl";
     String LOGIN_SMS_CODE_HOST = "https://api.leancloud.cn/1.1/requestSmsCode";
     String VERIFY_SMS_CODE = "https://api.leancloud.cn/1.1/verifySmsCode";

@@ -40,6 +40,11 @@ public class SharedPrefUtil {
         sharedPreferences.edit().putBoolean(key, value).commit();
     }
 
+    public void putInt(String key, int value) {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SP_NAME, mContext.MODE_PRIVATE);
+        sharedPreferences.edit().putInt(key, value).commit();
+    }
+
     public String getString(String key) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(SP_NAME, mContext.MODE_PRIVATE);
         return sharedPreferences.getString(key, null);
@@ -48,6 +53,11 @@ public class SharedPrefUtil {
     public boolean getBoolean(String key) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(SP_NAME, mContext.MODE_PRIVATE);
         return sharedPreferences.getBoolean(key, false);
+    }
+
+    public int getInt(String key) {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SP_NAME, mContext.MODE_PRIVATE);
+        return sharedPreferences.getInt(key, -1);
     }
 
     public void saveLoginStateWithWeibo(String nickName, String portraitUrl) {

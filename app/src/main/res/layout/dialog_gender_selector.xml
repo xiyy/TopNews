@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/radio_group_dialog_gender_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/male_dialog_gender_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:paddingLeft="10dp"
+            android:text="@string/edit_user_info_gender_male"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/female_dialog_gender_selector"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:paddingLeft="10dp"
+            android:text="@string/edit_user_info_gender_female"
+            android:textSize="16sp" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/cancel_dialog_gender_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="10dp"
+        android:gravity="right"
+        android:padding="5dp"
+        android:text="@string/dialog_exit_cancel"
+        android:textColor="@color/blue5"
+        android:textSize="16sp" />
+</LinearLayout>

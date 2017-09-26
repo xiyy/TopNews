@@ -9,6 +9,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.dialog.GenderSelectorDialog;
+import com.xi.liuliu.topnews.event.GenderSelectorEvent;
+import com.xi.liuliu.topnews.utils.SharedPrefUtil;
+
+import de.greenrobot.event.EventBus;
 
 public class UserInfoActivity extends AppCompatActivity implements View.OnClickListener {
     private RelativeLayout mExitRl;
@@ -24,12 +30,15 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
     private TextView mGender;
     private TextView mBirthDay;
     private TextView mRegion;
+    private GenderSelectorDialog mGenderSelectorDialog;
+    private int mGenderType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
         initView();
+        initData();
     }
 
     private void initView() {
@@ -54,6 +63,14 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         mRegion = (TextView) findViewById(R.id.region_user_info_activity);
     }
 
+    private void initData() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+        mGenderType = SharedPrefUtil.getInstance(this).getInt(Constants.GENDER_SP_KEY);
+        setMale(mGenderType);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -70,7 +87,10 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
 
                 break;
             case R.id.gender_rl_user_info_activity:
-
+                if (mGenderSelectorDialog == null) {
+                    mGenderSelectorDialog = new GenderSelectorDialog(this, mGenderType);
+                }
+                mGenderSelectorDialog.show();
                 break;
             case R.id.birth_day_rl_user_info_activity:
 
@@ -83,12 +103,38 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public void onEventMainThread(GenderSelectorEvent event) {
+        if (event != null) {
+            setMale(event.getGenderType());
+            SharedPrefUtil.getInstance(this).putInt(Constants.GENDER_SP_KEY, event.getGenderType());
+        }
+    }
+
+
+    private void setMale(int genderType) {
+        if (genderType == 1) {
+            mGender.setText(R.string.edit_user_info_gender_male);
+        } else if (genderType == 0) {
+            mGender.setText(R.string.edit_user_info_gender_female);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1006 && resultCode == 1007 && data != null) {
             int cityName = data.getIntExtra("city_name", 0);
             mRegion.setText(cityName);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+
 }
