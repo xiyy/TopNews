@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.dialog.DatePickerDialog;
 import com.xi.liuliu.topnews.dialog.GenderSelectorDialog;
+import com.xi.liuliu.topnews.event.DatePickerEvent;
 import com.xi.liuliu.topnews.event.GenderSelectorEvent;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
@@ -32,6 +34,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
     private TextView mRegion;
     private GenderSelectorDialog mGenderSelectorDialog;
     private int mGenderType;
+    private DatePickerDialog mDatePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,11 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         if (cityName != -1) {
             mRegion.setText(cityName);
         }
+        String birth = SharedPrefUtil.getInstance(this).getString(Constants.BIRTH_SP_KEY);
+        if (birth != null) {
+            mBirthDay.setText(birth);
+            mBirthDay.setTextColor(getResources().getColor(R.color.text_view_default_color));
+        }
     }
 
     @Override
@@ -97,7 +105,10 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                 mGenderSelectorDialog.show();
                 break;
             case R.id.birth_day_rl_user_info_activity:
-
+                if (mDatePickerDialog == null) {
+                    mDatePickerDialog = new DatePickerDialog(this);
+                }
+                mDatePickerDialog.show();
                 break;
 
             case R.id.region_rl_user_info_activity:
@@ -114,6 +125,13 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public void onEventMainThread(DatePickerEvent event) {
+        if (event != null) {
+            mBirthDay.setText(event.getDate());
+            mBirthDay.setTextColor(getResources().getColor(R.color.text_view_default_color));
+            SharedPrefUtil.getInstance(this).putString(Constants.BIRTH_SP_KEY, event.getDate());
+        }
+    }
 
     private void setMale(int genderType) {
         if (genderType == 1) {

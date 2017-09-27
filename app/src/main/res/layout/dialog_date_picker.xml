@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:background="@drawable/shape_dialog_exit"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/date_dialog_date_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:textColor="@color/blue5"
+        android:textSize="17sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#E3E3E3"></View>
+
+    <DatePicker
+        android:id="@+id/date_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false">
+
+    </DatePicker>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#E3E3E3"></View>
+
+    <TextView
+        android:id="@+id/finish_dialog_date_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_dialog_date_picker_finish"
+        android:gravity="center"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:text="@string/finish_date_picker_dialog"
+        android:textSize="16sp" />
+</LinearLayout>

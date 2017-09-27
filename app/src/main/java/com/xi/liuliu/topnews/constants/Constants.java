@@ -21,7 +21,10 @@ public interface Constants {
     String LOCATION_ADDRESS_SP_KEY = "address";
     String GENDER_SP_KEY = "gender";
     String CITY_SP_KEY = "city";
-    String BIRTH_DAY_SP_KEY = "birthDay";
+    String BIRTH_SP_KEY = "birth";
+    String BIRTH_YEAR_SP_KEY = "birth_year";
+    String BIRTH_MONTH_SP_KEY = "birth_month";
+    String BIRTH_DAY_SP_KEY = "birth_day";
     String USER_NAME_SP_KEY = "userName";
     String INTRODUCE_SP_KEY = "introduce";
     String WEI_BO_Portrait_URL = "weiboPortraitUrl";

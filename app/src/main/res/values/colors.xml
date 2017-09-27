@@ -32,7 +32,7 @@
     <color name="grey27">#E0E0E0</color>
     <color name="grey28">#C9C9C9</color>
     <color name="grey29">#969696</color>
-    <color name="grey30">#F1F1F1 </color>
+    <color name="grey30">#F1F1F1</color>
     <color name="grey31">#C7C7CC</color>
     <color name="grey32">#F7F7F7</color>
     <color name="gray_light">#cccccc</color>
@@ -89,4 +89,5 @@
     <color name="photo_browser_dialog_bg">#000000</color>
     <color name="login_dialog_user_agreement_checked">#8A000000</color>
     <color name="login_dialog_user_agreement_un_checked">#aaa</color>
+    <color name="text_view_default_color">#8A000000</color>
 </resources>

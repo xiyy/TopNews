@@ -636,4 +636,7 @@
     <!-- 地址列表-->
     <string name="address_list_go_back">返回</string>
     <string name="address_list_not_show">不显示位置</string>
+    <!-- 日期选择器-->
+    <string name="finish_date_picker_dialog">完成</string>
+    <string name="toast_error_date_picker_dialog">日期选择错误，请重新选择！</string>
 </resources>
