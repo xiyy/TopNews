@@ -3,6 +3,7 @@ package com.xi.liuliu.topnews.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -12,8 +13,10 @@ import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.DatePickerDialog;
 import com.xi.liuliu.topnews.dialog.GenderSelectorDialog;
+import com.xi.liuliu.topnews.dialog.InputDialog;
 import com.xi.liuliu.topnews.event.DatePickerEvent;
 import com.xi.liuliu.topnews.event.GenderSelectorEvent;
+import com.xi.liuliu.topnews.event.InputContentEvent;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
 import de.greenrobot.event.EventBus;
@@ -35,6 +38,8 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
     private GenderSelectorDialog mGenderSelectorDialog;
     private int mGenderType;
     private DatePickerDialog mDatePickerDialog;
+    private InputDialog mUserNameDialog;
+    private InputDialog mIntroduceDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         mGender = (TextView) findViewById(R.id.gender_user_info_activity);
         mBirthDay = (TextView) findViewById(R.id.birth_day_user_info_activity);
         mRegion = (TextView) findViewById(R.id.region_user_info_activity);
+        mIntroduce = (TextView) findViewById(R.id.content_introduce_user_info_activity);
     }
 
     private void initData() {
@@ -75,11 +81,21 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         int cityName = SharedPrefUtil.getInstance(this).getInt(Constants.CITY_SP_KEY);
         if (cityName != -1) {
             mRegion.setText(cityName);
+            mRegion.setTextColor(getResources().getColor(R.color.text_view_default_color));
         }
         String birth = SharedPrefUtil.getInstance(this).getString(Constants.BIRTH_SP_KEY);
         if (birth != null) {
             mBirthDay.setText(birth);
             mBirthDay.setTextColor(getResources().getColor(R.color.text_view_default_color));
+        }
+        String userName = SharedPrefUtil.getInstance(this).getString(Constants.USER_NAME_SP_KEY);
+        if (userName != null) {
+            mUserName.setText(userName);
+        }
+        String introduce = SharedPrefUtil.getInstance(this).getString(Constants.INTRODUCE_SP_KEY);
+        if (introduce != null) {
+            mIntroduce.setText(introduce);
+            mIntroduce.setTextColor(getResources().getColor(R.color.text_view_default_color));
         }
     }
 
@@ -93,16 +109,25 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
 
                 break;
             case R.id.name_rl_user_info_activity:
-
+                if (mUserNameDialog == null) {
+                    mUserNameDialog = new InputDialog(this, InputContentEvent.INPUT_USER_NAME);
+                }
+                mUserNameDialog.startSoftInput();
+                mUserNameDialog.show();
                 break;
             case R.id.introduce_rl_user_info_activity:
-
+                if (mIntroduceDialog == null) {
+                    mIntroduceDialog = new InputDialog(this, InputContentEvent.INPUT_INTRODUCE);
+                }
+                mIntroduceDialog.startSoftInput();
+                mIntroduceDialog.show();
                 break;
             case R.id.gender_rl_user_info_activity:
                 if (mGenderSelectorDialog == null) {
                     mGenderSelectorDialog = new GenderSelectorDialog(this, mGenderType);
                 }
                 mGenderSelectorDialog.show();
+
                 break;
             case R.id.birth_day_rl_user_info_activity:
                 if (mDatePickerDialog == null) {
@@ -133,12 +158,33 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public void onEventMainThread(InputContentEvent event) {
+        if (event != null) {
+            int from = event.getInputFrom();
+            String inputContent = event.getInputContent();
+            if (!TextUtils.isEmpty(inputContent)) {
+                if (from == InputContentEvent.INPUT_INTRODUCE) {
+                    SharedPrefUtil.getInstance(this).putString(Constants.INTRODUCE_SP_KEY, inputContent);
+                    mIntroduce.setText(inputContent);
+                    mIntroduce.setTextColor(getResources().getColor(R.color.text_view_default_color));
+                } else {
+                    SharedPrefUtil.getInstance(this).putString(Constants.USER_NAME_SP_KEY, inputContent);
+                    mUserName.setText(inputContent);
+                }
+            }
+        }
+
+    }
+
     private void setMale(int genderType) {
         if (genderType == 1) {
             mGender.setText(R.string.edit_user_info_gender_male);
+            mGender.setTextColor(getResources().getColor(R.color.text_view_default_color));
         } else if (genderType == 0) {
             mGender.setText(R.string.edit_user_info_gender_female);
+            mGender.setTextColor(getResources().getColor(R.color.text_view_default_color));
         }
+
     }
 
     @Override
@@ -147,6 +193,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         if (requestCode == 1006 && resultCode == 1007 && data != null) {
             int cityName = data.getIntExtra("city_name", 0);
             mRegion.setText(cityName);
+            mRegion.setTextColor(getResources().getColor(R.color.text_view_default_color));
             SharedPrefUtil.getInstance(this).putInt(Constants.CITY_SP_KEY, cityName);
         }
     }

@@ -157,7 +157,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="40dp"
-            android:text="个人内容介绍" />
+            android:text="@string/edit_user_info_un_finished"
+            android:textColor="@color/blue5" />
 
         <Button
             android:layout_width="20dp"
@@ -291,7 +292,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="40dp" />
+            android:layout_marginRight="40dp"
+            android:text="@string/edit_user_info_un_finished"
+            android:textColor="@color/blue5" />
 
         <Button
             android:layout_width="20dp"

@@ -639,4 +639,6 @@
     <!-- 日期选择器-->
     <string name="finish_date_picker_dialog">完成</string>
     <string name="toast_error_date_picker_dialog">日期选择错误，请重新选择！</string>
+    <!--InputDialog-->
+    <string name="toast_empty_input_dialog">输入内容为空，请重新输入！</string>
 </resources>
