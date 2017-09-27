@@ -69,6 +69,10 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         }
         mGenderType = SharedPrefUtil.getInstance(this).getInt(Constants.GENDER_SP_KEY);
         setMale(mGenderType);
+        int cityName = SharedPrefUtil.getInstance(this).getInt(Constants.CITY_SP_KEY);
+        if (cityName != -1) {
+            mRegion.setText(cityName);
+        }
     }
 
     @Override
@@ -125,6 +129,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         if (requestCode == 1006 && resultCode == 1007 && data != null) {
             int cityName = data.getIntExtra("city_name", 0);
             mRegion.setText(cityName);
+            SharedPrefUtil.getInstance(this).putInt(Constants.CITY_SP_KEY, cityName);
         }
     }
 
