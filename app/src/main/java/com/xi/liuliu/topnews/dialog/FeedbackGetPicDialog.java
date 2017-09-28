@@ -22,9 +22,11 @@ public class FeedbackGetPicDialog implements View.OnClickListener {
     private Context mContext;
     private DialogView mDialogView;
     private TextView mSelectFromAblum;
+    private TextView mSelectFromCamera;
     private TextView mCancle;
     private Activity mActivity;
     private TextView mSelectFromAblumFromDelete;
+    private TextView mSelectFromCameraFromDelete;
     private TextView mCancleFromDelete;
     private TextView mDelete;
     private int mLayoutId;
@@ -37,23 +39,27 @@ public class FeedbackGetPicDialog implements View.OnClickListener {
     }
 
     private void init() {
-        View view = null;
+        View view;
         if (mLayoutId == R.layout.dialog_feedback_get_pic) {
             view = LayoutInflater.from(mContext).inflate(R.layout.dialog_feedback_get_pic, null);
-            mSelectFromAblum = (TextView) view.findViewById(R.id.feedback_get_pic_select);
+            mSelectFromAblum = (TextView) view.findViewById(R.id.feedback_get_pic_select_from_album);
             mSelectFromAblum.setOnClickListener(this);
+            mSelectFromCamera = (TextView) view.findViewById(R.id.feedback_get_pic_select_from_camera);
+            mSelectFromCamera.setOnClickListener(this);
             mCancle = (TextView) view.findViewById(R.id.feedback_get_pic_cancle);
             mCancle.setOnClickListener(this);
         } else {
             view = LayoutInflater.from(mContext).inflate(R.layout.dialog_feedback_get_pic_delete, null);
-            mSelectFromAblumFromDelete = (TextView) view.findViewById(R.id.feedback_get_pic_select_from_delete);
+            mSelectFromAblumFromDelete = (TextView) view.findViewById(R.id.feedback_get_pic_select_from_album_delete);
             mSelectFromAblumFromDelete.setOnClickListener(this);
+            mSelectFromCameraFromDelete = (TextView) view.findViewById(R.id.feedback_get_pic_select_from_camera_delete);
+            mSelectFromCameraFromDelete.setOnClickListener(this);
             mCancleFromDelete = (TextView) view.findViewById(R.id.feedback_get_pic_cancle_from_delete);
             mCancleFromDelete.setOnClickListener(this);
             mDelete = (TextView) view.findViewById(R.id.feedback_get_pic_select_delete);
             mDelete.setOnClickListener(this);
         }
-        mDialogView = new DialogView(mContext, view,R.style.share_dialog_animation);
+        mDialogView = new DialogView(mContext, view, R.style.share_dialog_animation);
         mDialogView.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         mDialogView.setGravity(Gravity.BOTTOM);
         mDialogView.setFullWidth(true);
@@ -77,16 +83,15 @@ public class FeedbackGetPicDialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.feedback_get_pic_select:
+            case R.id.feedback_get_pic_select_from_album:
+            case R.id.feedback_get_pic_select_from_album_delete:
                 selectFromAlbum();
                 break;
-
+            case R.id.feedback_get_pic_select_from_camera:
+            case R.id.feedback_get_pic_select_from_camera_delete:
+                selectFromCamera();
+                break;
             case R.id.feedback_get_pic_cancle:
-                dissmiss();
-                break;
-            case R.id.feedback_get_pic_select_from_delete:
-                selectFromAlbum();
-                break;
             case R.id.feedback_get_pic_cancle_from_delete:
                 dissmiss();
                 break;
@@ -101,5 +106,10 @@ public class FeedbackGetPicDialog implements View.OnClickListener {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         mActivity.startActivityForResult(intent, 1001);
+    }
+
+    private void selectFromCamera() {
+
+
     }
 }

@@ -31,7 +31,24 @@
         </View>
 
         <TextView
-            android:id="@+id/feedback_get_pic_select_from_delete"
+            android:id="@+id/feedback_get_pic_select_from_camera_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_feed_back_get_pic_delete_camera"
+            android:gravity="center"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
+            android:text="@string/broke_news_get_pic_camera"
+            android:textColor="@color/blue_light"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/grey13"></View>
+
+        <TextView
+            android:id="@+id/feedback_get_pic_select_from_album_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_feedback_reselect"

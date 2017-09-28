@@ -4,25 +4,50 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/feedback_get_pic_select"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/selector_feed_back_select_pic"
-        android:gravity="center"
-        android:paddingBottom="13dp"
-        android:paddingTop="13dp"
-        android:text="@string/feedback_dialog_get_pic_from_album"
-        android:textColor="@color/blue_light"
-        android:textSize="18sp" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/feedback_get_pic_select_from_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_feedback_reselect_delete"
+            android:gravity="center"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
+            android:text="@string/broke_news_get_pic_camera"
+            android:textColor="@color/blue_light"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/grey13">
+
+        </View>
+
+        <TextView
+            android:id="@+id/feedback_get_pic_select_from_album"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_feedback_reselect"
+            android:gravity="center"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
+            android:text="@string/broke_news_get_pic_album"
+            android:textColor="@color/blue_light"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/feedback_get_pic_cancle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/feedback_get_pic_select"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
