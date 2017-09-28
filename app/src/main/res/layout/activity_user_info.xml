@@ -52,19 +52,33 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:paddingBottom="12dp"
             android:paddingTop="12dp"
             android:text="@string/edit_user_info_portrait"
             android:textSize="17sp" />
 
-        <ImageView
-            android:id="@+id/portrait_user_info_activity"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="40dp" />
+            android:layout_marginRight="40dp">
+
+            <ImageView
+                android:id="@+id/portrait_user_info_activity"
+                android:layout_width="33dp"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/selector_user_portrait_user_info_activity" />
+        </RelativeLayout>
+
 
         <Button
             android:layout_width="20dp"

@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.DatePickerDialog;
@@ -77,6 +79,8 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+        int loginType = SharedPrefUtil.getInstance(this).getInt(Constants.LOGIN_TYPE_SP_KEY);
+        setPortrait(loginType);
         mGenderType = SharedPrefUtil.getInstance(this).getInt(Constants.GENDER_SP_KEY);
         setMale(mGenderType);
         int cityName = SharedPrefUtil.getInstance(this).getInt(Constants.CITY_SP_KEY);
@@ -188,6 +192,18 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
             mGender.setTextColor(getResources().getColor(R.color.text_view_default_color));
         }
 
+    }
+
+    private void setPortrait(int loginType) {
+        switch (loginType) {
+            case LoginEvent.LOGIN_WEIBO:
+                String portraitUrl = SharedPrefUtil.getInstance(this).getString(Constants.WEI_BO_Portrait_URL);
+                Glide.with(this).load(portraitUrl).transition(DrawableTransitionOptions.withCrossFade()).into(mPortraitImg);
+                break;
+            case LoginEvent.LOGIN_PHONE:
+                mPortraitImg.setImageResource(R.drawable.default_head_portrait);
+                break;
+        }
     }
 
     @Override
