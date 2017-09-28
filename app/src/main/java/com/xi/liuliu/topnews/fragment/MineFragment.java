@@ -20,6 +20,7 @@ import com.xi.liuliu.topnews.activity.FavorHistoryActivity;
 import com.xi.liuliu.topnews.activity.FeedbackActivity;
 import com.xi.liuliu.topnews.activity.MainActivity;
 import com.xi.liuliu.topnews.activity.SettingsActivity;
+import com.xi.liuliu.topnews.activity.UserInfoActivity;
 import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoginDialog;
@@ -75,6 +76,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         mMoreLoginWays = (TextView) mHeaderLogin.findViewById(R.id.header_fragment_mine_login_more_ways);
         mMoreLoginWays.setOnClickListener(this);
         mHeaderUserinfo = (RelativeLayout) view.findViewById(R.id.header_user_into_rtl);
+        mHeaderUserinfo.setOnClickListener(this);
         mUserNickName = (TextView) mHeaderUserinfo.findViewById(R.id.user_nick_name);
         mUserPortrait = (ImageView) mHeaderUserinfo.findViewById(R.id.head_portrait);
         mSettingsRlt = (RelativeLayout) view.findViewById(R.id.mine_app_settings);
@@ -128,6 +130,11 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.header_fragment_mine_login_qq:
                 qqLogin();
+                break;
+            case R.id.header_user_into_rtl:
+                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                startActivity(intent);
+                break;
 
         }
     }
