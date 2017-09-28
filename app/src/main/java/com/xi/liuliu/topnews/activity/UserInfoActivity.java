@@ -98,8 +98,6 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
             mIntroduce.setText(introduce);
             mIntroduce.setTextColor(getResources().getColor(R.color.text_view_default_color));
         }
-        int loginType = SharedPrefUtil.getInstance(this).getInt(Constants.LOGIN_TYPE_SP_KEY);
-        setUserName(loginType);
     }
 
     @Override
@@ -190,20 +188,6 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
             mGender.setTextColor(getResources().getColor(R.color.text_view_default_color));
         }
 
-    }
-
-    private void setUserName(int loginType) {
-        switch (loginType) {
-            case LoginEvent.LOGIN_WEIBO:
-                String weiboNickName = SharedPrefUtil.getInstance(this).getString(Constants.WEI_BO_NICK_NAME_SP_KEY);
-                mUserName.setText(weiboNickName);
-                break;
-            case LoginEvent.LOGIN_PHONE:
-                String phoneNumber = SharedPrefUtil.getInstance(this).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
-                mUserName.setText("手机用户" + phoneNumber);
-                break;
-
-        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.xi.liuliu.topnews.fragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.xi.liuliu.topnews.activity.SettingsActivity;
 import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoginDialog;
+import com.xi.liuliu.topnews.event.InputContentEvent;
 import com.xi.liuliu.topnews.event.LoginEvent;
 import com.xi.liuliu.topnews.event.LogoutEvent;
 import com.xi.liuliu.topnews.event.QQLoginEvent;
@@ -141,12 +143,31 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         if (event != null) {
             mHeaderLogin.setVisibility(View.GONE);
             mHeaderUserinfo.setVisibility(View.VISIBLE);
-            mUserNickName.setText(event.getName());
+            //曾经设置过用户名，显示设置过的用户名；否则，显示微博昵称/手机号码
+            String userName = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_NAME_SP_KEY);
+            if (!TextUtils.isEmpty(userName)) {
+                mUserNickName.setText(userName);
+            } else {
+                mUserNickName.setText(event.getName());
+            }
+            //设置用户头像
             if (event.getLoginType() == LoginEvent.LOGIN_PHONE) {
                 mUserPortrait.setImageResource(R.drawable.default_head_portrait);
             } else {
                 Glide.with(getActivity()).load(event.getPortraitUrl()).transition(DrawableTransitionOptions.withCrossFade()).into(mUserPortrait);
             }
+        }
+    }
+
+
+    /**
+     * 更改用户名后，MineFragment顶部布局要显示最新的用户名
+     *
+     * @param event
+     */
+    public void onEventMainThread(InputContentEvent event) {
+        if (event != null && event.getInputFrom() == InputContentEvent.INPUT_USER_NAME) {
+            mUserNickName.setText(event.getInputContent());
         }
     }
 
@@ -171,16 +192,16 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             mHeaderLogin.setVisibility(View.GONE);
             mHeaderUserinfo.setVisibility(View.VISIBLE);
             int loginType = SharedPrefUtil.getInstance(getActivity()).getInt(Constants.LOGIN_TYPE_SP_KEY);
+            String userName = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_NAME_SP_KEY);
+            if (!TextUtils.isEmpty(userName)) {
+                mUserNickName.setText(userName);
+            }
             switch (loginType) {
                 case LoginEvent.LOGIN_WEIBO:
-                    String nickName = SharedPrefUtil.getInstance(getActivity()).getString(Constants.WEI_BO_NICK_NAME_SP_KEY);
                     String portraitUrl = SharedPrefUtil.getInstance(getActivity()).getString(Constants.WEI_BO_Portrait_URL);
-                    mUserNickName.setText(nickName);
                     Glide.with(getActivity()).load(portraitUrl).transition(DrawableTransitionOptions.withCrossFade()).into(mUserPortrait);
                     break;
                 case LoginEvent.LOGIN_PHONE:
-                    String phoneNumber = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
-                    mUserNickName.setText("手机用户 " + phoneNumber);
                     mUserPortrait.setImageResource(R.drawable.default_head_portrait);
                     break;
                 case LoginEvent.LOGIN_QQ:
