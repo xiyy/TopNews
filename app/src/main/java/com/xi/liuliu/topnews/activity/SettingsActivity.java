@@ -47,8 +47,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         boolean isLoggedIn = SharedPrefUtil.getInstance(this).getBoolean(Constants.LOGIN_SP_KEY);
         if (isLoggedIn) {
             mLogout.setVisibility(View.VISIBLE);
+            mEditUserInfo.setVisibility(View.VISIBLE);
         } else {
             mLogout.setVisibility(View.GONE);
+            mEditUserInfo.setVisibility(View.GONE);
         }
         calculateCacheSize();
 
