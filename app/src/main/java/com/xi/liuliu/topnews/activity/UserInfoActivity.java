@@ -112,15 +112,17 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
 
                 break;
             case R.id.name_rl_user_info_activity:
+                String userName = mUserName.getText().toString().trim();
                 if (mUserNameDialog == null) {
-                    mUserNameDialog = new InputDialog(this, InputContentEvent.INPUT_USER_NAME);
+                    mUserNameDialog = new InputDialog(this, InputContentEvent.INPUT_USER_NAME, userName);
                 }
                 mUserNameDialog.startSoftInput();
                 mUserNameDialog.show();
                 break;
             case R.id.introduce_rl_user_info_activity:
+                String introduce = mIntroduce.getText().toString().trim();
                 if (mIntroduceDialog == null) {
-                    mIntroduceDialog = new InputDialog(this, InputContentEvent.INPUT_INTRODUCE);
+                    mIntroduceDialog = new InputDialog(this, InputContentEvent.INPUT_INTRODUCE, introduce);
                 }
                 mIntroduceDialog.startSoftInput();
                 mIntroduceDialog.show();

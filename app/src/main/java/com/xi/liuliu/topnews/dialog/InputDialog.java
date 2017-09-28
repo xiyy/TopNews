@@ -14,9 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
-import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.event.InputContentEvent;
-import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import java.util.Timer;
@@ -36,10 +34,12 @@ public class InputDialog implements View.OnClickListener {
     private TextView mCancel;
     private TextView mConfirm;
     private int mFrom;
+    private String mContent;
 
-    public InputDialog(Context context, int from) {
+    public InputDialog(Context context, int from, String content) {
         mContext = context;
         mFrom = from;
+        mContent = content;
         initView();
     }
 
@@ -66,14 +66,8 @@ public class InputDialog implements View.OnClickListener {
             mInputTitle.setText(R.string.edit_user_info_user_name_input_title);
             mTip.setVisibility(View.VISIBLE);
         }
-        //如果曾经保存过，弹出时显示保存的内容
-        String userName = SharedPrefUtil.getInstance(mContext).getString(Constants.USER_NAME_SP_KEY);
-        String introduce = SharedPrefUtil.getInstance(mContext).getString(Constants.INTRODUCE_SP_KEY);
-        if (mFrom == InputContentEvent.INPUT_INTRODUCE && !TextUtils.isEmpty(introduce)) {
-            mInputContent.setText(introduce);
-        }
-        if (mFrom == InputContentEvent.INPUT_USER_NAME && !TextUtils.isEmpty(userName)) {
-            mInputContent.setText(userName);
+        if (!TextUtils.isEmpty(mContent)) {
+            mInputContent.setText(mContent);
         }
     }
 
@@ -118,7 +112,6 @@ public class InputDialog implements View.OnClickListener {
                                inputManager.showSoftInput(mInputContent, 0);
                            }
                        },
-                150);
+                200);
     }
-
 }
