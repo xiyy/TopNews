@@ -31,25 +31,24 @@ public class LogoutDialog implements View.OnClickListener {
 
     private void init() {
         View view = LayoutInflater.from(mSettinsActivity).inflate(R.layout.dialog_log_out, null);
-        mCancle = (TextView) view.findViewById(R.id.dialog_log_out_cancle);
+        mCancle = (TextView) view.findViewById(R.id.cancel_dialog_log_out);
         mCancle.setOnClickListener(this);
-        mQuit = (TextView) view.findViewById(R.id.dialog_log_out_quit);
+        mQuit = (TextView) view.findViewById(R.id.confirm_dialog_log_out);
         mQuit.setOnClickListener(this);
         mDialogView = new DialogView(mSettinsActivity, view);
         mDialogView.setGravity(Gravity.CENTER);
-        mDialogView.setCanceledOnTouchOutside(false);
-        mDialogView.setCancelable(false);
+        mDialogView.setCanceledOnTouchOutside(true);
+        mDialogView.setCancelable(true);
         mDialogView.setDimBehind(true);
-        mDialogView.setFullScreen(true);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.dialog_log_out_cancle:
+            case R.id.cancel_dialog_log_out:
                 dismiss();
                 break;
-            case R.id.dialog_log_out_quit:
+            case R.id.confirm_dialog_log_out:
                 logout();
         }
     }
