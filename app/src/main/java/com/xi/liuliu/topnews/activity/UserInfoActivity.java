@@ -55,6 +55,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
     private GetPicDialog mGetPicDialog;
     private File mCropFile;
     private File mCameraUserPortrait;
+    private int mLoginType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,19 +92,19 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+        mLoginType = SharedPrefUtil.getInstance(this).getInt(Constants.LOGIN_TYPE_SP_KEY);
         //显示头像
         String portraitPath = SharedPrefUtil.getInstance(this).getString(Constants.USER_PORTRAIT_PATH_SP_KEY);
-        int loginType = SharedPrefUtil.getInstance(this).getInt(Constants.LOGIN_TYPE_SP_KEY);
         if (!TextUtils.isEmpty(portraitPath)) {
             Bitmap bitmap = BitmapFactory.decodeFile(portraitPath);
             //清除缓存后，bitmap为null
             if (bitmap != null) {
                 mPortraitImg.setImageBitmap(bitmap);
             } else {
-                setThirdPortrait(loginType);
+                setThirdPortrait(mLoginType);
             }
         } else {
-            setThirdPortrait(loginType);
+            setThirdPortrait(mLoginType);
         }
         //显示性别
         mGenderType = SharedPrefUtil.getInstance(this).getInt(Constants.GENDER_SP_KEY);
@@ -122,8 +123,10 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         }
         //显示用户名
         String userName = SharedPrefUtil.getInstance(this).getString(Constants.USER_NAME_SP_KEY);
-        if (userName != null) {
+        if (!TextUtils.isEmpty(userName)) {
             mUserName.setText(userName);
+        } else {
+            setThirdUserName(mLoginType);
         }
         //显示个人介绍
         String introduce = SharedPrefUtil.getInstance(this).getString(Constants.INTRODUCE_SP_KEY);
@@ -242,6 +245,28 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case LoginEvent.LOGIN_PHONE:
                 mPortraitImg.setImageResource(R.drawable.default_head_portrait);
+                break;
+            case LoginEvent.LOGIN_QQ:
+                break;
+            case LoginEvent.LOGIN_WEIXIN:
+                break;
+        }
+    }
+
+    /**
+     * 设置手机登录、微博登录、QQ登录、微信登录的用户名
+     *
+     * @param loginType
+     */
+    private void setThirdUserName(int loginType) {
+        switch (loginType) {
+            case LoginEvent.LOGIN_WEIBO:
+                String userName = SharedPrefUtil.getInstance(this).getString(Constants.WEI_BO_NICK_NAME_SP_KEY);
+                mUserName.setText(userName);
+                break;
+            case LoginEvent.LOGIN_PHONE:
+                String phoneNumber = SharedPrefUtil.getInstance(this).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
+                mUserName.setText("手机用户" + phoneNumber);
                 break;
             case LoginEvent.LOGIN_QQ:
                 break;

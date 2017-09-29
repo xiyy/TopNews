@@ -236,10 +236,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             mLoginType = SharedPrefUtil.getInstance(getActivity()).getInt(Constants.LOGIN_TYPE_SP_KEY);
             mHeaderLogin.setVisibility(View.GONE);
             mHeaderUserinfo.setVisibility(View.VISIBLE);
-            //如果已经设置过用户名，显示设置的用户名
+            //如果已经设置过用户名，显示设置的用户名;否则，手机登录的话，显示手机号码，微博登录的话，显示微博昵称
             String userName = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_NAME_SP_KEY);
             if (!TextUtils.isEmpty(userName)) {
                 mUserNickName.setText(userName);
+            } else {
+                setThirdUserName(mLoginType);
             }
             //如果已经设置过头像，显示设置的头像；否则，手机登录的话，显示默认头像，微博登录的话，显示微博头像
             String portraitPath = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PORTRAIT_PATH_SP_KEY);
@@ -272,6 +274,28 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 break;
             case LoginEvent.LOGIN_PHONE:
                 mUserPortrait.setImageResource(R.drawable.default_head_portrait);
+                break;
+            case LoginEvent.LOGIN_QQ:
+                break;
+            case LoginEvent.LOGIN_WEIXIN:
+                break;
+        }
+    }
+
+    /**
+     * 设置手机登录、微博登录、QQ登录、微信登录的用户名
+     *
+     * @param loginType
+     */
+    private void setThirdUserName(int loginType) {
+        switch (loginType) {
+            case LoginEvent.LOGIN_WEIBO:
+                String userName = SharedPrefUtil.getInstance(getActivity()).getString(Constants.WEI_BO_NICK_NAME_SP_KEY);
+                mUserNickName.setText(userName);
+                break;
+            case LoginEvent.LOGIN_PHONE:
+                String phoneNumber = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PHONE_NUMBER_SP_KEY);
+                mUserNickName.setText("手机用户" + phoneNumber);
                 break;
             case LoginEvent.LOGIN_QQ:
                 break;
