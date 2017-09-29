@@ -2,6 +2,8 @@ package com.xi.liuliu.topnews.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -24,9 +26,11 @@ import com.xi.liuliu.topnews.activity.UserInfoActivity;
 import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoginDialog;
+import com.xi.liuliu.topnews.event.ClearCacheEvent;
 import com.xi.liuliu.topnews.event.InputContentEvent;
 import com.xi.liuliu.topnews.event.LoginEvent;
 import com.xi.liuliu.topnews.event.LogoutEvent;
+import com.xi.liuliu.topnews.event.PortraitUpdateEvent;
 import com.xi.liuliu.topnews.event.QQLoginEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
@@ -54,6 +58,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private ImageView mUserPortrait;
     private RelativeLayout mSettingsRlt;
     private RelativeLayout mBrokeNewsRlt;
+    private int mLoginType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -178,6 +183,38 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * 更换头像后，MineFragment顶部布局要显示最新的头像
+     *
+     * @param event
+     */
+    public void onEventMainThread(PortraitUpdateEvent event) {
+        if (event != null) {
+            String portraitPath = event.getPortraitPath();
+            if (!TextUtils.isEmpty(portraitPath)) {
+                Bitmap bitmap = BitmapFactory.decodeFile(portraitPath);
+                if (bitmap != null) {
+                    mUserPortrait.setImageBitmap(bitmap);
+                } else {
+                    setThirdPortrait(mLoginType);
+                }
+            } else {
+                setThirdPortrait(mLoginType);
+            }
+        }
+    }
+
+    /**
+     * 清除缓存后，顶部用户头像要更新；否则头像依然是SdCard中保存的头像，但此头像图片已经被删除
+     *
+     * @param event
+     */
+    public void onEventMainThread(ClearCacheEvent event) {
+        if (event != null) {
+            setThirdPortrait(mLoginType);
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -196,26 +233,50 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
     private void checkLoginState() {
         if (SharedPrefUtil.getInstance(getActivity()).getBoolean(Constants.LOGIN_SP_KEY)) {
+            mLoginType = SharedPrefUtil.getInstance(getActivity()).getInt(Constants.LOGIN_TYPE_SP_KEY);
             mHeaderLogin.setVisibility(View.GONE);
             mHeaderUserinfo.setVisibility(View.VISIBLE);
-            int loginType = SharedPrefUtil.getInstance(getActivity()).getInt(Constants.LOGIN_TYPE_SP_KEY);
+            //如果已经设置过用户名，显示设置的用户名
             String userName = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_NAME_SP_KEY);
             if (!TextUtils.isEmpty(userName)) {
                 mUserNickName.setText(userName);
             }
-            switch (loginType) {
-                case LoginEvent.LOGIN_WEIBO:
-                    String portraitUrl = SharedPrefUtil.getInstance(getActivity()).getString(Constants.WEI_BO_Portrait_URL);
-                    Glide.with(getActivity()).load(portraitUrl).transition(DrawableTransitionOptions.withCrossFade()).into(mUserPortrait);
-                    break;
-                case LoginEvent.LOGIN_PHONE:
-                    mUserPortrait.setImageResource(R.drawable.default_head_portrait);
-                    break;
-                case LoginEvent.LOGIN_QQ:
-                    break;
-                case LoginEvent.LOGIN_WEIXIN:
-                    break;
+            //如果已经设置过头像，显示设置的头像；否则，手机登录的话，显示默认头像，微博登录的话，显示微博头像
+            String portraitPath = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PORTRAIT_PATH_SP_KEY);
+            if (!TextUtils.isEmpty(portraitPath)) {
+                Bitmap bitmap = BitmapFactory.decodeFile(portraitPath);
+                //清除缓存后，bitmap为null，此时头像设置为第三方登录的头像
+                if (bitmap != null) {
+                    mUserPortrait.setImageBitmap(bitmap);
+                } else {
+                    setThirdPortrait(mLoginType);
+                }
+
+            } else {
+                setThirdPortrait(mLoginType);
             }
+
+        }
+    }
+
+    /**
+     * 设置手机登录、微博登录、QQ登录、微信登录的头像
+     *
+     * @param loginType
+     */
+    private void setThirdPortrait(int loginType) {
+        switch (loginType) {
+            case LoginEvent.LOGIN_WEIBO:
+                String portraitUrl = SharedPrefUtil.getInstance(getActivity()).getString(Constants.WEI_BO_Portrait_URL);
+                Glide.with(getActivity()).load(portraitUrl).transition(DrawableTransitionOptions.withCrossFade()).into(mUserPortrait);
+                break;
+            case LoginEvent.LOGIN_PHONE:
+                mUserPortrait.setImageResource(R.drawable.default_head_portrait);
+                break;
+            case LoginEvent.LOGIN_QQ:
+                break;
+            case LoginEvent.LOGIN_WEIXIN:
+                break;
         }
     }
 }

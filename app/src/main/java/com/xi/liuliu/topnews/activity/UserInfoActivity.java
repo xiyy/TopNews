@@ -1,7 +1,11 @@
 package com.xi.liuliu.topnews.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,12 +19,17 @@ import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.DatePickerDialog;
 import com.xi.liuliu.topnews.dialog.GetGenderDialog;
+import com.xi.liuliu.topnews.dialog.GetPicDialog;
 import com.xi.liuliu.topnews.dialog.InputDialog;
 import com.xi.liuliu.topnews.event.DatePickerEvent;
 import com.xi.liuliu.topnews.event.GenderSelectorEvent;
 import com.xi.liuliu.topnews.event.InputContentEvent;
 import com.xi.liuliu.topnews.event.LoginEvent;
+import com.xi.liuliu.topnews.event.PortraitUpdateEvent;
+import com.xi.liuliu.topnews.utils.FileUtils;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
+
+import java.io.File;
 
 import de.greenrobot.event.EventBus;
 
@@ -43,6 +52,9 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
     private DatePickerDialog mDatePickerDialog;
     private InputDialog mUserNameDialog;
     private InputDialog mIntroduceDialog;
+    private GetPicDialog mGetPicDialog;
+    private File mCropFile;
+    private File mCameraUserPortrait;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,24 +91,41 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+        //显示头像
+        String portraitPath = SharedPrefUtil.getInstance(this).getString(Constants.USER_PORTRAIT_PATH_SP_KEY);
         int loginType = SharedPrefUtil.getInstance(this).getInt(Constants.LOGIN_TYPE_SP_KEY);
-        setPortrait(loginType);
+        if (!TextUtils.isEmpty(portraitPath)) {
+            Bitmap bitmap = BitmapFactory.decodeFile(portraitPath);
+            //清除缓存后，bitmap为null
+            if (bitmap != null) {
+                mPortraitImg.setImageBitmap(bitmap);
+            } else {
+                setThirdPortrait(loginType);
+            }
+        } else {
+            setThirdPortrait(loginType);
+        }
+        //显示性别
         mGenderType = SharedPrefUtil.getInstance(this).getInt(Constants.GENDER_SP_KEY);
         setMale(mGenderType);
+        //显示城市
         int cityName = SharedPrefUtil.getInstance(this).getInt(Constants.CITY_SP_KEY);
         if (cityName != -1) {
             mRegion.setText(cityName);
             mRegion.setTextColor(getResources().getColor(R.color.text_view_default_color));
         }
+        //显示生日
         String birth = SharedPrefUtil.getInstance(this).getString(Constants.BIRTH_SP_KEY);
         if (birth != null) {
             mBirthDay.setText(birth);
             mBirthDay.setTextColor(getResources().getColor(R.color.text_view_default_color));
         }
+        //显示用户名
         String userName = SharedPrefUtil.getInstance(this).getString(Constants.USER_NAME_SP_KEY);
         if (userName != null) {
             mUserName.setText(userName);
         }
+        //显示个人介绍
         String introduce = SharedPrefUtil.getInstance(this).getString(Constants.INTRODUCE_SP_KEY);
         if (introduce != null) {
             mIntroduce.setText(introduce);
@@ -111,7 +140,12 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.portrait_rl_user_info_activity:
-
+                if (mGetPicDialog == null) {
+                    mGetPicDialog = new GetPicDialog(this, this, R.layout.dialog_get_pic, GetPicDialog.FROM_USER_PORTRAIT);
+                }
+                mCameraUserPortrait = FileUtils.createImageFile();
+                mGetPicDialog.setCameraFile(mCameraUserPortrait);
+                mGetPicDialog.show();
                 break;
             case R.id.name_rl_user_info_activity:
                 String userName = mUserName.getText().toString().trim();
@@ -194,7 +228,13 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private void setPortrait(int loginType) {
+    /**
+     * 设置手机登录、微博登录、QQ登录、微信登录的头像
+     *
+     * @param loginType
+     */
+
+    private void setThirdPortrait(int loginType) {
         switch (loginType) {
             case LoginEvent.LOGIN_WEIBO:
                 String portraitUrl = SharedPrefUtil.getInstance(this).getString(Constants.WEI_BO_Portrait_URL);
@@ -203,6 +243,10 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
             case LoginEvent.LOGIN_PHONE:
                 mPortraitImg.setImageResource(R.drawable.default_head_portrait);
                 break;
+            case LoginEvent.LOGIN_QQ:
+                break;
+            case LoginEvent.LOGIN_WEIXIN:
+                break;
         }
     }
 
@@ -210,11 +254,22 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1006 && resultCode == 1007 && data != null) {
-            int cityName = data.getIntExtra("city_name", 0);
-            mRegion.setText(cityName);
-            mRegion.setTextColor(getResources().getColor(R.color.text_view_default_color));
-            SharedPrefUtil.getInstance(this).putInt(Constants.CITY_SP_KEY, cityName);
+            handleRegionResult(data);
         }
+        //裁剪从相册中选取的图片，注意resultCode！= RESULT_OK
+        if (requestCode == 1001) {
+            cutPic(data.getData());
+        }
+        //裁剪相机拍摄的图片
+        if (requestCode == 1002) {
+            Uri fileUri = FileUtils.getImageContentUri(this, mCameraUserPortrait);
+            cutPic(fileUri);
+        }
+        //裁剪图片
+        if (requestCode == 1010) {
+            handleCutPicResult(resultCode);
+        }
+
     }
 
     @Override
@@ -225,5 +280,44 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    private void handleRegionResult(Intent data) {
+        int cityName = data.getIntExtra("city_name", 0);
+        mRegion.setText(cityName);
+        mRegion.setTextColor(getResources().getColor(R.color.text_view_default_color));
+        SharedPrefUtil.getInstance(this).putInt(Constants.CITY_SP_KEY, cityName);
+    }
+
+    private void handleCutPicResult(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            String portraitPath = mCropFile.getAbsolutePath();
+            Bitmap bitmap = BitmapFactory.decodeFile(portraitPath);
+            mPortraitImg.setImageBitmap(bitmap);
+            SharedPrefUtil.getInstance(this).putString(Constants.USER_PORTRAIT_PATH_SP_KEY, portraitPath);
+            EventBus.getDefault().post(new PortraitUpdateEvent(portraitPath));
+        }
+    }
+
+    /**
+     * 裁剪图片
+     *
+     * @param uri
+     */
+    public void cutPic(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        mCropFile = FileUtils.createImageFile();
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mCropFile));
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true);
+        intent.putExtra("return-data", false);
+        startActivityForResult(intent, 1010);
+    }
 
 }

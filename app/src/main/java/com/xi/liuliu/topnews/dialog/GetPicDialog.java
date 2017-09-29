@@ -26,15 +26,16 @@ import de.greenrobot.event.EventBus;
 public class GetPicDialog implements View.OnClickListener {
     public static final int FROM_FEED_BACK = 0;
     public static int FROM_BROKE_NEWS = 1;
+    public static int FROM_USER_PORTRAIT = 2;
     private Context mContext;
     private DialogView mDialogView;
-    private TextView mSelectFromAblum;
+    private TextView mSelectFromAlbum;
     private TextView mSelectFromCamera;
-    private TextView mCancle;
+    private TextView mCancel;
     private Activity mActivity;
-    private TextView mSelectFromAblumFromDelete;
+    private TextView mSelectFromAlbumFromDelete;
     private TextView mSelectFromCameraFromDelete;
-    private TextView mCancleFromDelete;
+    private TextView mCancelFromDelete;
     private TextView mDelete;
     private int mLayoutId;
     private File mCameraFile;
@@ -52,20 +53,20 @@ public class GetPicDialog implements View.OnClickListener {
         View view;
         if (mLayoutId == R.layout.dialog_get_pic) {
             view = LayoutInflater.from(mContext).inflate(R.layout.dialog_get_pic, null);
-            mSelectFromAblum = (TextView) view.findViewById(R.id.feedback_get_pic_select_from_album);
-            mSelectFromAblum.setOnClickListener(this);
+            mSelectFromAlbum = (TextView) view.findViewById(R.id.feedback_get_pic_select_from_album);
+            mSelectFromAlbum.setOnClickListener(this);
             mSelectFromCamera = (TextView) view.findViewById(R.id.feedback_get_pic_select_from_camera);
             mSelectFromCamera.setOnClickListener(this);
-            mCancle = (TextView) view.findViewById(R.id.feedback_get_pic_cancle);
-            mCancle.setOnClickListener(this);
+            mCancel = (TextView) view.findViewById(R.id.feedback_get_pic_cancle);
+            mCancel.setOnClickListener(this);
         } else {
             view = LayoutInflater.from(mContext).inflate(R.layout.dialog_feedback_get_pic_delete, null);
-            mSelectFromAblumFromDelete = (TextView) view.findViewById(R.id.feedback_get_pic_select_from_album_delete);
-            mSelectFromAblumFromDelete.setOnClickListener(this);
+            mSelectFromAlbumFromDelete = (TextView) view.findViewById(R.id.feedback_get_pic_select_from_album_delete);
+            mSelectFromAlbumFromDelete.setOnClickListener(this);
             mSelectFromCameraFromDelete = (TextView) view.findViewById(R.id.feedback_get_pic_select_from_camera_delete);
             mSelectFromCameraFromDelete.setOnClickListener(this);
-            mCancleFromDelete = (TextView) view.findViewById(R.id.feedback_get_pic_cancle_from_delete);
-            mCancleFromDelete.setOnClickListener(this);
+            mCancelFromDelete = (TextView) view.findViewById(R.id.feedback_get_pic_cancle_from_delete);
+            mCancelFromDelete.setOnClickListener(this);
             mDelete = (TextView) view.findViewById(R.id.feedback_get_pic_select_delete);
             mDelete.setOnClickListener(this);
         }
@@ -95,10 +96,10 @@ public class GetPicDialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.feedback_get_pic_select_from_album:
             case R.id.feedback_get_pic_select_from_album_delete:
-                if (mFrom == GetPicDialog.FROM_BROKE_NEWS) {
-                    selectFromAlbumForBrokeNews();
+                if (mFrom == FROM_BROKE_NEWS) {
+                    selectFromAlbumForMulti();
                 } else {
-                    selectFromAlbumForFeedback();
+                    selectFromAlbumSingle();
                 }
                 break;
             case R.id.feedback_get_pic_select_from_camera:
@@ -116,18 +117,19 @@ public class GetPicDialog implements View.OnClickListener {
 
     }
 
-    private void selectFromAlbumForFeedback() {
+    private void selectFromAlbumSingle() {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         mActivity.startActivityForResult(intent, 1001);
         dismiss();
     }
 
-    private void selectFromAlbumForBrokeNews() {
+    private void selectFromAlbumForMulti() {
         Intent intent = new Intent(mActivity, ImageSelectorActivity.class);
         mActivity.startActivityForResult(intent, 1001);
         dismiss();
     }
+
 
     private void selectFromCamera() {
         Uri outputFileUri = Uri.fromFile(mCameraFile);

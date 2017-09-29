@@ -11,9 +11,12 @@ import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.ClearCacheDialog;
 import com.xi.liuliu.topnews.dialog.LogoutDialog;
+import com.xi.liuliu.topnews.event.ClearCacheEvent;
 import com.xi.liuliu.topnews.utils.FileUtils;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
+
+import de.greenrobot.event.EventBus;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
     private RelativeLayout mGoBack;
@@ -84,6 +87,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                 @Override
                                 public void run() {
                                     ToastUtil.toastInCenter(SettingsActivity.this, R.string.clear_cache_toast_success);
+                                    //MineFragment接收，更新顶部用户头像
+                                    EventBus.getDefault().post(new ClearCacheEvent());
                                     mCacheSize.setText("0.0MB");
                                 }
                             });
