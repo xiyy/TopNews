@@ -14,7 +14,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.DatePickerDialog;
-import com.xi.liuliu.topnews.dialog.GenderSelectorDialog;
+import com.xi.liuliu.topnews.dialog.GetGenderDialog;
 import com.xi.liuliu.topnews.dialog.InputDialog;
 import com.xi.liuliu.topnews.event.DatePickerEvent;
 import com.xi.liuliu.topnews.event.GenderSelectorEvent;
@@ -38,7 +38,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
     private TextView mGender;
     private TextView mBirthDay;
     private TextView mRegion;
-    private GenderSelectorDialog mGenderSelectorDialog;
+    private GetGenderDialog mGenderSelectorDialog;
     private int mGenderType;
     private DatePickerDialog mDatePickerDialog;
     private InputDialog mUserNameDialog;
@@ -131,7 +131,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.gender_rl_user_info_activity:
                 if (mGenderSelectorDialog == null) {
-                    mGenderSelectorDialog = new GenderSelectorDialog(this, mGenderType);
+                    mGenderSelectorDialog = new GetGenderDialog(this, mGenderType);
                 }
                 mGenderSelectorDialog.show();
 

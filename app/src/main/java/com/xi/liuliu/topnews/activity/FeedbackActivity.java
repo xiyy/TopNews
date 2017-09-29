@@ -23,7 +23,7 @@ import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.avos.avoscloud.feedback.FeedbackThread;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.dialog.ExitTipDialog;
-import com.xi.liuliu.topnews.dialog.FeedbackGetPicDialog;
+import com.xi.liuliu.topnews.dialog.GetPicDialog;
 import com.xi.liuliu.topnews.dialog.SendingDialog;
 import com.xi.liuliu.topnews.event.FeedbackPicDeleteEvent;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
@@ -47,7 +47,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private ImageView mFeedbackPic;
     private String mImagePath;
     private SendingDialog mSendingDialog;
-    private FeedbackGetPicDialog mFeedbackGetPicDialog;
+    private GetPicDialog mFeedbackGetPicDialog;
     private ExitTipDialog mExitTipDialog;
     private boolean hasPicSelected;
     private File mCameraFile;
@@ -87,9 +87,9 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.activity_feedback_pic:
                 if (!hasPicSelected) {
-                    mFeedbackGetPicDialog = new FeedbackGetPicDialog(this, this, R.layout.dialog_feedback_get_pic);
+                    mFeedbackGetPicDialog = new GetPicDialog(this, this, R.layout.dialog_get_pic, GetPicDialog.FROM_FEED_BACK);
                 } else {
-                    mFeedbackGetPicDialog = new FeedbackGetPicDialog(this, this, R.layout.dialog_feedback_get_pic_delete);
+                    mFeedbackGetPicDialog = new GetPicDialog(this, this, R.layout.dialog_feedback_get_pic_delete, GetPicDialog.FROM_FEED_BACK);
                 }
                 mCameraFile = FileUtils.createImageFile();
                 mFeedbackGetPicDialog.setCameraFile(mCameraFile);
@@ -104,7 +104,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         if (requestCode == 1001 && resultCode == Activity.RESULT_OK && data != null) {
             handleAlbumResult(requestCode, resultCode, data);
         }
-        if (requestCode == 1010 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 1002 && resultCode == Activity.RESULT_OK) {
             //data==null
             handleCameraResult();
         }

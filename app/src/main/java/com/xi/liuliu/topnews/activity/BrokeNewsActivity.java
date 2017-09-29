@@ -25,8 +25,8 @@ import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.ImgPickerAdapter;
 import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
-import com.xi.liuliu.topnews.dialog.BrokeNewsGetPicDialog;
 import com.xi.liuliu.topnews.dialog.ExitTipDialog;
+import com.xi.liuliu.topnews.dialog.GetPicDialog;
 import com.xi.liuliu.topnews.dialog.SendingDialog;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
 import com.xi.liuliu.topnews.utils.CheckPhone;
@@ -54,7 +54,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     private ImgPickerGridView mGridView;
     private ArrayList<Address> mAddressList;
     private boolean isLocated;
-    private BrokeNewsGetPicDialog mBrokeNewsGetPicDialog;
+    private GetPicDialog mGetPicDialog;
     private ArrayList<Bitmap> mBitmapList;
     private ArrayList<String> mImgPathList;
     private int mImgCount = 1;
@@ -92,8 +92,11 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                 if (position == mBitmapList.size() - 1) {//点击最后一张图片
                     if (mImgCount <= 9) {
                         mCameraFile = FileUtils.createImageFile();
-                        mBrokeNewsGetPicDialog.setCameraFile(mCameraFile);
-                        mBrokeNewsGetPicDialog.show();
+                        if (mGetPicDialog == null) {
+                            mGetPicDialog = new GetPicDialog(BrokeNewsActivity.this, BrokeNewsActivity.this, R.layout.dialog_get_pic, GetPicDialog.FROM_BROKE_NEWS);
+                        }
+                        mGetPicDialog.setCameraFile(mCameraFile);
+                        mGetPicDialog.show();
                     }
 
                 }
@@ -108,7 +111,6 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
         Bitmap addImg = BitmapFactory.decodeResource(getResources(), R.drawable.layer_list_broke_news_add_img);
         mBitmapList.add(addImg);
         mImgPickerAdapter = new ImgPickerAdapter(this, mBitmapList);
-        mBrokeNewsGetPicDialog = new BrokeNewsGetPicDialog(this, this);
     }
 
     @Override
@@ -190,9 +192,6 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                 }
             }
             mImgPickerAdapter.notifyDataSetChanged();
-            if (mBrokeNewsGetPicDialog != null) {
-                mBrokeNewsGetPicDialog.dismiss();
-            }
         }
     }
 
@@ -214,9 +213,6 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
             }
             mImgCount++;
             mImgPickerAdapter.notifyDataSetChanged();
-            if (mBrokeNewsGetPicDialog != null) {
-                mBrokeNewsGetPicDialog.dismiss();
-            }
         }
 
     }

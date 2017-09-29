@@ -17,7 +17,7 @@ import de.greenrobot.event.EventBus;
  * Created by zhangxb171 on 2017/9/26.
  */
 
-public class GenderSelectorDialog implements View.OnClickListener {
+public class GetGenderDialog implements View.OnClickListener {
     private Context mContext;
     private DialogView mDialogView;
     private RadioButton mMaleBtn;
@@ -25,7 +25,7 @@ public class GenderSelectorDialog implements View.OnClickListener {
     private TextView mCancel;
     private int mLastTimeGender;
 
-    public GenderSelectorDialog(Context context, int lastTimeGender) {
+    public GetGenderDialog(Context context, int lastTimeGender) {
         mContext = context;
         this.mLastTimeGender = lastTimeGender;
         init();
