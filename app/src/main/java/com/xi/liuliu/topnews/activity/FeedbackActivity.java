@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +27,7 @@ import com.xi.liuliu.topnews.dialog.FeedbackGetPicDialog;
 import com.xi.liuliu.topnews.dialog.SendingDialog;
 import com.xi.liuliu.topnews.event.FeedbackPicDeleteEvent;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
+import com.xi.liuliu.topnews.utils.FileUtils;
 import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import java.io.File;
@@ -48,6 +50,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private FeedbackGetPicDialog mFeedbackGetPicDialog;
     private ExitTipDialog mExitTipDialog;
     private boolean hasPicSelected;
+    private File mCameraFile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,8 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     mFeedbackGetPicDialog = new FeedbackGetPicDialog(this, this, R.layout.dialog_feedback_get_pic_delete);
                 }
+                mCameraFile = FileUtils.createImageFile();
+                mFeedbackGetPicDialog.setCameraFile(mCameraFile);
                 mFeedbackGetPicDialog.show();
                 break;
         }
@@ -96,23 +101,12 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1001 && resultCode == Activity.RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePathColumns[0]);
-            mImagePath = c.getString(columnIndex);
-            //压缩原始图片，预防oom
-            Bitmap bm = BitmapUtil.BytesToBitmap(BitmapUtil.decodeBitmap(mImagePath));
-            mFeedbackPic.setImageBitmap(bm);
-            mFeedbackPic.setScaleType(ImageView.ScaleType.FIT_XY);
-            c.close();
-            hasPicSelected = true;
-            if (mFeedbackGetPicDialog != null) {
-                mFeedbackGetPicDialog.dissmiss();
-            }
+            handleAlbumResult(requestCode, resultCode, data);
+        }
+        if (requestCode == 1010 && resultCode == Activity.RESULT_OK) {
+            //data==null
+            handleCameraResult();
         }
     }
 
@@ -207,5 +201,31 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
             return true;
         }
         return false;
+    }
+
+    private void handleAlbumResult(int requestCode, int resultCode, Intent data) {
+        Uri selectedImage = data.getData();
+        String[] filePathColumns = {MediaStore.Images.Media.DATA};
+        Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+        c.moveToFirst();
+        int columnIndex = c.getColumnIndex(filePathColumns[0]);
+        mImagePath = c.getString(columnIndex);
+        //压缩原始图片，预防oom
+        Bitmap bm = BitmapUtil.BytesToBitmap(BitmapUtil.decodeBitmap(mImagePath));
+        mFeedbackPic.setImageBitmap(bm);
+        mFeedbackPic.setScaleType(ImageView.ScaleType.FIT_XY);
+        c.close();
+        hasPicSelected = true;
+
+    }
+
+    private void handleCameraResult() {
+        Uri fileUri = FileUtils.getImageContentUri(this, mCameraFile);
+        mImagePath = FileUtils.getImagePathWithUri(this, fileUri, null);
+        //拍摄的图片要压缩，图片过大，导致Bitmap对象装不下图片，将图片的长和宽缩小为原来的1/2
+        Bitmap bitmap = BitmapFactory.decodeFile(mImagePath, BitmapUtil.getBitmapOptions(2));
+        mFeedbackPic.setImageBitmap(bitmap);
+        mFeedbackPic.setScaleType(ImageView.ScaleType.FIT_XY);
+        hasPicSelected = true;
     }
 }

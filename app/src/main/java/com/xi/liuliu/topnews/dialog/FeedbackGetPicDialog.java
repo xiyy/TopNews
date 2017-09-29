@@ -3,6 +3,8 @@ package com.xi.liuliu.topnews.dialog;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.event.FeedbackPicDeleteEvent;
+
+import java.io.File;
 
 import de.greenrobot.event.EventBus;
 
@@ -30,6 +34,7 @@ public class FeedbackGetPicDialog implements View.OnClickListener {
     private TextView mCancleFromDelete;
     private TextView mDelete;
     private int mLayoutId;
+    private File mCameraFile;
 
     public FeedbackGetPicDialog(Context context, Activity activity, int layoutId) {
         mContext = context;
@@ -74,7 +79,7 @@ public class FeedbackGetPicDialog implements View.OnClickListener {
         }
     }
 
-    public void dissmiss() {
+    public void dismiss() {
         if (mDialogView != null) {
             mDialogView.dismissDialog();
         }
@@ -93,11 +98,11 @@ public class FeedbackGetPicDialog implements View.OnClickListener {
                 break;
             case R.id.feedback_get_pic_cancle:
             case R.id.feedback_get_pic_cancle_from_delete:
-                dissmiss();
+                dismiss();
                 break;
             case R.id.feedback_get_pic_select_delete:
                 EventBus.getDefault().post(new FeedbackPicDeleteEvent());
-                dissmiss();
+                dismiss();
         }
 
     }
@@ -106,10 +111,18 @@ public class FeedbackGetPicDialog implements View.OnClickListener {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         mActivity.startActivityForResult(intent, 1001);
+        dismiss();
     }
 
     private void selectFromCamera() {
+        Uri outputFileUri = Uri.fromFile(mCameraFile);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        mActivity.startActivityForResult(intent, 1010);
+        dismiss();
+    }
 
-
+    public void setCameraFile(File file) {
+        mCameraFile = file;
     }
 }
