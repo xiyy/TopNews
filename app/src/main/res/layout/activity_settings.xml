@@ -170,13 +170,16 @@
             android:text="@string/settings_notice_with_not_wifi"
             android:textSize="17sp" />
 
-        <Button
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+        <TextView
+            android:id="@+id/not_wifi_warn_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/setting_arrow_right" />
+            android:gravity="center"
+            android:text="@string/not_wifi_dialog_warn_once"
+            android:textSize="15sp" />
 
 
     </RelativeLayout>

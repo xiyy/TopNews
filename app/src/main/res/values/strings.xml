@@ -144,6 +144,11 @@
     <string name="edit_user_info_birthday_error">抱歉，日期选择有误，请重新选择</string>
     <string name="edit_user_info_region">地区</string>
     <string name="edit_user_info_region_title">选择地区</string>
+    <!-- 非WiFi网络提醒-->
+    <string name="not_wifi_dialog_warn_title">非WiFi网络播放提醒</string>
+    <string name="not_wifi_dialog_warn_once">提醒一次</string>
+    <string name="not_wifi_dialog_warn_every_time">每次提醒</string>
+    <string name="not_wifi_dialog_warn_cancel">取消</string>
     <!--北京-->
     <string name="edit_user_info_region_beijing">北京市</string>
     <string name="edit_user_info_region_beijing_dongcheng">东城区</string>

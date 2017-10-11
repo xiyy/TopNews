@@ -28,6 +28,7 @@ public interface Constants {
     String USER_NAME_SP_KEY = "userName";
     String USER_PORTRAIT_PATH_SP_KEY = "userPortraitPath";
     String INTRODUCE_SP_KEY = "introduce";
+    String NOT_WIFI_WARN_SP_KEY = "not_wifi_warn";
     String WEI_BO_Portrait_URL = "weiboPortraitUrl";
     String LOGIN_SMS_CODE_HOST = "https://api.leancloud.cn/1.1/requestSmsCode";
     String VERIFY_SMS_CODE = "https://api.leancloud.cn/1.1/verifySmsCode";

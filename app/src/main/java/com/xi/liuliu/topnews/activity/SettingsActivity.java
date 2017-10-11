@@ -11,7 +11,9 @@ import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.ClearCacheDialog;
 import com.xi.liuliu.topnews.dialog.LogoutDialog;
+import com.xi.liuliu.topnews.dialog.NotWifiWarnDialog;
 import com.xi.liuliu.topnews.event.ClearCacheEvent;
+import com.xi.liuliu.topnews.event.NotWifiWarnEvent;
 import com.xi.liuliu.topnews.utils.FileUtils;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
@@ -27,6 +29,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private TextView mLogout;
     private TextView mUserAgreement;
     private TextView mCacheSize;
+    private TextView mNotWifiWarnTag;
+    private NotWifiWarnDialog mNotWifiWarnDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         mCheckVersion.setOnClickListener(this);
         mVideoNoticeNoWifi = (RelativeLayout) findViewById(R.id.video_notice_no_wifi);
         mVideoNoticeNoWifi.setOnClickListener(this);
+        mNotWifiWarnTag = (TextView) findViewById(R.id.not_wifi_warn_tag);
         mLogout = (TextView) findViewById(R.id.settings_log_out);
         mLogout.setOnClickListener(this);
         mUserAgreement = (TextView) findViewById(R.id.user_agreement_activity_settings);
@@ -54,6 +59,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         } else {
             mLogout.setVisibility(View.GONE);
             mEditUserInfo.setVisibility(View.GONE);
+        }
+        int notWifiWarnTag = SharedPrefUtil.getInstance(this).getInt(Constants.NOT_WIFI_WARN_SP_KEY);
+        setNotWifiWarnTag(notWifiWarnTag);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
         }
         calculateCacheSize();
 
@@ -101,7 +111,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
                 break;
             case R.id.video_notice_no_wifi:
-
+                if (mNotWifiWarnDialog == null) {
+                    mNotWifiWarnDialog = new NotWifiWarnDialog(this);
+                }
+                mNotWifiWarnDialog.show();
                 break;
 
         }
@@ -113,8 +126,32 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Override
     public void finish() {
         super.finish();
+    }
+
+    public void onEventMainThread(NotWifiWarnEvent event) {
+        if (event != null) {
+            int tag = event.getNotWifiWarnTag();
+            SharedPrefUtil.getInstance(this).putInt(Constants.NOT_WIFI_WARN_SP_KEY, tag);
+            setNotWifiWarnTag(tag);
+        }
+    }
+
+    private void setNotWifiWarnTag(int tag) {
+        if (tag == NotWifiWarnDialog.NOT_WIFI_WARN_EVERY_TIME) {
+            mNotWifiWarnTag.setText(R.string.not_wifi_dialog_warn_every_time);
+        } else if (tag == NotWifiWarnDialog.NOT_WIFI_WARN_ONCE) {
+            mNotWifiWarnTag.setText(R.string.not_wifi_dialog_warn_once);
+        }
     }
 
     public void calculateCacheSize() {

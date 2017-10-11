@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_dialog_gender_selector"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="10dp"
+        android:text="@string/not_wifi_dialog_warn_title"
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_btn_not_wifi_warn_once"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:checked="true"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:paddingLeft="10dp"
+            android:text="@string/not_wifi_dialog_warn_once"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_btn_not_wifi_warn_every_time"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:paddingLeft="10dp"
+            android:text="@string/not_wifi_dialog_warn_every_time"
+            android:textSize="16sp" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/cancel_not_wifi_warn_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="10dp"
+        android:gravity="right"
+        android:padding="5dp"
+        android:text="@string/not_wifi_dialog_warn_cancel"
+        android:textColor="@color/blue5"
+        android:textSize="16sp" />
+</LinearLayout>
