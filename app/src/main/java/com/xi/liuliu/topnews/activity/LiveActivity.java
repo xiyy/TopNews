@@ -1,5 +1,7 @@
 package com.xi.liuliu.topnews.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -13,8 +15,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.dialog.NotWifiWarnDialog;
 import com.xi.liuliu.topnews.utils.AnimUtil;
 import com.xi.liuliu.topnews.utils.DeviceUtil;
+import com.xi.liuliu.topnews.utils.NetWorkUtil;
+import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.Vitamio;
@@ -33,6 +39,7 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
     private AnimationDrawable mLoadingAnim;
     private boolean isFullScreen;
     private boolean isScreenClear = true;
+    private boolean isNotWifiWarned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,8 +156,24 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
                     mVideoView.pause();
                     mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_play);
                 } else {
-                    mVideoView.start();
-                    mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
+                    if (NetWorkUtil.isMobile(LiveActivity.this)) {//移动网络
+                        int notWifiWarn = SharedPrefUtil.getInstance(LiveActivity.this).getInt(Constants.NOT_WIFI_WARN_SP_KEY);
+                        if (notWifiWarn == NotWifiWarnDialog.NOT_WIFI_WARN_EVERY_TIME) {//每次都提醒
+                            showNotWifiWarnDialog();
+                        } else //只提醒一次
+                        {
+                            if (!isNotWifiWarned) {
+                                showNotWifiWarnDialog();
+                                isNotWifiWarned = true;
+                            } else {
+                                mVideoView.start();
+                                mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
+                            }
+                        }
+                    } else {//wifi网络
+                        mVideoView.start();
+                        mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
+                    }
                 }
                 break;
             case R.id.exit_btn_video_live_activity:
@@ -198,5 +221,23 @@ public class LiveActivity extends AppCompatActivity implements View.OnClickListe
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Activity竖屏
         mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE, 0);
         isFullScreen = false;
+    }
+
+    private void showNotWifiWarnDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.alert_dialog_mobile_network_title).setMessage(R.string.alert_dialog_mobile_network_message).setPositiveButton(R.string.alert_dialog_mobile_network_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mVideoView.start();
+                mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
+                dialog.dismiss();
+
+            }
+        }).setNegativeButton(R.string.alert_dialog_mobile_network_cancle, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).create().show();
     }
 }

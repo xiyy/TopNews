@@ -27,10 +27,12 @@ import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.LiveListActivity;
 import com.xi.liuliu.topnews.activity.MainActivity;
 import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.dialog.NotWifiWarnDialog;
 import com.xi.liuliu.topnews.event.LiveFragmentVisibleEvent;
 import com.xi.liuliu.topnews.utils.AnimUtil;
 import com.xi.liuliu.topnews.utils.DeviceUtil;
 import com.xi.liuliu.topnews.utils.NetWorkUtil;
+import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -187,6 +189,7 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.switch_video_live_fragment:
+                //第一次播放时
                 if (isVideoFirstStart) {
                     //WiFi网络直接播放
                     if (NetWorkUtil.isWiFi(getActivity())) {
@@ -198,7 +201,7 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
                         return;
                     }
                     //移动网络，弹出对话框
-                    if (!NetWorkUtil.isWiFi(getActivity()) && NetWorkUtil.isMobile(getActivity())) {
+                    if (NetWorkUtil.isMobile(getActivity())) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle(R.string.alert_dialog_mobile_network_title).setMessage(R.string.alert_dialog_mobile_network_message).setPositiveButton(R.string.alert_dialog_mobile_network_ok, new DialogInterface.OnClickListener() {
                             @Override
@@ -221,15 +224,45 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
                         }).create().show();
                     }
 
-                } else {
+                } //第一次播放以后
+                else {
                     if (mVideoView.isPlaying()) {
                         mVideoView.pause();
                         mSwitchBtn.setVisibility(View.VISIBLE);
                         mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_play);
                     } else {
-                        mVideoView.start();
-                        mSwitchBtn.setVisibility(View.VISIBLE);
-                        mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
+                        //移动网络
+                        if (NetWorkUtil.isMobile(getActivity())) {
+                            int notWifiWarn = SharedPrefUtil.getInstance(getActivity()).getInt(Constants.NOT_WIFI_WARN_SP_KEY);
+                            if (notWifiWarn == NotWifiWarnDialog.NOT_WIFI_WARN_EVERY_TIME) {//设置"每次都提醒"，弹出Dialog
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setTitle(R.string.alert_dialog_mobile_network_title).setMessage(R.string.alert_dialog_mobile_network_message).setPositiveButton(R.string.alert_dialog_mobile_network_ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mVideoView.start();
+                                        mSwitchBtn.setVisibility(View.VISIBLE);
+                                        mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
+                                        dialog.dismiss();
+
+                                    }
+                                }).setNegativeButton(R.string.alert_dialog_mobile_network_cancle, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).create().show();
+                            } else//只提醒一次
+                            {
+                                mVideoView.start();
+                                mSwitchBtn.setVisibility(View.VISIBLE);
+                                mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
+                            }
+                        } else {//wifi网络
+                            mVideoView.start();
+                            mSwitchBtn.setVisibility(View.VISIBLE);
+                            mSwitchBtn.setImageResource(R.drawable.layer_list_live_activity_switch_pause);
+                        }
+
                     }
                 }
                 break;

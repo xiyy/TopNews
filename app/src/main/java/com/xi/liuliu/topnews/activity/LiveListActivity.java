@@ -14,13 +14,16 @@ import android.widget.TextView;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.adapter.LiveListAdapter;
 import com.xi.liuliu.topnews.constants.Constants;
+import com.xi.liuliu.topnews.dialog.NotWifiWarnDialog;
 import com.xi.liuliu.topnews.utils.NetWorkUtil;
+import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 
 public class LiveListActivity extends AppCompatActivity {
     private RelativeLayout mGoBack;
     private ListView mLiveList;
     private TextView mChannelTitle;
     private String[] mLiveUrls;
+    private boolean isNotWifiWarned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,28 +41,25 @@ public class LiveListActivity extends AppCompatActivity {
         mLiveList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                if (!NetWorkUtil.isWiFi(LiveListActivity.this) && NetWorkUtil.isMobile(LiveListActivity.this)) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LiveListActivity.this);
-                    builder.setTitle(R.string.alert_dialog_mobile_network_title).setMessage(R.string.alert_dialog_mobile_network_message).setPositiveButton(R.string.alert_dialog_mobile_network_ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                if (NetWorkUtil.isMobile(LiveListActivity.this)) {//移动网络
+                    int notWifiWarn = SharedPrefUtil.getInstance(LiveListActivity.this).getInt(Constants.NOT_WIFI_WARN_SP_KEY);
+                    if (notWifiWarn == NotWifiWarnDialog.NOT_WIFI_WARN_EVERY_TIME) {//每次都提醒
+                        showNotWifiWarnDialog(position);
+                    } else {//只提醒一次
+                        if (!isNotWifiWarned) {
+                            showNotWifiWarnDialog(position);
+                            isNotWifiWarned = true;
+                        } else {
                             Intent intent = new Intent(getApplicationContext(), LiveActivity.class);
                             intent.putExtra("live_url", mLiveUrls[position]);
                             startActivity(intent);
-
                         }
-                    }).setNegativeButton(R.string.alert_dialog_mobile_network_cancle, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create().show();
-                    return;
+                    }
+                } else {//WiFi网络
+                    Intent intent = new Intent(getApplicationContext(), LiveActivity.class);
+                    intent.putExtra("live_url", mLiveUrls[position]);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(getApplicationContext(), LiveActivity.class);
-                intent.putExtra("live_url", mLiveUrls[position]);
-                startActivity(intent);
             }
         });
         int liveChannelId = getIntent().getExtras().getInt("live_channel_title_id");
@@ -121,5 +121,24 @@ public class LiveListActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(0, R.anim.zoomout);
+    }
+
+    private void showNotWifiWarnDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LiveListActivity.this);
+        builder.setTitle(R.string.alert_dialog_mobile_network_title).setMessage(R.string.alert_dialog_mobile_network_message).setPositiveButton(R.string.alert_dialog_mobile_network_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getApplicationContext(), LiveActivity.class);
+                intent.putExtra("live_url", mLiveUrls[position]);
+                startActivity(intent);
+                dialog.dismiss();
+
+            }
+        }).setNegativeButton(R.string.alert_dialog_mobile_network_cancle, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).create().show();
     }
 }
