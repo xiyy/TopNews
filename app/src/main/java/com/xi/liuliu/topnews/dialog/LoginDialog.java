@@ -137,10 +137,13 @@ public class LoginDialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.we_chat_login_dialog:
-
+                //微信登录需要300元进行开发者认证，目前没认证
+                ToastUtil.toastInCenter(mContext, R.string.developing);
                 break;
             case R.id.qq_login_dialog:
-
+                //新闻类APP需要软件著作权才能申请APPId，暂时无法QQ登陆
+                ToastUtil.toastInCenter(mContext, R.string.developing);
+                //EventBus.getDefault().post(new QQLoginEvent());//MainActivity接收
                 break;
             case R.id.user_agreement_login_dialog:
                 Intent intent = new Intent(mContext, UserAgreementActivity.class);

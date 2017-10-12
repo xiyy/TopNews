@@ -31,9 +31,9 @@ import com.xi.liuliu.topnews.event.InputContentEvent;
 import com.xi.liuliu.topnews.event.LoginEvent;
 import com.xi.liuliu.topnews.event.LogoutEvent;
 import com.xi.liuliu.topnews.event.PortraitUpdateEvent;
-import com.xi.liuliu.topnews.event.QQLoginEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
+import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -136,6 +136,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.header_fragment_mine_login_qq:
                 qqLogin();
                 break;
+            case R.id.header_fragment_mine_login_weixin:
+                //微信登录需要300元进行开发者认证，目前没认证
+                ToastUtil.toastInCenter(getActivity(), R.string.developing);
+                break;
             case R.id.header_user_into_rtl:
                 Intent intent = new Intent(getActivity(), UserInfoActivity.class);
                 startActivity(intent);
@@ -228,7 +232,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }
 
     private void qqLogin() {
-        EventBus.getDefault().post(new QQLoginEvent());
+        //新闻类APP需要软件著作权才能申请APPId，暂时无法QQ登陆
+        ToastUtil.toastInCenter(getActivity(), R.string.developing);
+        //EventBus.getDefault().post(new QQLoginEvent());//MainActivity接收
     }
 
     private void checkLoginState() {
