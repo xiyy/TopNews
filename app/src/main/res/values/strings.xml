@@ -149,6 +149,8 @@
     <string name="not_wifi_dialog_warn_once">提醒一次</string>
     <string name="not_wifi_dialog_warn_every_time">每次提醒</string>
     <string name="not_wifi_dialog_warn_cancel">取消</string>
+    <!--检查版本-->
+    <string name="check_version_toast_newest">已经是最新版本！</string>
     <!--北京-->
     <string name="edit_user_info_region_beijing">北京市</string>
     <string name="edit_user_info_region_beijing_dongcheng">东城区</string>

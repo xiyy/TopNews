@@ -14,6 +14,7 @@ import com.xi.liuliu.topnews.dialog.LogoutDialog;
 import com.xi.liuliu.topnews.dialog.NotWifiWarnDialog;
 import com.xi.liuliu.topnews.event.ClearCacheEvent;
 import com.xi.liuliu.topnews.event.NotWifiWarnEvent;
+import com.xi.liuliu.topnews.utils.AppUtil;
 import com.xi.liuliu.topnews.utils.FileUtils;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
@@ -31,6 +32,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private TextView mCacheSize;
     private TextView mNotWifiWarnTag;
     private NotWifiWarnDialog mNotWifiWarnDialog;
+    private TextView mVersion;
+    private String mCurrentVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         mLogout.setOnClickListener(this);
         mUserAgreement = (TextView) findViewById(R.id.user_agreement_activity_settings);
         mUserAgreement.setOnClickListener(this);
+        mVersion = (TextView) findViewById(R.id.version_settings);
+        //判断是否登录，显示"编辑资料"、"退出登录"
         boolean isLoggedIn = SharedPrefUtil.getInstance(this).getBoolean(Constants.LOGIN_SP_KEY);
         if (isLoggedIn) {
             mLogout.setVisibility(View.VISIBLE);
@@ -60,8 +65,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             mLogout.setVisibility(View.GONE);
             mEditUserInfo.setVisibility(View.GONE);
         }
+        //播放提醒
         int notWifiWarnTag = SharedPrefUtil.getInstance(this).getInt(Constants.NOT_WIFI_WARN_SP_KEY);
         setNotWifiWarnTag(notWifiWarnTag);
+        //检查版本
+        mCurrentVersion = AppUtil.getVersionCode(this) + "." + AppUtil.getVersionName(this);
+        mVersion.setText(mCurrentVersion);
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -108,7 +117,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
             case R.id.check_version_rl:
-
+                //向后端发请求，判断是否是最新版本
+                checkVersion();
                 break;
             case R.id.video_notice_no_wifi:
                 if (mNotWifiWarnDialog == null) {
@@ -123,6 +133,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private void showUserAgreement() {
         Intent userAgreeIntent = new Intent(this, UserAgreementActivity.class);
         startActivity(userAgreeIntent);
+    }
+
+    private void checkVersion() {
+        //newestVersion从服务端获取
+        String newestVersion = "1.1.0";
+        if (newestVersion.equals(mCurrentVersion)) {
+            ToastUtil.toastInCenter(this, R.string.check_version_toast_newest);
+        }
     }
 
     @Override

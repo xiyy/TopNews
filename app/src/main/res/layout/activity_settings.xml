@@ -135,13 +135,16 @@
             android:text="@string/settings_check_version"
             android:textSize="17sp" />
 
-        <Button
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+        <TextView
+            android:id="@+id/version_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/setting_arrow_right" />
+            android:gravity="center"
+            android:text="版本号.版本名称"
+            android:textSize="15sp" />
 
 
     </RelativeLayout>
