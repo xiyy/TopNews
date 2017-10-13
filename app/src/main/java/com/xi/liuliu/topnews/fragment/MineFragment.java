@@ -248,6 +248,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
      * 设置用户头像；如果已经设置过头像，显示设置的头像；否则，手机登录的话，显示默认头像，微博登录的话，显示微博头像
      */
     private void setUserPortrait() {
+        mLoginType = SharedPrefUtil.getInstance(getActivity()).getInt(Constants.LOGIN_TYPE_SP_KEY);//更新mLoginType
         String portraitPath = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PORTRAIT_PATH_SP_KEY);
         if (!TextUtils.isEmpty(portraitPath)) {
             Bitmap bitmap = BitmapFactory.decodeFile(portraitPath);
@@ -288,6 +289,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
      * 设置用户名；如果已经设置过用户名，显示设置的用户名;否则，手机登录的话，显示手机号码，微博登录的话，显示微博昵称
      */
     private void setUserName() {
+        mLoginType = SharedPrefUtil.getInstance(getActivity()).getInt(Constants.LOGIN_TYPE_SP_KEY);//更新mLoginType
         String userName = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_NAME_SP_KEY);
         if (!TextUtils.isEmpty(userName)) {
             mUserNickName.setText(userName);

@@ -265,8 +265,9 @@ public class MainActivity extends AppCompatActivity {
                 jsonObject = new org.json.JSONObject(userInfo);
                 name = jsonObject.getString("name");
                 portraitUrl = jsonObject.getString("avatar_hd");
-                EventBus.getDefault().post(new LoginEvent(LoginEvent.LOGIN_WEIBO, name, portraitUrl));
                 SharedPrefUtil.getInstance(this).saveLoginStateWithWeibo(name, portraitUrl);
+                EventBus.getDefault().post(new LoginEvent(LoginEvent.LOGIN_WEIBO, name, portraitUrl));
+
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "showUserInfo Exception");

@@ -53,7 +53,9 @@
     <string name="logint_dialog_password">密码</string>
     <string name="login_dialog_toast_phone_number_illegal">手机号码错误</string>
     <string name="login_dialog_toast_has_send_sms_code">已发送验证码</string>
+    <string name="login_dialog_toast_send_sms_code_failed">发送失败，请稍后重试！</string>
     <string name="login_dialog_toast_sms_code_error">验证码错误</string>
+    <string name="login_dialog_toast_sms_identify_success">验证成功！</string>
     <string name="settings_title">设置</string>
     <string name="settings_log_out">退出登录</string>
     <string name="settings_edit_personal_info">编辑资料</string>

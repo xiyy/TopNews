@@ -39,41 +39,6 @@ public class HttpClient {
         return this;
     }
 
-    public void requestLoginSmsCode(String phoneNumber) {
-        if (!TextUtils.isEmpty(phoneNumber)) {
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("mobilePhoneNumber", phoneNumber);
-                jsonObject.put("ttl", 4000);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            OkHttpClient okHttpClient = new OkHttpClient();
-            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
-            Request.Builder builder = new Request.Builder().url(Constants.LOGIN_SMS_CODE_HOST);
-            builder.addHeader("X-LC-Id", Constants.LEAN_CLOUND_APP_ID);
-            builder.addHeader("X-LC-Key", Constants.LEAN_CLOUND_APP_KEY);
-            builder.addHeader("Content-Type", "application/json");
-            builder.post(requestBody);
-            Request request = builder.build();
-            Call call = okHttpClient.newCall(request);
-            call.enqueue(mCallback);
-        }
-    }
-
-    public void verifySmsCode(String smsCode, String phoneNumber) {
-        if (!TextUtils.isEmpty(smsCode) && !TextUtils.isEmpty(phoneNumber)) {
-            OkHttpClient okHttpClient = new OkHttpClient();
-            Request.Builder builder = new Request.Builder().get().url(Constants.VERIFY_SMS_CODE + "/" + smsCode + "?mobilePhoneNumber=" + phoneNumber);
-            builder.addHeader("X-LC-Id", Constants.LEAN_CLOUND_APP_ID);
-            builder.addHeader("X-LC-Key", Constants.LEAN_CLOUND_APP_KEY);
-            builder.addHeader("Content-Type", "application/json");
-            Request request = builder.build();
-            Call call = okHttpClient.newCall(request);
-            call.enqueue(mCallback);
-        }
-    }
-
     public void requestWeiboLogin(Oauth2AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("HttpClient.requestWeiboLogin(),accessToken is null ");

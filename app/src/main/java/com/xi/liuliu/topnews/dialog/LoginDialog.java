@@ -2,10 +2,9 @@ package com.xi.liuliu.topnews.dialog;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,21 +15,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVMobilePhoneVerifyCallback;
+import com.avos.avoscloud.AVSMS;
+import com.avos.avoscloud.AVSMSOption;
+import com.avos.avoscloud.RequestMobileCodeCallback;
 import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.UserAgreementActivity;
 import com.xi.liuliu.topnews.event.LoginEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
-import com.xi.liuliu.topnews.http.HttpClient;
 import com.xi.liuliu.topnews.utils.CheckPhone;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
 
-import java.io.IOException;
-
 import de.greenrobot.event.EventBus;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 /**
  * Created by liuliu on 2017/6/27.
@@ -154,75 +152,56 @@ public class LoginDialog implements View.OnClickListener {
     }
 
     private void sendSmsCode() {
-        if (!isPhoneNumberLegal(mPhoneNumber.getText().toString().trim())) {
-            ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_phone_number_illegal);
-        } else {
-            if (mSendingDialog == null) {
-                mSendingDialog = new SendingDialog(mContext, false);
-            }
-            mSendingDialog.show();
-            new HttpClient().setCallback(new Callback() {
+        String phoneNumber = mPhoneNumber.getText().toString().trim();
+        if (isPhoneNumberLegal(phoneNumber)) {
+            AVSMSOption option = new AVSMSOption();
+            option.setTtl(10);
+            option.setApplicationName("TopNews");
+            option.setOperation("短信验证");
+            AVSMS.requestSMSCodeInBackground(phoneNumber, option, new RequestMobileCodeCallback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
-
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mSendingDialog != null) {
-                                mSendingDialog.dissmiss();
-                            }
-                            ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_has_send_sms_code);
+                public void done(AVException e) {
+                    if (null == e) {
+                        if (mSendingDialog != null) {
+                            mSendingDialog.dissmiss();
                         }
-                    });
-
+                        ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_has_send_sms_code);
+                    } else {
+                        ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_send_sms_code_failed);
+                    }
                 }
-            }).requestLoginSmsCode(mPhoneNumber.getText().toString().trim());
+            });
+        } else {
+            ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_phone_number_illegal);
         }
-
     }
 
     private void login() {
-        if (isSmsCodeLegal(mInput.getText().toString().trim())) {
+        String smsCode = mInput.getText().toString().trim();
+        final String phoneNumber = mPhoneNumber.getText().toString().trim();
+        if (isSmsCodeLegal(smsCode)) {
             if (mSendingDialog == null) {
                 mSendingDialog = new SendingDialog(mContext, false);
             }
             mSendingDialog.show();
-            new HttpClient().setCallback(new Callback() {
+            AVSMS.verifySMSCodeInBackground(smsCode, phoneNumber, new AVMobilePhoneVerifyCallback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mSendingDialog != null) {
-                                mSendingDialog.dissmiss();
-                            }
-                            ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_sms_code_error);
-                        }
-                    });
-
+                public void done(AVException e) {
+                    if (null == e) {
+                        ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_sms_identify_success);
+                        SharedPrefUtil.getInstance(mContext).saveLoginStateWithPhone(phoneNumber);
+                        //MineFragment接收
+                        EventBus.getDefault().post(new LoginEvent(LoginEvent.LOGIN_PHONE, "手机用户" + phoneNumber, null));
+                        dismiss();
+                    } else {
+                        ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_sms_code_error);
+                        Log.i(TAG, "error code:" + e.getCode() + "error msg:" + e.getMessage());
+                    }
+                    if (mSendingDialog != null) {
+                        mSendingDialog.dissmiss();
+                    }
                 }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            String phoneNumber = mPhoneNumber.getText().toString().trim();
-                            SharedPrefUtil.getInstance(mContext).saveLoginStateWithPhone(phoneNumber);
-                            if (mSendingDialog != null) {
-                                mSendingDialog.dissmiss();
-                            }
-                            //MineFragment接收
-                            EventBus.getDefault().post(new LoginEvent(LoginEvent.LOGIN_PHONE, "手机用户" + phoneNumber, null));
-                            dismiss();
-                        }
-                    });
-                }
-            }).verifySmsCode(mInput.getText().toString().trim(), mPhoneNumber.getText().toString().trim());
+            });
         } else {
             ToastUtil.toastInCenter(mContext, R.string.login_dialog_toast_sms_code_error);
         }
