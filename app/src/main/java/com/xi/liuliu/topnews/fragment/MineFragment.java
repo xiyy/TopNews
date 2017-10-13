@@ -159,19 +159,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         if (event != null) {
             mHeaderLogin.setVisibility(View.GONE);
             mHeaderUserinfo.setVisibility(View.VISIBLE);
-            //曾经设置过用户名，显示设置过的用户名；否则，显示微博昵称/手机号码
-            String userName = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_NAME_SP_KEY);
-            if (!TextUtils.isEmpty(userName)) {
-                mUserNickName.setText(userName);
-            } else {
-                mUserNickName.setText(event.getName());
-            }
+            //设置用户名
+            setUserName();
             //设置用户头像
-            if (event.getLoginType() == LoginEvent.LOGIN_PHONE) {
-                mUserPortrait.setImageResource(R.drawable.default_head_portrait);
-            } else {
-                Glide.with(getActivity()).load(event.getPortraitUrl()).transition(DrawableTransitionOptions.withCrossFade()).into(mUserPortrait);
-            }
+            setUserPortrait();
         }
     }
 
@@ -237,38 +228,43 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         //EventBus.getDefault().post(new QQLoginEvent());//MainActivity接收
     }
 
+    /**
+     * 检查登录状态，如果已经登录，设置用户名、用户头像
+     */
     private void checkLoginState() {
         if (SharedPrefUtil.getInstance(getActivity()).getBoolean(Constants.LOGIN_SP_KEY)) {
             mLoginType = SharedPrefUtil.getInstance(getActivity()).getInt(Constants.LOGIN_TYPE_SP_KEY);
             mHeaderLogin.setVisibility(View.GONE);
             mHeaderUserinfo.setVisibility(View.VISIBLE);
-            //如果已经设置过用户名，显示设置的用户名;否则，手机登录的话，显示手机号码，微博登录的话，显示微博昵称
-            String userName = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_NAME_SP_KEY);
-            if (!TextUtils.isEmpty(userName)) {
-                mUserNickName.setText(userName);
-            } else {
-                setThirdUserName(mLoginType);
-            }
-            //如果已经设置过头像，显示设置的头像；否则，手机登录的话，显示默认头像，微博登录的话，显示微博头像
-            String portraitPath = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PORTRAIT_PATH_SP_KEY);
-            if (!TextUtils.isEmpty(portraitPath)) {
-                Bitmap bitmap = BitmapFactory.decodeFile(portraitPath);
-                //清除缓存后，bitmap为null，此时头像设置为第三方登录的头像
-                if (bitmap != null) {
-                    mUserPortrait.setImageBitmap(bitmap);
-                } else {
-                    setThirdPortrait(mLoginType);
-                }
-
-            } else {
-                setThirdPortrait(mLoginType);
-            }
+            //设置用户名
+            setUserName();
+            //设置用户头像
+            setUserPortrait();
 
         }
     }
 
     /**
-     * 设置手机登录、微博登录、QQ登录、微信登录的头像
+     * 设置用户头像；如果已经设置过头像，显示设置的头像；否则，手机登录的话，显示默认头像，微博登录的话，显示微博头像
+     */
+    private void setUserPortrait() {
+        String portraitPath = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_PORTRAIT_PATH_SP_KEY);
+        if (!TextUtils.isEmpty(portraitPath)) {
+            Bitmap bitmap = BitmapFactory.decodeFile(portraitPath);
+            //清除缓存后，bitmap为null，此时头像设置为第三方登录的头像
+            if (bitmap != null) {
+                mUserPortrait.setImageBitmap(bitmap);
+            } else {
+                setThirdPortrait(mLoginType);
+            }
+
+        } else {
+            setThirdPortrait(mLoginType);
+        }
+    }
+
+    /**
+     * 设置手机登录、微博登录、QQ登录、微信登录等第三方登录的头像
      *
      * @param loginType
      */
@@ -285,6 +281,18 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 break;
             case LoginEvent.LOGIN_WEIXIN:
                 break;
+        }
+    }
+
+    /**
+     * 设置用户名；如果已经设置过用户名，显示设置的用户名;否则，手机登录的话，显示手机号码，微博登录的话，显示微博昵称
+     */
+    private void setUserName() {
+        String userName = SharedPrefUtil.getInstance(getActivity()).getString(Constants.USER_NAME_SP_KEY);
+        if (!TextUtils.isEmpty(userName)) {
+            mUserNickName.setText(userName);
+        } else {
+            setThirdUserName(mLoginType);
         }
     }
 
@@ -309,4 +317,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+
 }

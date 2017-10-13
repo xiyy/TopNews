@@ -67,7 +67,7 @@ public class SharedPrefUtil {
         SharedPrefUtil.getInstance(mContext).putString(Constants.WEI_BO_Portrait_URL, portraitUrl);
     }
 
-    public void savaLoginStateWithPhone(String phoneNumber) {
+    public void saveLoginStateWithPhone(String phoneNumber) {
         SharedPrefUtil.getInstance(mContext).putBoolean(Constants.LOGIN_SP_KEY, true);
         SharedPrefUtil.getInstance(mContext).putInt(Constants.LOGIN_TYPE_SP_KEY, LoginEvent.LOGIN_PHONE);
         SharedPrefUtil.getInstance(mContext).putString(Constants.USER_PHONE_NUMBER_SP_KEY, phoneNumber);

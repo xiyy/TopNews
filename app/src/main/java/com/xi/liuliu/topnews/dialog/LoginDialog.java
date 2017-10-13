@@ -133,6 +133,7 @@ public class LoginDialog implements View.OnClickListener {
                 sendSmsCode();
                 break;
             case R.id.wei_bo_login_dialog:
+                //MainActivity接收
                 EventBus.getDefault().post(new WeiboLoginEvent());
                 dismiss();
                 break;
@@ -211,10 +212,11 @@ public class LoginDialog implements View.OnClickListener {
                         @Override
                         public void run() {
                             String phoneNumber = mPhoneNumber.getText().toString().trim();
-                            SharedPrefUtil.getInstance(mContext).savaLoginStateWithPhone(phoneNumber);
+                            SharedPrefUtil.getInstance(mContext).saveLoginStateWithPhone(phoneNumber);
                             if (mSendingDialog != null) {
                                 mSendingDialog.dissmiss();
                             }
+                            //MineFragment接收
                             EventBus.getDefault().post(new LoginEvent(LoginEvent.LOGIN_PHONE, "手机用户" + phoneNumber, null));
                             dismiss();
                         }
