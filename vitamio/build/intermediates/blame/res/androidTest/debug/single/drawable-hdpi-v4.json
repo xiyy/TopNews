@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\Users\\liuliu\\Desktop\\android\\TopNews\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\liuliu\\Desktop\\android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+    },
+    {
         "merged": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
         "source": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
     }

@@ -4,11 +4,23 @@
         "source": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable\\mediacontroller_button.xml"
     },
     {
+        "merged": "C:\\Users\\liuliu\\Desktop\\android\\TopNews\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\scrubber_control_selector_holo.xml",
+        "source": "C:\\Users\\liuliu\\Desktop\\android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable\\scrubber_control_selector_holo.xml"
+    },
+    {
         "merged": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\scrubber_progress_horizontal_holo_dark.xml",
         "source": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable\\scrubber_progress_horizontal_holo_dark.xml"
     },
     {
         "merged": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\scrubber_control_selector_holo.xml",
         "source": "C:\\Users\\zhangxb171\\Desktop\\Android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable\\scrubber_control_selector_holo.xml"
+    },
+    {
+        "merged": "C:\\Users\\liuliu\\Desktop\\android\\TopNews\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\mediacontroller_button.xml",
+        "source": "C:\\Users\\liuliu\\Desktop\\android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable\\mediacontroller_button.xml"
+    },
+    {
+        "merged": "C:\\Users\\liuliu\\Desktop\\android\\TopNews\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\scrubber_progress_horizontal_holo_dark.xml",
+        "source": "C:\\Users\\liuliu\\Desktop\\android\\TopNews\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable\\scrubber_progress_horizontal_holo_dark.xml"
     }
 ]
