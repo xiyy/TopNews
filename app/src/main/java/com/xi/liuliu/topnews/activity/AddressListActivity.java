@@ -15,6 +15,7 @@ import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.impl.OnItemClickListener;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
+import com.xi.liuliu.topnews.utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -55,6 +56,9 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
 
     private void initData() {
         mAddressList = getIntent().getParcelableArrayListExtra("addressList");
+        if (mAddressList==null) {
+            ToastUtil.toastInCenter(getApplicationContext(),R.string.broke_news_location_failed);
+        }
         mSharedPrefUtil = SharedPrefUtil.getInstance(this);
         mLastTimeAddress = mSharedPrefUtil.getString(Constants.LOCATION_ADDRESS_SP_KEY);
         mLinearLayoutManager = new LinearLayoutManager(this);

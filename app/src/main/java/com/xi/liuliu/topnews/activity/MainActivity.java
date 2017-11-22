@@ -378,6 +378,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String jsonResponse = response.body().string();
+                    Log.i(TAG,"getLocation onResponse:"+jsonResponse);
                     JsonUtil.getAddresses(jsonResponse, mAddressesList);
                 }
             }).requestAddresses(latitude, longitude);
