@@ -283,7 +283,9 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                 }
                 mExitTipDialog.show();
             }
-            return true;
+            else {
+                finish();
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
