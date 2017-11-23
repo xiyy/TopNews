@@ -80,7 +80,7 @@ public class AddressListAdapter extends RecyclerView.Adapter implements View.OnC
 
     @Override
     public int getItemCount() {
-        if (mAddressList == null) {
+        if (mAddressList == null || mAddressList.size() == 0) {
             return 0;
         } else {
             return mAddressList.size() + 1;

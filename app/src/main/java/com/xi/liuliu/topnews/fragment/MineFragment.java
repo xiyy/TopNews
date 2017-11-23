@@ -20,10 +20,8 @@ import com.xi.liuliu.topnews.R;
 import com.xi.liuliu.topnews.activity.BrokeNewsActivity;
 import com.xi.liuliu.topnews.activity.FavorHistoryActivity;
 import com.xi.liuliu.topnews.activity.FeedbackActivity;
-import com.xi.liuliu.topnews.activity.MainActivity;
 import com.xi.liuliu.topnews.activity.SettingsActivity;
 import com.xi.liuliu.topnews.activity.UserInfoActivity;
-import com.xi.liuliu.topnews.bean.Address;
 import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.LoginDialog;
 import com.xi.liuliu.topnews.event.ClearCacheEvent;
@@ -34,8 +32,6 @@ import com.xi.liuliu.topnews.event.PortraitUpdateEvent;
 import com.xi.liuliu.topnews.event.WeiboLoginEvent;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
-
-import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 
@@ -126,8 +122,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.mine_broke_news:
                 Intent brokeNewsIntent = new Intent(getActivity(), BrokeNewsActivity.class);
-                ArrayList<Address> addressList = ((MainActivity) getActivity()).getAddressList();
-                brokeNewsIntent.putParcelableArrayListExtra("addressList", addressList);
                 startActivity(brokeNewsIntent);
                 break;
             case R.id.header_fragment_mine_login_weibo:

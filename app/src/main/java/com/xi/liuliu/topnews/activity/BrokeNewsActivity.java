@@ -85,14 +85,6 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
         initView();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mAddressList == null) {
-            getLocation();
-        }
-    }
-
     private void initView() {
         mCancle = (TextView) findViewById(R.id.cancle_broke_news_activity);
         mCancle.setOnClickListener(this);
@@ -127,12 +119,13 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initData() {
-        mAddressList = getIntent().getParcelableArrayListExtra("addressList");
+        mAddressList = new ArrayList<>();
         mBitmapList = new ArrayList<>();
         mImgPathList = new ArrayList<>();
         Bitmap addImg = BitmapFactory.decodeResource(getResources(), R.drawable.layer_list_broke_news_add_img);
         mBitmapList.add(addImg);
         mImgPickerAdapter = new ImgPickerAdapter(this, mBitmapList);
+        getLocation();
     }
 
     @Override
@@ -304,8 +297,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
                     mExitTipDialog = new ExitTipDialog(this);
                 }
                 mExitTipDialog.show();
-            }
-            else {
+            } else {
                 finish();
             }
         }
@@ -332,10 +324,12 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
         LocationTracker locationTracker = new LocationTracker(this, trackerSettings) {
             @Override
             public void onLocationFound(@NonNull Location location) {
-                Log.i(TAG, "latitude:" + location.getLatitude() + "longitude" + location.getLongitude());
-                SharedPrefUtil.getInstance(getApplicationContext()).putString(Constants.LOCATION_LATITUDE_SP_KEY, location.getLatitude() + "");
-                SharedPrefUtil.getInstance(getApplicationContext()).putString(Constants.LOCATION_lONGITUDE_SP_KEY, location.getLongitude() + "");
-                getAddresses(location.getLatitude() + "", location.getLongitude() + "");
+                String latitude = location.getLatitude() + "";
+                String longitude = location.getLongitude() + "";
+                Log.i(TAG, "latitude:" + latitude + "longitude:" + longitude);
+                SharedPrefUtil.getInstance(getApplicationContext()).putString(Constants.LOCATION_LATITUDE_SP_KEY, latitude);
+                SharedPrefUtil.getInstance(getApplicationContext()).putString(Constants.LOCATION_lONGITUDE_SP_KEY, longitude);
+                getAddresses(latitude, longitude);
             }
 
             @Override

@@ -56,8 +56,8 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
 
     private void initData() {
         mAddressList = getIntent().getParcelableArrayListExtra("addressList");
-        if (mAddressList==null) {
-            ToastUtil.toastInCenter(getApplicationContext(),R.string.broke_news_location_failed);
+        if (mAddressList == null || mAddressList.size() == 0) {
+            ToastUtil.toastInCenter(getApplicationContext(), R.string.broke_news_location_failed);
         }
         mSharedPrefUtil = SharedPrefUtil.getInstance(this);
         mLastTimeAddress = mSharedPrefUtil.getString(Constants.LOCATION_ADDRESS_SP_KEY);
