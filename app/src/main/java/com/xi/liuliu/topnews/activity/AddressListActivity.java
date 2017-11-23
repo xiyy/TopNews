@@ -56,7 +56,7 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
 
     private void initData() {
         mAddressList = getIntent().getParcelableArrayListExtra("addressList");
-        if (mAddressList == null || mAddressList.size() == 0) {
+        if (!isLocated()) {
             ToastUtil.toastInCenter(getApplicationContext(), R.string.broke_news_location_failed);
         }
         mSharedPrefUtil = SharedPrefUtil.getInstance(this);
@@ -98,7 +98,7 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
             case R.id.go_back_btn_address_list:
                 //AddressListActivity是由startActivityForResult启动的，所以AddressListActivity关闭前，必须setResult，否则crash
                 Intent intent = new Intent();
-                if (mLastTimeAddress != null) {
+                if (isLocated() && mLastTimeAddress != null) {
                     if (mLastTimeAddress.equals("")) {
                         intent.putExtra("address_name", "");
                     } else {
@@ -111,4 +111,11 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private boolean isLocated() {
+        if (mAddressList != null && mAddressList.size() > 0) {
+            return true;
+        }
+        return false;
+
+    }
 }
