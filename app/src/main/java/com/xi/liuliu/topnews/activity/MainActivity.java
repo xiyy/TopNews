@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment mHomeFragment;
     private LiveFragment mLiveFrament;
     private MineFragment mMineFragment;
-    private FragmentManager mFragmentManager;
-    private FragmentTransaction mFragmentTransaction;
     private RadioGroup mRadioGroup;
     private RadioButton mHomeRadioBtn;
     private RadioButton mLiveRadioBtn;
@@ -106,42 +104,44 @@ public class MainActivity extends AppCompatActivity {
         if (isLoggedIn) {
             updateBottomBarAsLogin();
         }
+        //在HomeFragment加载前，先加载LiveFragment，防止启动后，第一次切换到LiveFragment时出现黑屏
+        preloadLiveFragment();
         showFragment(HOME_FRAGMENT);
     }
 
 
     private void showFragment(int which) {
-        mFragmentManager = getFragmentManager();
-        mFragmentTransaction = mFragmentManager.beginTransaction();
-        hideFragment(mFragmentTransaction);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        hideFragment(transaction);
         switch (which) {
             case HOME_FRAGMENT:
                 if (mHomeFragment == null) {
                     mHomeFragment = new HomeFragment();
                     mHomeFragment.setActivity(this);
-                    mFragmentTransaction.add(R.id.flt_fragment, mHomeFragment);
+                    transaction.add(R.id.flt_fragment, mHomeFragment);
                 } else {
-                    mFragmentTransaction.show(mHomeFragment);
+                    transaction.show(mHomeFragment);
                 }
                 break;
             case LIVE_FRAGMENT:
                 if (mLiveFrament == null) {
                     mLiveFrament = new LiveFragment();
-                    mFragmentTransaction.add(R.id.flt_fragment, mLiveFrament);
+                    transaction.add(R.id.flt_fragment, mLiveFrament);
                 } else {
-                    mFragmentTransaction.show(mLiveFrament);
+                    transaction.show(mLiveFrament);
                 }
                 break;
             case MINE_FRAGMENT:
                 if (mMineFragment == null) {
                     mMineFragment = new MineFragment();
-                    mFragmentTransaction.add(R.id.flt_fragment, mMineFragment);
+                    transaction.add(R.id.flt_fragment, mMineFragment);
                 } else {
-                    mFragmentTransaction.show(mMineFragment);
+                    transaction.show(mMineFragment);
                 }
                 break;
         }
-        mFragmentTransaction.commit();
+        transaction.commit();
     }
 
     private void hideFragment(FragmentTransaction fragmentTransaction) {
@@ -355,5 +355,16 @@ public class MainActivity extends AppCompatActivity {
         } else if (visibility == View.GONE) {
             mRadioGroup.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * 在HomeFragment加载前，先加载LiveFragment，防止启动后，第一次切换到LiveFragment时出现黑屏
+     */
+    private void preloadLiveFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        mLiveFrament = new LiveFragment();
+        transaction.add(R.id.flt_fragment, mLiveFrament);
+        transaction.commit();
     }
 }
