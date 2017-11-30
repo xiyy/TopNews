@@ -177,7 +177,6 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0, R.anim.zoomout);
     }
 
     @Override
