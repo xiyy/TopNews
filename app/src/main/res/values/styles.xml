@@ -38,4 +38,14 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#8A000000</item>
     </style>
+    <!--splashActivity的主题，在setContentView()加载布局前显示，防止白屏出现-->
+    <style name="splash_activity_theme_tower" parent="AppTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/splash_activity_tower</item>
+    </style>
+
+    <style name="splash_activity_theme_road" parent="AppTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/splash_activity_road</item>
+    </style>
 </resources>

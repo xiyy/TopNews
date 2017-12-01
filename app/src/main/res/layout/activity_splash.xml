@@ -14,7 +14,7 @@
             android:id="@+id/splash_activity_scene"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/splash_activity_entrance_2"
+            android:background="@drawable/splash_activity_road"
             android:scaleType="centerCrop" />
     </LinearLayout>
 
