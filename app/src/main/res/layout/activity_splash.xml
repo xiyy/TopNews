@@ -19,6 +19,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/splash_activity_rl_logo"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

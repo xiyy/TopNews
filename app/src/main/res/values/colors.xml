@@ -91,4 +91,5 @@
     <color name="login_dialog_user_agreement_un_checked">#aaa</color>
     <color name="text_view_default_color">#8A000000</color>
     <color name="text_view_splash_activity">#b3ffffff</color>
+    <drawable name="splash_activity_transparent">#00000000</drawable>
 </resources>
