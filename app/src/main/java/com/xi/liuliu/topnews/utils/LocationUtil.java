@@ -98,15 +98,4 @@ public class LocationUtil {
         };
         locationTracker.startListening();
     }
-
-    /**
-     * panda 获取地理位置接口
-     *
-     * @param latitude
-     * @param longitude
-     */
-    public static void getPositon(String latitude, String longitude) {
-
-
-    }
 }

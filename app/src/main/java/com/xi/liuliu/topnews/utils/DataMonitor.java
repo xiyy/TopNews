@@ -1,6 +1,7 @@
 package com.xi.liuliu.topnews.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.avos.avoscloud.AVException;
@@ -116,8 +117,21 @@ public class DataMonitor {
         return netWorkInfo;
     }
 
-    public static String getLocationInfo() {
-        return null;
+    public static JSONObject getLocationInfo() {
+        SharedPrefUtil sharedPrefUtil = SharedPrefUtil.getInstance(mContext);
+        String longitude = sharedPrefUtil.getString(Constants.LOCATION_lONGITUDE_SP_KEY);
+        String latitude = sharedPrefUtil.getString(Constants.LOCATION_LATITUDE_SP_KEY);
+        JSONObject locationInfo = null;
+        if (!TextUtils.isEmpty(longitude) && !TextUtils.isEmpty(latitude)) {
+            locationInfo = new JSONObject();
+            try {
+                locationInfo.put("longitude", longitude);
+                locationInfo.put("latitude", latitude);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return locationInfo;
 
     }
 
@@ -160,6 +174,7 @@ public class DataMonitor {
         JSONObject deviceInfoObject = getDeviceInfo();
         JSONObject appInfoObject = getAppInfo();
         JSONObject netWorkInfoObject = getNetWorkInfo();
+        JSONObject locationInfoObject = getLocationInfo();
         try {
             if (userInfoObject != null) {
                 collectedData.put("userInfo", userInfoObject);
@@ -172,6 +187,9 @@ public class DataMonitor {
             }
             if (netWorkInfoObject != null) {
                 collectedData.put("netWorkInfo", netWorkInfoObject);
+            }
+            if (locationInfoObject != null) {
+                collectedData.put("locationInfo", locationInfoObject);
             }
         } catch (Exception e) {
             e.printStackTrace();

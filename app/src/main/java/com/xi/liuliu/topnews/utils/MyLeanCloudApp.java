@@ -19,6 +19,7 @@ public class MyLeanCloudApp extends Application {
         AVOSCloud.setDebugLogEnabled(true);
         WbSdk.install(this, new AuthInfo(this, Constants.WEI_BO_APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE));
         NetWorkUtil.requestIP(this);
+        LocationUtil.getLongitudeAndLatitude(this);
     }
 }
 
