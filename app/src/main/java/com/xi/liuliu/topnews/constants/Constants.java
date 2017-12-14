@@ -127,4 +127,6 @@ public interface Constants {
     //发送数据时需要加密
     String DATA_MONITOR_SEND_DATA_AES_KEY = "U2FsdGVkX199L0+cPIiNckOT6IVqAsdF";
     String DATA_MONITOR_SEND_DATA_AES_IV = "U5&dGk!2I@Lc#H5=";
+    //crashInfo sp key
+    String CRASH_INFO = "crash_info";
 }

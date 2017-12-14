@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         //每次启动APP都发送一次数据，可以统计APP的启动次数
-        DataMonitor.getInstance(getApplicationContext()).sendData(true);
+        DataMonitor.getInstance(getApplicationContext()).sendData(DataMonitor.MONITOR_TYPE_APP_START, false);
     }
 
 

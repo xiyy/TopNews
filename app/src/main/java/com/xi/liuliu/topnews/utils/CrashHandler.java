@@ -1,5 +1,20 @@
 package com.xi.liuliu.topnews.utils;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
+import android.os.Environment;
+import android.os.Looper;
+import android.os.SystemClock;
+import android.util.Log;
+
+import com.xi.liuliu.topnews.activity.MainActivity;
+import com.xi.liuliu.topnews.constants.Constants;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
@@ -13,19 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Build;
-import android.os.Environment;
-import android.os.Looper;
-import android.os.SystemClock;
-import android.util.Log;
-import android.widget.Toast;
 
 /**
  * <h3>全局捕获异常</h3>
@@ -100,23 +102,26 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private boolean handleException(Throwable ex) {
         if (ex == null)
             return false;
-
         try {
             // 使用Toast来显示异常信息
             new Thread() {
-
                 @Override
                 public void run() {
                     Looper.prepare();
-                    Toast.makeText(mContext, "很抱歉,程序出现异常,即将重启.",
-                            Toast.LENGTH_LONG).show();
+                    //Toast.makeText(mContext, "很抱歉,程序出现异常,即将重启.", Toast.LENGTH_LONG).show();
+                    //crash时，跳转到MainActivity
+                    Intent toMainIntent = new Intent(mContext, MainActivity.class);
+                    mContext.startActivity(toMainIntent);
                     Looper.loop();
                 }
             }.start();
             // 收集设备参数信息
             collectDeviceInfo(mContext);
-            // 保存日志文件
-            saveCrashInfoFile(ex);
+            // 保存日志文件到SDCard，并保存在SP中
+            String crashInfo = saveCrashInfoFile(ex);
+            SharedPrefUtil.getInstance(mContext).putString(Constants.CRASH_INFO, crashInfo);
+            //发送日志文件以及其他信息到服务端（暂时是意见反馈接口）
+            DataMonitor.sendData(DataMonitor.MONITOR_TYPE_APP_CRASH, false);
             SystemClock.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,7 +164,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * 保存错误信息到文件中
      *
      * @param ex
-     * @return 返回文件名称, 便于将文件传送到服务器
+     * @return 返回crash日志信息
      * @throws Exception
      */
     private String saveCrashInfoFile(Throwable ex) throws Exception {
@@ -187,9 +192,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
             printWriter.close();
             String result = writer.toString();
             sb.append(result);
-
-            String fileName = writeFile(sb.toString());
-            return fileName;
+            String crashInfo = sb.toString();
+            writeFile(crashInfo);
+            return crashInfo;
         } catch (Exception e) {
             Log.e(TAG, "an error occured while writing file...", e);
             sb.append("an error occured while writing file...\r\n");

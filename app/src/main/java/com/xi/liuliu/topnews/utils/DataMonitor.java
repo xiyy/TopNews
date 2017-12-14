@@ -24,6 +24,8 @@ import java.util.List;
  */
 
 public class DataMonitor {
+    public static final int MONITOR_TYPE_APP_START = 0;
+    public static final int MONITOR_TYPE_APP_CRASH = 1;
     private static final String TAG = "DataMonitor";
     private static DataMonitor mInstance = null;
     //注意传入getApplicationContext，不能传入Activity，防止内存泄漏
@@ -136,13 +138,15 @@ public class DataMonitor {
     }
 
     public static String getCrashInfo() {
-        return null;
+        String crashInfo = SharedPrefUtil.getInstance(mContext).getString(Constants.CRASH_INFO);
+        return crashInfo;
     }
 
     /**
      * @param isEncrypted,是否加密发送
+     * @param monitorType,发送数据的类型，是否需要发送crash日志数据；App启动时发送基本数据，crash发生时发送基本数据和crash日志数据
      */
-    public static void sendData(boolean isEncrypted) {
+    public static void sendData(int monitorType, boolean isEncrypted) {
         JSONObject collectedData = new JSONObject();
         JSONObject userInfoObject = null;
         UserInfo userInfo = getUserInfo();
@@ -190,6 +194,16 @@ public class DataMonitor {
             }
             if (locationInfoObject != null) {
                 collectedData.put("locationInfo", locationInfoObject);
+            }
+            //crash发生时，发送基本信息和crash信息
+            if (monitorType == MONITOR_TYPE_APP_CRASH) {
+                String crashInfo = getCrashInfo();
+                if (!TextUtils.isEmpty(crashInfo)) {
+                    collectedData.put("crashInfo", crashInfo);
+                }
+                collectedData.put("monitorType", "appCrash");
+            } else {
+                collectedData.put("monitorType", "appStart");
             }
         } catch (Exception e) {
             e.printStackTrace();
