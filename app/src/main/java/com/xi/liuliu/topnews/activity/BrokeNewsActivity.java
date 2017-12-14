@@ -1,16 +1,11 @@
 package com.xi.liuliu.topnews.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -33,25 +28,17 @@ import com.xi.liuliu.topnews.constants.Constants;
 import com.xi.liuliu.topnews.dialog.ExitTipDialog;
 import com.xi.liuliu.topnews.dialog.GetPicDialog;
 import com.xi.liuliu.topnews.dialog.SendingDialog;
-import com.xi.liuliu.topnews.http.HttpClient;
-import com.xi.liuliu.topnews.location.LocationTracker;
-import com.xi.liuliu.topnews.location.TrackerSettings;
 import com.xi.liuliu.topnews.utils.BitmapUtil;
 import com.xi.liuliu.topnews.utils.CheckPhone;
 import com.xi.liuliu.topnews.utils.FileUtils;
-import com.xi.liuliu.topnews.utils.JsonUtil;
+import com.xi.liuliu.topnews.utils.LocationUtil;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
 import com.xi.liuliu.topnews.view.ImgPickerGridView;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class BrokeNewsActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "BrokeNewsActivity";
@@ -125,7 +112,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
         Bitmap addImg = BitmapFactory.decodeResource(getResources(), R.drawable.layer_list_broke_news_add_img);
         mBitmapList.add(addImg);
         mImgPickerAdapter = new ImgPickerAdapter(this, mBitmapList);
-        getLocation();
+        LocationUtil.getNearbyPositionList(this, mAddressList);
     }
 
     @Override
@@ -312,50 +299,5 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
             return true;
         }
         return false;
-    }
-
-    private void getLocation() {
-        //允许GPS、WiFi、基站定位，设置超时时间5秒
-        TrackerSettings trackerSettings = new TrackerSettings();
-        trackerSettings.setUseGPS(true).setUseNetwork(true).setUsePassive(true).setTimeout(5000);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        LocationTracker locationTracker = new LocationTracker(this, trackerSettings) {
-            @Override
-            public void onLocationFound(@NonNull Location location) {
-                String latitude = location.getLatitude() + "";
-                String longitude = location.getLongitude() + "";
-                Log.i(TAG, "latitude:" + latitude + "longitude:" + longitude);
-                SharedPrefUtil.getInstance(getApplicationContext()).putString(Constants.LOCATION_LATITUDE_SP_KEY, latitude);
-                SharedPrefUtil.getInstance(getApplicationContext()).putString(Constants.LOCATION_lONGITUDE_SP_KEY, longitude);
-                getAddresses(latitude, longitude);
-            }
-
-            @Override
-            public void onTimeout() {
-                Log.i(TAG, "location time out");
-            }
-        };
-        locationTracker.startListening();
-    }
-
-    private void getAddresses(String latitude, String longitude) {
-        if (!TextUtils.isEmpty(latitude) && !TextUtils.isEmpty(longitude)) {
-            HttpClient httpClient = new HttpClient();
-            httpClient.setCallback(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.i(TAG, "getLocation onFailure");
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String jsonResponse = response.body().string();
-                    Log.i(TAG, "getLocation onResponse:" + jsonResponse);
-                    JsonUtil.getAddresses(jsonResponse, mAddressList);
-                }
-            }).requestAddresses(latitude, longitude);
-        }
     }
 }
