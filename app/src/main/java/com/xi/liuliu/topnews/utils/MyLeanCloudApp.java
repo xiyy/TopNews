@@ -17,8 +17,8 @@ public class MyLeanCloudApp extends Application {
         // 初始化参数依次为 this, AppId, AppKey
         AVOSCloud.initialize(this, "J9jGoaYEbyYl1iB4Nu3W0swr-gzGzoHsz", "LSe5Tdf9RP0kHbBsp0FYWrwL");
         AVOSCloud.setDebugLogEnabled(true);
-        WbSdk.install(this, new AuthInfo(this, Constants.WEI_BO_APP_KEY, Constants.REDIRECT_URL,
-                Constants.SCOPE));
+        WbSdk.install(this, new AuthInfo(this, Constants.WEI_BO_APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE));
+        NetWorkUtil.requestIP(this);
     }
 }
 

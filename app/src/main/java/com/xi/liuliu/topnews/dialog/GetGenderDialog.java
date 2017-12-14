@@ -38,7 +38,7 @@ public class GetGenderDialog implements View.OnClickListener {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    EventBus.getDefault().post(new GenderSelectorEvent(1));
+                    EventBus.getDefault().post(new GenderSelectorEvent(GenderSelectorEvent.GENDER_MALE));
                 }
                 dismiss();
             }
@@ -48,14 +48,14 @@ public class GetGenderDialog implements View.OnClickListener {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    EventBus.getDefault().post(new GenderSelectorEvent(0));
+                    EventBus.getDefault().post(new GenderSelectorEvent(GenderSelectorEvent.GENDER_FEMALE));
                 }
                 dismiss();
             }
         });
-        if (mLastTimeGender == 1) {
+        if (mLastTimeGender == GenderSelectorEvent.GENDER_MALE) {
             mMaleBtn.setChecked(true);
-        } else if (mLastTimeGender == 0) {
+        } else if (mLastTimeGender == GenderSelectorEvent.GENDER_FEMALE) {
             mFemaleBtn.setChecked(true);
         }
         mCancel = (TextView) view.findViewById(R.id.cancel_dialog_gender_selector);

@@ -513,4 +513,8 @@ public final class DateUtil {
         return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)
                 && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH);
     }
+
+    public static String getTimeStamp() {
+        return String.valueOf(System.currentTimeMillis() / 1000);
+    }
 }

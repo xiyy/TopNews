@@ -6,6 +6,7 @@ import android.util.Log;
 import com.xi.liuliu.topnews.bean.Address;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -39,5 +40,18 @@ public class JsonUtil {
             }
 
         }
+    }
+
+    public static String getIp(String jsonStr) {
+        String ip = null;
+        if (!TextUtils.isEmpty(jsonStr)) {
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                ip = jsonObject.getString("data");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return ip;
     }
 }

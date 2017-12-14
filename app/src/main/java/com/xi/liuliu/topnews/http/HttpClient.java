@@ -5,12 +5,9 @@ import android.text.TextUtils;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.xi.liuliu.topnews.constants.Constants;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -57,6 +54,15 @@ public class HttpClient {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder().get().url(Constants.GET_NEARBY_ADDRESSES_URL + "&location=" + latitude + "," + longitude + "&output=json&pois=1");
         Request request = builder.build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(mCallback);
+    }
+
+    public void requestIP(String encryptGuid) {
+        //表单提交
+        RequestBody formBody = new FormBody.Builder().add("parameter", encryptGuid).build();
+        Request request = new Request.Builder().url(Constants.IP_PANDA).addHeader("Content-Type", "application/x-www-form-urlencoded").post(formBody).build();
+        OkHttpClient okHttpClient = new OkHttpClient();
         Call call = okHttpClient.newCall(request);
         call.enqueue(mCallback);
     }

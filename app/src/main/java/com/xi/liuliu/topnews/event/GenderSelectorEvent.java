@@ -5,6 +5,8 @@ package com.xi.liuliu.topnews.event;
  */
 
 public class GenderSelectorEvent {
+    public static final int GENDER_MALE = 1;
+    public static final int GENDER_FEMALE = 0;
     private int mGenderType;
 
     public GenderSelectorEvent(int genderType) {

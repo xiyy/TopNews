@@ -29,6 +29,7 @@ public interface Constants {
     String USER_PORTRAIT_PATH_SP_KEY = "userPortraitPath";
     String INTRODUCE_SP_KEY = "introduce";
     String NOT_WIFI_WARN_SP_KEY = "not_wifi_warn";
+    String IP_SP_KEY = "ip";
     String WEI_BO_Portrait_URL = "weiboPortraitUrl";
     String LOGIN_SMS_CODE_HOST = "https://api.leancloud.cn/1.1/requestSmsCode";
     String VERIFY_SMS_CODE = "https://api.leancloud.cn/1.1/verifySmsCode";
@@ -118,5 +119,12 @@ public interface Constants {
     String JING_SONG_TV_MOIVE = JING_SONG_TV;
     //定位相关
     String GET_NEARBY_ADDRESSES_URL = "http://api.map.baidu.com/geocoder/v2/?ak=6eea93095ae93db2c77be9ac910ff311";
-
+    //panda ip接口
+    String IP_PANDA = "https://api.crash.panda.tv/ip";
+    //panda ip接口请求时需要附带guid参数，此参数需要加密传输
+    String IP_FROM_PANDA_AES_KEY = "U2FsdGVkX199L0+cPIiNckOT6IVqAsdF";
+    String IP_FROM_PANDA_AES_IV = "U5&dGk!2I@Lc#H5=";
+    //发送数据时需要加密
+    String DATA_MONITOR_SEND_DATA_AES_KEY = "U2FsdGVkX199L0+cPIiNckOT6IVqAsdF";
+    String DATA_MONITOR_SEND_DATA_AES_IV = "U5&dGk!2I@Lc#H5=";
 }

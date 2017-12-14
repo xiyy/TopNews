@@ -34,6 +34,7 @@ import com.xi.liuliu.topnews.fragment.HomeFragment;
 import com.xi.liuliu.topnews.fragment.LiveFragment;
 import com.xi.liuliu.topnews.fragment.MineFragment;
 import com.xi.liuliu.topnews.http.HttpClient;
+import com.xi.liuliu.topnews.utils.DataMonitor;
 import com.xi.liuliu.topnews.utils.SharedPrefUtil;
 import com.xi.liuliu.topnews.utils.ToastUtil;
 
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         init();
+        //每次启动APP都发送一次数据，可以统计APP的启动次数
+        DataMonitor.getInstance(getApplicationContext()).sendData(true);
     }
 
 
