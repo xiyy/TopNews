@@ -6,34 +6,45 @@
   使用HttpOK从聚合数据获取新闻数据
   使用Gson对新闻数据解析
   使用EventBus传递消息
-  
+  ![新闻首页](TopNews/screenshots/Screenshot_home.jpeg)
+
 2 新闻内容浏览
   使用RecyclerView完成新闻列表
   使用Glide完成新闻图片加载
   使用webView加载新闻地址URL，并可与js交互
   使用photoView+ViewPager完成新闻大图列表浏览，保存新闻图片到SdCard
-  
+  ![新闻详情页](TopNews/screenshots/Screenshot_news_details.jpeg)
+
 3 阅读历史、我的收藏
   使用sqlite完成历史记录、收藏数据的管理工作
   使用ViewPager+FragmentPagerAdapter+Fragment完成布局，RecyclerView完成收藏/历史列表
+  ![收藏、阅读历史页](TopNews/screenshots/Screenshot_mine_history.jpeg)
 
 4 直播功能，电视台直播
   使用GridView、ListView等完成直播列表布局，包括央视、卫视、地方、体育、影视、海外等频道
   直播源从现有直播平台利用fiddler抓包得到
   播放器使用vitamio框架，可小窗播放、可全屏播放
+  ![直播首页](TopNews/screenshots/Screenshot_live.jpeg)
+  ![频道列表](TopNews/screenshots/Screenshot_live_channel.jpeg)
+  ![全屏播放](TopNews/screenshots/Screenshot_live_fullscreen.jpeg)
 
 5 新闻分享微信、QQ、微博
   使用微信、QQ、微博等SDK完成新闻分享
- 
+ ![分享](TopNews/screenshots/Screenshot_news_share.jpeg)
+
 6 用户登录，手机号码验证码登录、微信、QQ、微博登录
   手机号、验证码登录依赖LeanCloud SDK实现
   手机号、密码登录依赖LeanCloud SDK实现，以及数据存储
   微信、QQ、微博登录，利用SDK实现
-  
+  ![登录页](TopNews/screenshots/Screenshot_mine_login.jpeg)
+  ![登录成功](TopNews/screenshots/Screenshot_mine.jpeg)
+
 7 用户反馈、我要爆料功能
   相机拍照选取图片并压缩
   完成图片拾取器，按文件夹对图片分类，从文件夹中选取图片，可同时选取多张、可预览
   数据发送到LeanCloud后台
+  ![用户反馈页](TopNews/screenshots/Screenshot_mine_feedback.jpeg)
+  ![我要爆料页](TopNews/screenshots/Screenshot_mine_brokeNews.jpeg)
 
 8 定位+附近位置
   通过simple-location-tracker获取设备经纬度
@@ -44,6 +55,10 @@
   清除缓存
   检查版本
   非WiFi网络播放提醒
+ ![系统设置页](TopNews/screenshots/Screenshot_mine_setting.jpeg)
+ ![系统编辑资料页](TopNews/screenshots/Screenshot_mine_info.jpeg)
+
+10 App启动监测统计、崩溃日志收集、aes加密发送
 
 
 
