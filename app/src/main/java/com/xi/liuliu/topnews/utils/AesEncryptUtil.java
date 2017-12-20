@@ -20,21 +20,20 @@ public class AesEncryptUtil {
     private static final String AES_CBC_NO_PADDING = "AES/CBC/NoPadding";
 
     /**
-     * 创建16位的密钥，key小于16位后面补0，大于16位，截取前16位；
-     * 也可以不限制密钥的位数，后端给定什么值就用什么值，直接返回new SecretKeySpec(key.getBytes(), "AES");
+     * JDK只支持AES-128加密，也就是密钥长度必须是128bit；参数为密钥key，key的长度小于16字符时用"0"补充，key长度大于16字符时截取前16位
      **/
-    private static SecretKeySpec create16BitsKey(String key) {
+    private static SecretKeySpec create128BitsKey(String key) {
         if (key == null) {
             key = "";
         }
         byte[] data = null;
         StringBuffer buffer = new StringBuffer(16);
         buffer.append(key);
-        //小于16位后面补0
+        //小于16后面补0
         while (buffer.length() < 16) {
             buffer.append("0");
         }
-        //大于16位，截取前16位
+        //大于16，截取前16个字符
         if (buffer.length() > 16) {
             buffer.setLength(16);
         }
@@ -47,13 +46,12 @@ public class AesEncryptUtil {
     }
 
     /**
-     * 创建16位的偏移量，iv小于16位后面补0，大于16位，截取前16位;
-     * 也可以不限定iv的位数，后端给定什么值就用什么值，直接返回new IvParameterSpec(iv.getBytes())
+     * 创建128位的偏移量，iv的长度小于16时后面补0，大于16，截取前16个字符;
      *
      * @param iv
      * @return
      */
-    private static IvParameterSpec create16BitsIV(String iv) {
+    private static IvParameterSpec create128BitsIV(String iv) {
         if (iv == null) {
             iv = "";
         }
@@ -74,10 +72,17 @@ public class AesEncryptUtil {
         return new IvParameterSpec(data);
     }
 
-
+    /**
+     * 填充方式为Pkcs5Padding时，最后一个块需要填充χ个字节，填充的值就是χ，也就是填充内容由JDK确定
+     *
+     * @param srcContent
+     * @param password
+     * @param iv
+     * @return
+     */
     public static byte[] aesCbcPkcs5PaddingEncrypt(byte[] srcContent, String password, String iv) {
-        SecretKeySpec key = create16BitsKey(password);
-        IvParameterSpec ivParameterSpec = create16BitsIV(iv);
+        SecretKeySpec key = create128BitsKey(password);
+        IvParameterSpec ivParameterSpec = create128BitsIV(iv);
         try {
             Cipher cipher = Cipher.getInstance(AES_CBC_PKCS5_PADDING);
             cipher.init(Cipher.ENCRYPT_MODE, key, ivParameterSpec);
@@ -91,8 +96,8 @@ public class AesEncryptUtil {
 
 
     public static byte[] aesCbcPkcs5PaddingDecrypt(byte[] encryptedContent, String password, String iv) {
-        SecretKeySpec key = create16BitsKey(password);
-        IvParameterSpec ivParameterSpec = create16BitsIV(iv);
+        SecretKeySpec key = create128BitsKey(password);
+        IvParameterSpec ivParameterSpec = create128BitsIV(iv);
         try {
             Cipher cipher = Cipher.getInstance(AES_CBC_PKCS5_PADDING);
             cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
@@ -104,20 +109,16 @@ public class AesEncryptUtil {
         return null;
     }
 
+    /**
+     * 填充方式为NoPadding时，最后一个块的填充内容由程序员确定，通常为0.
+     * AES/CBC/NoPadding加密的明文长度必须是16的整数倍，明文长度不满足16时，程序员要扩充到16的整数倍
+     *
+     * @param sSrc
+     * @param aesKey
+     * @param aesIV
+     * @return
+     */
     public static byte[] aesCbcNoPaddingEncrypt(byte[] sSrc, String aesKey, String aesIV) {
-        SecretKeySpec skeySpec = create16BitsKey(aesKey);
-        //使用CBC模式，需要一个向量iv，可增加加密算法的强度
-        IvParameterSpec iv = create16BitsIV(aesIV);
-        Cipher cipher = null;
-        try {
-            //算法/模式/补码方式
-            cipher = Cipher.getInstance(AES_CBC_NO_PADDING);
-            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.i(TAG, "aesCbcNoPaddingEncrypt Exception");
-        }
-        //AES/CBC/NoPadding加密模式只能加密长度是16的整数倍的数据，原始数据不满足16的整数倍时，要扩充到16的整数倍
         //加密的数据长度不是16的整数倍时，原始数据后面补0，直到长度满足16的整数倍
         int len = sSrc.length;
         //计算补0后的长度
@@ -128,8 +129,22 @@ public class AesEncryptUtil {
             if (i < sSrc.length) {
                 result[i] = sSrc[i];
             } else {
+                //填充字符'a'
+                //result[i] = 'a';
                 result[i] = 0;
             }
+        }
+        SecretKeySpec skeySpec = create128BitsKey(aesKey);
+        //使用CBC模式，需要一个初始向量iv，可增加加密算法的强度
+        IvParameterSpec iv = create128BitsIV(aesIV);
+        Cipher cipher = null;
+        try {
+            //算法/模式/补码方式
+            cipher = Cipher.getInstance(AES_CBC_NO_PADDING);
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "aesCbcNoPaddingEncrypt Exception");
         }
         byte[] encrypted = null;
         try {
@@ -142,8 +157,8 @@ public class AesEncryptUtil {
     }
 
     public static byte[] aesCbcNoPaddingDecrypt(byte[] sSrc, String aesKey, String aesIV) {
-        SecretKeySpec skeySpec = create16BitsKey(aesKey);
-        IvParameterSpec iv = create16BitsIV(aesIV);
+        SecretKeySpec skeySpec = create128BitsKey(aesKey);
+        IvParameterSpec iv = create128BitsIV(aesIV);
         try {
             Cipher cipher = Cipher.getInstance(AES_CBC_NO_PADDING);
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
