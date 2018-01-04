@@ -38,12 +38,12 @@ public class RegionActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 if (position == mRegionResIdList.size() - 1 || position == mRegionResIdList.size() - 2 ||
-                        position == mRegionResIdList.size() - 3 || position == mRegionResIdList.size() - 4) {
+                        position == mRegionResIdList.size() - 3 || position == mRegionResIdList.size() - 4) {//对于台湾、香港、澳门、海外
                     Intent intent = new Intent();
                     intent.putExtra("city_name", RegionUtil.getRegionName(position));
                     setResult(1007, intent);
                     finish();
-                } else {
+                } else {//其他省份
                     Intent intent = new Intent();
                     intent.setClass(RegionActivity.this, CityActivity.class);
                     intent.putExtra("region_position", position);

@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int LIVE_FRAGMENT = 1;
     private static final int MINE_FRAGMENT = 2;
     private HomeFragment mHomeFragment;
-    private LiveFragment mLiveFrament;
+    private LiveFragment mLiveFragment;
     private MineFragment mMineFragment;
     private RadioGroup mRadioGroup;
     private RadioButton mHomeRadioBtn;
@@ -128,11 +128,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case LIVE_FRAGMENT:
-                if (mLiveFrament == null) {
-                    mLiveFrament = new LiveFragment();
-                    transaction.add(R.id.flt_fragment, mLiveFrament);
+                if (mLiveFragment == null) {
+                    mLiveFragment = new LiveFragment();
+                    transaction.add(R.id.flt_fragment, mLiveFragment);
                 } else {
-                    transaction.show(mLiveFrament);
+                    transaction.show(mLiveFragment);
                 }
                 break;
             case MINE_FRAGMENT:
@@ -152,8 +152,8 @@ public class MainActivity extends AppCompatActivity {
             if (mHomeFragment != null) {
                 fragmentTransaction.hide(mHomeFragment);
             }
-            if (mLiveFrament != null) {
-                fragmentTransaction.hide(mLiveFrament);
+            if (mLiveFragment != null) {
+                fragmentTransaction.hide(mLiveFragment);
             }
             if (mMineFragment != null) {
                 fragmentTransaction.hide(mMineFragment);
@@ -322,8 +322,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mLiveFrament != null && mLiveFrament.isFullScreen()) {
-                mLiveFrament.setVideoPreview();//LiveFragment横屏播放时，点击返回键，退出全屏模式
+            if (mLiveFragment != null && mLiveFragment.isFullScreen()) {
+                mLiveFragment.setVideoPreview();//LiveFragment横屏播放时，点击返回键，退出全屏模式
                 return true;
             }
             if (mExitToast == null) {
@@ -366,8 +366,8 @@ public class MainActivity extends AppCompatActivity {
     private void preloadLiveFragment() {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        mLiveFrament = new LiveFragment();
-        transaction.add(R.id.flt_fragment, mLiveFrament);
+        mLiveFragment = new LiveFragment();
+        transaction.add(R.id.flt_fragment, mLiveFragment);
         transaction.commit();
     }
 }

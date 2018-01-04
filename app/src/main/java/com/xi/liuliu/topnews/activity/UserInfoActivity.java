@@ -34,6 +34,7 @@ import java.io.File;
 import de.greenrobot.event.EventBus;
 
 public class UserInfoActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final int CUT_IMG = 1010;
     private RelativeLayout mExitRl;
     private RelativeLayout mPortraitRl;
     private RelativeLayout mUserNameRl;
@@ -93,18 +94,18 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
             EventBus.getDefault().register(this);
         }
         mLoginType = SharedPrefUtil.getInstance(this).getInt(Constants.LOGIN_TYPE_SP_KEY);
-        //显示头像
-        String portraitPath = SharedPrefUtil.getInstance(this).getString(Constants.USER_PORTRAIT_PATH_SP_KEY);
-        if (!TextUtils.isEmpty(portraitPath)) {
-            Bitmap bitmap = BitmapFactory.decodeFile(portraitPath);
-            //清除缓存后，bitmap为null
+        //用户自定义头像图片地址
+        String customPortraitPath = SharedPrefUtil.getInstance(this).getString(Constants.USER_PORTRAIT_PATH_SP_KEY);
+        if (!TextUtils.isEmpty(customPortraitPath)) {//如果用户自定义过头像，显示自定义的头像
+            Bitmap bitmap = BitmapFactory.decodeFile(customPortraitPath);
+            //清除缓存后，用户自定义头像的图片被删除，bitmap为null
             if (bitmap != null) {
                 mPortraitImg.setImageBitmap(bitmap);
             } else {
                 setThirdPortrait(mLoginType);
             }
         } else {
-            setThirdPortrait(mLoginType);
+            setThirdPortrait(mLoginType);//显示登录时的头像
         }
         //显示性别
         mGenderType = SharedPrefUtil.getInstance(this).getInt(Constants.GENDER_SP_KEY);
@@ -240,8 +241,8 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
     private void setThirdPortrait(int loginType) {
         switch (loginType) {
             case LoginEvent.LOGIN_WEIBO:
-                String portraitUrl = SharedPrefUtil.getInstance(this).getString(Constants.WEI_BO_Portrait_URL);
-                Glide.with(this).load(portraitUrl).transition(DrawableTransitionOptions.withCrossFade()).into(mPortraitImg);
+                String weiBoPortraitUrl = SharedPrefUtil.getInstance(this).getString(Constants.WEI_BO_Portrait_URL);
+                Glide.with(this).load(weiBoPortraitUrl).transition(DrawableTransitionOptions.withCrossFade()).into(mPortraitImg);
                 break;
             case LoginEvent.LOGIN_PHONE:
                 mPortraitImg.setImageResource(R.drawable.default_head_portrait);
@@ -282,16 +283,16 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
             handleRegionResult(data);
         }
         //裁剪从相册中选取的图片，注意resultCode！= RESULT_OK
-        if (requestCode == 1001) {
+        if (requestCode == GetPicDialog.IMG_FROM_ALBUM) {
             cutPic(data.getData());
         }
         //裁剪相机拍摄的图片
-        if (requestCode == 1002) {
+        if (requestCode == GetPicDialog.IMG_FROM_CAMERA) {
             Uri fileUri = FileUtils.getImageContentUri(this, mCameraUserPortrait);
             cutPic(fileUri);
         }
         //裁剪图片
-        if (requestCode == 1010) {
+        if (requestCode == CUT_IMG) {
             handleCutPicResult(resultCode);
         }
 
@@ -342,7 +343,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);
         intent.putExtra("return-data", false);
-        startActivityForResult(intent, 1010);
+        startActivityForResult(intent, CUT_IMG);
     }
 
 }

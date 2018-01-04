@@ -50,10 +50,10 @@ public class DatePickerDialog {
                     SharedPrefUtil.getInstance(mContext).putInt(Constants.BIRTH_YEAR_SP_KEY, mYear);
                     SharedPrefUtil.getInstance(mContext).putInt(Constants.BIRTH_MONTH_SP_KEY, mMonth);
                     SharedPrefUtil.getInstance(mContext).putInt(Constants.BIRTH_DAY_SP_KEY, mDay);
+                    dismiss();
                 } else {
                     ToastUtil.toastInCenter(mContext, R.string.toast_error_date_picker_dialog);
                 }
-                dismiss();
             }
         });
         mDialogView = new DialogView(mContext, view);

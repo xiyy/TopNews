@@ -101,10 +101,10 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1001 && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == GetPicDialog.IMG_FROM_ALBUM && resultCode == Activity.RESULT_OK && data != null) {
             handleAlbumResult(requestCode, resultCode, data);
         }
-        if (requestCode == 1002 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == GetPicDialog.IMG_FROM_CAMERA && resultCode == Activity.RESULT_OK) {
             //data==null
             handleCameraResult();
         }

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.xi.liuliu.topnews.R;
+import com.xi.liuliu.topnews.activity.FeedbackActivity;
 import com.xi.liuliu.topnews.activity.ImageSelectorActivity;
 import com.xi.liuliu.topnews.event.FeedbackPicDeleteEvent;
 
@@ -27,6 +28,8 @@ public class GetPicDialog implements View.OnClickListener {
     public static final int FROM_FEED_BACK = 0;
     public static int FROM_BROKE_NEWS = 1;
     public static int FROM_USER_PORTRAIT = 2;
+    public static final int IMG_FROM_ALBUM = 1001;
+    public static final int IMG_FROM_CAMERA = 1002;
     private Context mContext;
     private DialogView mDialogView;
     private TextView mSelectFromAlbum;
@@ -120,13 +123,13 @@ public class GetPicDialog implements View.OnClickListener {
     private void selectFromAlbumSingle() {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        mActivity.startActivityForResult(intent, 1001);
+        mActivity.startActivityForResult(intent, IMG_FROM_ALBUM);
         dismiss();
     }
 
     private void selectFromAlbumForMulti() {
         Intent intent = new Intent(mActivity, ImageSelectorActivity.class);
-        mActivity.startActivityForResult(intent, 1001);
+        mActivity.startActivityForResult(intent, IMG_FROM_ALBUM);
         dismiss();
     }
 
@@ -135,7 +138,7 @@ public class GetPicDialog implements View.OnClickListener {
         Uri outputFileUri = Uri.fromFile(mCameraFile);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-        mActivity.startActivityForResult(intent, 1002);
+        mActivity.startActivityForResult(intent, IMG_FROM_CAMERA);
         dismiss();
     }
 

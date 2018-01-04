@@ -20,7 +20,7 @@ import com.xi.liuliu.topnews.utils.ToastUtil;
 import java.util.ArrayList;
 
 public class AddressListActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView mCancle;
+    private TextView mCancel;
     private RecyclerView mRecyclerView;
     private ArrayList<Address> mAddressList;
     private LinearLayoutManager mLinearLayoutManager;
@@ -66,8 +66,8 @@ public class AddressListActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initView() {
-        mCancle = (TextView) findViewById(R.id.go_back_btn_address_list);
-        mCancle.setOnClickListener(this);
+        mCancel = (TextView) findViewById(R.id.go_back_btn_address_list);
+        mCancel.setOnClickListener(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_address_list);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         //如果每个item的高度是固定的，设置这个选项可以提高性能

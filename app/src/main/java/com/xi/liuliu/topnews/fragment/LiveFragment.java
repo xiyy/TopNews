@@ -98,6 +98,7 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
+
                 mediaPlayer.setPlaybackSpeed(1.0f);
             }
         });

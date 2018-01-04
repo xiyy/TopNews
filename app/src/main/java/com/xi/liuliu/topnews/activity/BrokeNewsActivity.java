@@ -42,7 +42,7 @@ import java.util.List;
 
 public class BrokeNewsActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "BrokeNewsActivity";
-    private TextView mCancle;
+    private TextView mCancel;
     private TextView mPublish;
     private EditText mTitle;
     private EditText mContent;
@@ -73,8 +73,8 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initView() {
-        mCancle = (TextView) findViewById(R.id.cancle_broke_news_activity);
-        mCancle.setOnClickListener(this);
+        mCancel = (TextView) findViewById(R.id.cancle_broke_news_activity);
+        mCancel.setOnClickListener(this);
         mPublish = (TextView) findViewById(R.id.broke_news_publish);
         mPublish.setOnClickListener(this);
         mTitle = (EditText) findViewById(R.id.edit_title_broke_news);
@@ -141,11 +141,10 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1001) {
+        if (requestCode == GetPicDialog.IMG_FROM_ALBUM) {
             handleAlbumResult(requestCode, resultCode, data);
-        } else if (requestCode == 1002) {
+        } else if (requestCode == GetPicDialog.IMG_FROM_CAMERA) {
             handleCameraResult(requestCode, resultCode, data);
-
         } else if (requestCode == 1003) {
             handleAddressResult(requestCode, resultCode, data);
         }
@@ -173,7 +172,7 @@ public class BrokeNewsActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void handleAlbumResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1001 && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == GetPicDialog.IMG_FROM_ALBUM && resultCode == Activity.RESULT_OK && data != null) {
             ArrayList<String> images = data.getStringArrayListExtra("select_images_list");
             if (images != null && images.size() > 0) {
                 for (String imgPath : images) {
