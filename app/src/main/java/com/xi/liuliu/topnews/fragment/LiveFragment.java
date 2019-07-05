@@ -329,12 +329,12 @@ public class LiveFragment extends Fragment implements View.OnClickListener {
     private void setFullScreen() {
         LinearLayout.LayoutParams fullScreenLLP = new LinearLayout.LayoutParams(
                 DeviceUtil.getHeightPixel(getActivity()), DeviceUtil.getWidthPixel(getActivity()) - DeviceUtil.getStatusBarHeight(getActivity()));
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//Activity横屏
         mTitle.setVisibility(View.GONE);
         mGridView.setVisibility(View.GONE);
         ((MainActivity) getActivity()).setBottomBarVisibility(View.GONE);
         mFlVideoView.setLayoutParams(fullScreenLLP);//mFlVideoView的宽是屏幕高度，高是屏幕宽度-状态栏高度
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//Activity横屏
-        mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE, 0);
+        mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_STRETCH, 0);
         isFullScreen = true;
     }
 
