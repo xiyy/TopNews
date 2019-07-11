@@ -1,6 +1,8 @@
 package com.xi.liuliu.topnews.utils;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -8,11 +10,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Looper;
-import android.os.SystemClock;
 import android.util.Log;
 
-import com.xi.liuliu.topnews.activity.MainActivity;
+import com.xi.liuliu.topnews.activity.SplashActivity;
 import com.xi.liuliu.topnews.constants.Constants;
 
 import java.io.File;
@@ -82,14 +82,16 @@ public class CrashHandler implements UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-        if (!handleException(ex) && mDefaultHandler != null) {
-            // 如果用户没有处理则让系统默认的异常处理器来处理
+        boolean handledException = handleException(ex);
+        if (!handledException && mDefaultHandler != null) {// // 如果用户没有处理则让系统默认的异常处理器来处理
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
-            SystemClock.sleep(3000);
-            // 退出程序
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
+            //重启APP
+            Intent intent = new Intent(mContext, SplashActivity.class);
+            PendingIntent restartIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+            mgr.set(AlarmManager.RTC, System.currentTimeMillis(), restartIntent);
+            System.exit(0);
         }
     }
 
@@ -100,21 +102,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * @return true:如果处理了该异常信息; 否则返回false.
      */
     private boolean handleException(Throwable ex) {
-        if (ex == null)
-            return false;
+        if (ex == null) return false;
         try {
-            // 使用Toast来显示异常信息
-            new Thread() {
-                @Override
-                public void run() {
-                    Looper.prepare();
-                    //Toast.makeText(mContext, "很抱歉,程序出现异常,即将重启.", Toast.LENGTH_LONG).show();
-                    //crash时，跳转到MainActivity
-                    Intent toMainIntent = new Intent(mContext, MainActivity.class);
-                    mContext.startActivity(toMainIntent);
-                    Looper.loop();
-                }
-            }.start();
             // 收集设备参数信息
             collectDeviceInfo(mContext);
             // 保存日志文件到SDCard，并保存在SP中
@@ -122,9 +111,10 @@ public class CrashHandler implements UncaughtExceptionHandler {
             SharedPrefUtil.getInstance(mContext).putString(Constants.CRASH_INFO, crashInfo);
             //发送日志文件以及其他信息到服务端（暂时是意见反馈接口）
             DataMonitor.sendData(DataMonitor.MONITOR_TYPE_APP_CRASH, false);
-            SystemClock.sleep(3000);
+
         } catch (Exception e) {
             e.printStackTrace();
+
         }
 
         return true;
